@@ -6013,12 +6013,12 @@ assertConsentedAuditHandoffPreviewContract({ appHtml, appJs, adminHtml, adminJs,
 
 const requiredText = [
   "ProofResume",
-  "Approval-first job search automation",
-  "Upload your resume. Get matched, tailored applications ready to approve.",
-  "source roles, rank fit, tailor your resume",
+  "Job search on autopilot",
+  "Upload your resume. We handle the applications.",
+  "finds relevant jobs, tailors each application",
   "Join the pilot list",
-  "Auto-apply speed with a proof and approval layer.",
-  "Approval before apply",
+  "Auto-apply without the chaos.",
+  "Less busywork",
 ];
 
 for (const text of requiredText) {

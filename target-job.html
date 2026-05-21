@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ProofResume Demo | Resume-to-application workflow</title>
+    <title>ProofResume Demo | Auto-apply preview</title>
     <meta
       name="description"
-      content="Try the ProofResume workflow: import a resume, evaluate a target job, find proof gaps, and draft an approval-ready application packet."
+      content="Try the ProofResume demo: load a sample resume, match a job, and generate a ready-to-send application preview."
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -26,11 +26,10 @@
     <main class="target-job-page" data-target-job-pack>
       <header class="report-hero target-job-hero">
         <div>
-          <p class="eyebrow">Resume-to-application demo</p>
-          <h1>See how ProofResume turns a resume into an application packet.</h1>
+          <p class="eyebrow">Auto-apply preview</p>
+          <h1>One resume. One job. A ready application.</h1>
           <p class="hero-text">
-            The real product starts by uploading your resume, then sources and ranks jobs for you. This demo lets you
-            import a resume and paste one job post to preview the matching, proof-gap, and tailoring engine.
+            The real product finds jobs and prepares applications for you. This demo shows the engine on one sample job.
           </p>
           <div class="hero-actions">
             <a class="primary-action" href="?demo=sample#target-job-workbench">Run the sample demo</a>
@@ -39,21 +38,21 @@
         </div>
         <section class="report-summary target-job-summary" aria-label="Target job pack summary">
           <div class="review-topline">
-            <span>Workflow includes</span>
-            <strong>Fit + tailoring</strong>
+            <span>Demo includes</span>
+            <strong>Match + draft</strong>
           </div>
           <div class="change-list">
             <article>
               <span>Resume first</span>
-              <p>Import or paste your resume once, then reuse the profile for multiple roles.</p>
+              <p>Start from one resume.</p>
             </article>
             <article>
-              <span>Fit score</span>
-              <p>Compare role, skills, seniority, location, and evidence before spending effort.</p>
+              <span>Job match</span>
+              <p>See if the role is worth it.</p>
             </article>
             <article>
-              <span>Approval gate</span>
-              <p>Draft tailored assets, then review before any apply or send action.</p>
+              <span>Ready draft</span>
+              <p>Review before it goes out.</p>
             </article>
           </div>
         </section>
@@ -61,39 +60,38 @@
 
       <section class="section-band target-job-workbench" id="target-job-workbench" aria-label="Target job analysis workbench">
         <div class="section-head">
-          <p class="eyebrow">Demo workbench</p>
-          <h2>Import a resume, then test one target job.</h2>
+          <p class="eyebrow">Try it</p>
+          <h2>Run a sample application in one click.</h2>
           <p class="hero-text">
-            This static demo does not scrape or submit applications. It shows the core workflow we are turning into
-            managed sourcing, matching, tailoring, and approval-first apply.
+            Use the demo resume or paste your own. Nothing is submitted from this preview.
           </p>
         </div>
 
         <section class="target-job-demo-guide" aria-label="Demo steps">
           <article>
             <span>1</span>
-            <strong>Demo resume</strong>
-            <p>Use Maya's sample resume, or paste your own when you want to test real material.</p>
+            <strong>Load resume</strong>
+            <p>Use the sample or paste your own.</p>
           </article>
           <article>
             <span>2</span>
-            <strong>Instant packet</strong>
-            <p>Generate fit score, proof gaps, tailored bullets, and approval gates in one click.</p>
+            <strong>Get matched</strong>
+            <p>Score the job and find gaps.</p>
           </article>
           <article>
             <span>3</span>
-            <strong>Review output</strong>
-            <p>Nothing is sent or applied. The packet stays in this browser.</p>
+            <strong>Review draft</strong>
+            <p>See the application before it goes out.</p>
           </article>
         </section>
 
         <form class="target-job-form" data-target-job-form>
           <label>
-            Resume upload or paste
+            Resume
             <textarea
               name="resumeText"
               rows="13"
-              placeholder="Import a resume file or paste your current resume here..."
+              placeholder="Use the sample resume, import a file, or paste your resume..."
               data-target-job-resume
             ></textarea>
             <div class="target-job-inline-actions" aria-label="Resume profile controls">
@@ -328,12 +326,12 @@
           </details>
 
           <label>
-            Target job post for this demo
+            Target job
             <textarea
               name="jobText"
               rows="13"
               required
-              placeholder="Paste one job post to simulate the sourcing and matching step..."
+              placeholder="Use the sample job or paste one job post..."
               data-target-job-post
             ></textarea>
             <div class="target-job-inline-actions" aria-label="Target job file controls">
