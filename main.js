@@ -3,9 +3,9 @@ const status = document.querySelector("#form-status");
 
 const CONTROL_SOURCE_PATH = "ops/BUSINESS_CONTROLS.json";
 const CONTROL_FETCH_CANDIDATES = [
+  "ops/BUSINESS_CONTROLS.json",
   "/ops/BUSINESS_CONTROLS.json",
   "../ops/BUSINESS_CONTROLS.json",
-  "ops/BUSINESS_CONTROLS.json",
 ];
 const PAID_REVIEW_INTENT_LATEST_KEY = "proofresume:paidReviewInterest";
 const PAID_REVIEW_INTENT_JSONL_KEY = "proofresume:paidReviewIntentQueueJsonl";
