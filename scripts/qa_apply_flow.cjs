@@ -85,6 +85,8 @@ async function main() {
 
     await page.fill('[data-apply-pilot-form] input[name="name"]', "Demo Tester");
     await page.fill('[data-apply-pilot-form] input[name="email"]', "demo@example.com");
+    await page.fill('[data-apply-pilot-form] input[name="phone"]', "555-0100");
+    await page.fill('[data-apply-pilot-form] textarea[name="profileLinks"]', "https://linkedin.example/demo");
     await page.fill('[data-apply-pilot-form] input[name="targetRole"]', "Customer Operations Lead");
     await page.fill('[data-apply-pilot-form] textarea[name="targetCompanies"]', "Northstar Health\nBrightDesk");
     await page.fill('[data-apply-pilot-form] textarea[name="jobLinks"]', "https://example.test/jobs/customer-ops-lead");
@@ -93,6 +95,7 @@ async function main() {
     await page.fill('[data-apply-pilot-form] textarea[name="mustHaves"]', "Customer operations ownership");
     await page.fill('[data-apply-pilot-form] textarea[name="dealbreakers"]', "Onsite five days");
     await page.fill('[data-apply-pilot-form] textarea[name="applicationNotes"]', "Keep tone direct and practical.");
+    await page.fill('[data-apply-pilot-form] textarea[name="existingAccounts"]', "LinkedIn\nIndeed");
     await page.check('[data-apply-pilot-form] input[name="consent"]');
     await page.check('[data-apply-pilot-form] input[name="resumeConsent"]');
     await page.check('[data-apply-pilot-form] input[name="approvalConsent"]');
@@ -102,16 +105,23 @@ async function main() {
       packet: JSON.parse(localStorage.getItem("proofresume:pilotIntakePacket") || "null"),
       copyDisabled: document.querySelector("[data-apply-copy-request]")?.disabled,
       downloadDisabled: document.querySelector("[data-apply-download-request]")?.disabled,
+      readinessScore: document.querySelector("[data-apply-readiness-score]")?.textContent?.trim(),
+      nextStep: document.querySelector("[data-apply-next-step]")?.textContent?.trim(),
       status: document.querySelector("[data-apply-pilot-status]")?.textContent?.trim(),
     }));
 
     if (!pilot.stored?.includes("Customer Operations Lead")) throw new Error("Pilot request was not saved locally.");
     if (pilot.packet?.format !== "proofresume-pilot-intake-packet-v1") throw new Error("Pilot packet format was not saved.");
     if (pilot.packet?.customer?.email !== "demo@example.com") throw new Error("Pilot packet did not save customer email.");
+    if (pilot.packet?.customer?.profileLinks?.length !== 1) throw new Error("Pilot packet did not save profile links.");
     if (pilot.packet?.resume?.wordCount < 20) throw new Error("Pilot packet did not include resume summary.");
     if (pilot.packet?.search?.jobLinks?.length !== 1) throw new Error("Pilot packet did not save job links.");
+    if (pilot.packet?.search?.existingAccounts?.length !== 2) throw new Error("Pilot packet did not save existing accounts.");
     if (pilot.packet?.consent?.liveSendsRequireExplicitApproval !== true) throw new Error("Pilot packet did not save approval consent.");
     if (pilot.packet?.generatedQueue?.length !== 3) throw new Error("Pilot packet did not include generated queue.");
+    if (pilot.packet?.readiness?.state !== "ready_for_operator_review") throw new Error("Pilot packet was not operator-ready.");
+    if (pilot.readinessScore !== "6/6") throw new Error(`Unexpected readiness score: ${pilot.readinessScore}`);
+    if (pilot.nextStep !== "Review packet") throw new Error(`Unexpected next step: ${pilot.nextStep}`);
     if (pilot.copyDisabled) throw new Error("Copy request button stayed disabled.");
     if (pilot.downloadDisabled) throw new Error("Download packet button stayed disabled.");
     if (!pilot.status?.includes("Pilot packet created")) throw new Error(`Unexpected pilot status: ${pilot.status}`);

@@ -441,6 +441,53 @@ button:disabled {
   padding: clamp(42px, 7vw, 92px) clamp(18px, 5vw, 72px);
 }
 
+.apply-handoff-section {
+  display: grid;
+  gap: 24px;
+  padding: clamp(42px, 7vw, 92px) clamp(18px, 5vw, 72px);
+  background: #eef4ff;
+}
+
+.apply-handoff-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.68fr);
+  gap: 16px;
+}
+
+.apply-readiness-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.apply-readiness-list li {
+  display: grid;
+  grid-template-columns: minmax(90px, 0.34fr) minmax(0, 1fr);
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 11px;
+  color: var(--muted);
+}
+
+.apply-readiness-list li[data-ready="true"] {
+  border-color: rgba(16, 185, 129, 0.38);
+  background: #f0fdf4;
+}
+
+.apply-readiness-list strong {
+  color: var(--ink);
+}
+
+.apply-handoff-note {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 .apply-queue {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

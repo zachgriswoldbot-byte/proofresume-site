@@ -147,6 +147,14 @@
             <input name="email" type="email" autocomplete="email" required />
           </label>
           <label>
+            Phone
+            <input name="phone" autocomplete="tel" placeholder="Optional, for pilot coordination" />
+          </label>
+          <label>
+            Profile links
+            <textarea name="profileLinks" rows="3" placeholder="LinkedIn, portfolio, GitHub, personal site. One per line."></textarea>
+          </label>
+          <label>
             Target role
             <input name="targetRole" placeholder="Customer ops lead, data analyst, product manager..." required />
           </label>
@@ -198,6 +206,10 @@
             Application notes
             <textarea name="applicationNotes" rows="4" placeholder="Tone, career story, gaps to explain, questions to avoid, accounts already used..."></textarea>
           </label>
+          <label>
+            Existing job accounts
+            <textarea name="existingAccounts" rows="3" placeholder="LinkedIn, Indeed, company portals already used. No passwords."></textarea>
+          </label>
           <label class="inline-checkbox">
             <input name="consent" type="checkbox" required />
             I want a managed auto-apply pilot.
@@ -217,6 +229,34 @@
             Packet stays local until you choose where to send it.
           </p>
         </form>
+      </section>
+
+      <section class="apply-handoff-section" aria-label="Pilot handoff readiness">
+        <div class="section-head">
+          <p class="eyebrow">Handoff</p>
+          <h2>Ready for an operator.</h2>
+        </div>
+        <div class="apply-handoff-grid">
+          <article class="apply-card">
+            <div class="review-topline">
+              <span>Packet readiness</span>
+              <strong data-apply-readiness-score>0/6</strong>
+            </div>
+            <ul class="apply-readiness-list" data-apply-readiness-list>
+              <li>Build an application queue.</li>
+              <li>Add contact, resume, target role, location rules, job links, and consent.</li>
+            </ul>
+          </article>
+          <article class="apply-card">
+            <div class="review-topline">
+              <span>Operator next step</span>
+              <strong data-apply-next-step>Not ready</strong>
+            </div>
+            <p class="apply-handoff-note" data-apply-handoff-note>
+              Create the packet first. Then an operator can review fit, confirm boundaries, and prepare the first batch.
+            </p>
+          </article>
+        </div>
       </section>
     </main>
 

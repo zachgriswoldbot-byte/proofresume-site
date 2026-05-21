@@ -51,6 +51,10 @@ const pilotForm = document.querySelector("[data-apply-pilot-form]");
 const pilotStatus = document.querySelector("[data-apply-pilot-status]");
 const copyRequestButton = document.querySelector("[data-apply-copy-request]");
 const downloadRequestButton = document.querySelector("[data-apply-download-request]");
+const readinessScore = document.querySelector("[data-apply-readiness-score]");
+const readinessList = document.querySelector("[data-apply-readiness-list]");
+const nextStep = document.querySelector("[data-apply-next-step]");
+const handoffNote = document.querySelector("[data-apply-handoff-note]");
 
 let applications = [];
 let latestPilotPacket = null;
@@ -90,6 +94,71 @@ function formatPilotPacket(packet) {
   ].join("\n");
 }
 
+function currentPilotFormData() {
+  return pilotForm ? new FormData(pilotForm) : new FormData();
+}
+
+function buildReadiness({ data = currentPilotFormData(), resumeText = resumeInput.value, queue = applications } = {}) {
+  const checks = [
+    {
+      id: "contact",
+      label: "Contact",
+      ok: Boolean(compactValue(data.get("name")) && compactValue(data.get("email"))),
+      fix: "Add name and email.",
+    },
+    {
+      id: "resume",
+      label: "Resume",
+      ok: summarizeResume(resumeText).wordCount >= 20,
+      fix: "Paste or upload a readable resume.",
+    },
+    {
+      id: "target",
+      label: "Target",
+      ok: Boolean(compactValue(data.get("targetRole")) && compactValue(data.get("locationRules"))),
+      fix: "Add target role and location rules.",
+    },
+    {
+      id: "jobLinks",
+      label: "Job links",
+      ok: linesFrom(data.get("jobLinks")).length > 0 || linesFrom(data.get("targetCompanies")).length > 0,
+      fix: "Add at least one job link or target company.",
+    },
+    {
+      id: "queue",
+      label: "Queue",
+      ok: queue.length > 0,
+      fix: "Build the application queue.",
+    },
+    {
+      id: "consent",
+      label: "Consent",
+      ok: data.get("consent") === "on" && data.get("resumeConsent") === "on" && data.get("approvalConsent") === "on",
+      fix: "Confirm pilot, resume-use, and approval-before-send consent.",
+    },
+  ];
+  return {
+    format: "proofresume-pilot-readiness-v1",
+    readyCount: checks.filter((check) => check.ok).length,
+    totalCount: checks.length,
+    state: checks.every((check) => check.ok) ? "ready_for_operator_review" : "needs_customer_input",
+    checks,
+  };
+}
+
+function renderReadiness(readiness = buildReadiness()) {
+  if (!readinessScore || !readinessList || !nextStep || !handoffNote) return;
+  readinessScore.textContent = `${readiness.readyCount}/${readiness.totalCount}`;
+  readinessList.innerHTML = readiness.checks
+    .map((check) => `<li data-ready="${check.ok}"><strong>${check.label}</strong><span>${check.ok ? "Ready" : check.fix}</span></li>`)
+    .join("");
+  nextStep.textContent = readiness.state === "ready_for_operator_review" ? "Review packet" : "Needs input";
+  handoffNote.textContent =
+    readiness.state === "ready_for_operator_review"
+      ? "Packet has enough information for an operator to review the resume, confirm application boundaries, and prepare the first batch."
+      : "Fill the missing items above so the first operator pass does not turn into a back-and-forth.";
+}
+
 function downloadJson(filename, payload) {
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
   const link = document.createElement("a");
@@ -126,6 +195,7 @@ function buildApplications() {
 
   renderApplications();
   updateSummary();
+  renderReadiness();
 }
 
 function renderApplications() {
@@ -209,6 +279,7 @@ resumeFileInput?.addEventListener("change", async () => {
   }
   resumeInput.value = await file.text();
   pilotStatus.textContent = `Loaded ${file.name}. Build the queue when ready.`;
+  renderReadiness();
 });
 
 form?.addEventListener("submit", (event) => {
@@ -234,6 +305,7 @@ pilotForm?.addEventListener("submit", (event) => {
   const data = new FormData(pilotForm);
   const resumeText = resumeInput.value.trim();
   const resumeSummary = summarizeResume(resumeText);
+  const readiness = buildReadiness({ data, resumeText });
   latestPilotPacket = {
     format: "proofresume-pilot-intake-packet-v1",
     createdAt: new Date().toISOString(),
@@ -241,6 +313,8 @@ pilotForm?.addEventListener("submit", (event) => {
     customer: {
       name: compactValue(data.get("name")),
       email: compactValue(data.get("email")),
+      phone: compactValue(data.get("phone")),
+      profileLinks: linesFrom(data.get("profileLinks")),
     },
     resume: {
       pastedText: resumeText,
@@ -263,6 +337,7 @@ pilotForm?.addEventListener("submit", (event) => {
       mustHaves: compactValue(data.get("mustHaves")),
       dealbreakers: compactValue(data.get("dealbreakers")),
       applicationNotes: compactValue(data.get("applicationNotes")),
+      existingAccounts: linesFrom(data.get("existingAccounts")),
     },
     consent: {
       managedPilotRequested: data.get("consent") === "on",
@@ -284,6 +359,7 @@ pilotForm?.addEventListener("submit", (event) => {
       "Confirm account access and job-board terms outside this static demo before any live apply action.",
       "Get explicit approval for each application before live submission.",
     ],
+    readiness,
   };
 
   latestPilotRequestText = formatPilotPacket(latestPilotPacket);
@@ -292,7 +368,12 @@ pilotForm?.addEventListener("submit", (event) => {
   copyRequestButton.disabled = false;
   downloadRequestButton.disabled = false;
   pilotStatus.textContent = "Pilot packet created locally. Copy or download it when you are ready.";
+  renderReadiness(readiness);
 });
+
+pilotForm?.addEventListener("input", () => renderReadiness());
+pilotForm?.addEventListener("change", () => renderReadiness());
+resumeInput?.addEventListener("input", () => renderReadiness());
 
 copyRequestButton?.addEventListener("click", async () => {
   if (!latestPilotRequestText) latestPilotRequestText = localStorage.getItem("proofresume:pilotRequest") || "";
@@ -312,3 +393,4 @@ downloadRequestButton?.addEventListener("click", () => {
 });
 
 updateSummary();
+renderReadiness();
