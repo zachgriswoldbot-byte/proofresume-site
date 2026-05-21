@@ -33,7 +33,7 @@
             import a resume and paste one job post to preview the matching, proof-gap, and tailoring engine.
           </p>
           <div class="hero-actions">
-            <a class="primary-action" href="#target-job-workbench">Start with a resume</a>
+            <a class="primary-action" href="?demo=sample#target-job-workbench">Run the sample demo</a>
             <a class="secondary-action" href="/#early-access">Join pilot list</a>
           </div>
         </div>
@@ -68,6 +68,24 @@
             managed sourcing, matching, tailoring, and approval-first apply.
           </p>
         </div>
+
+        <section class="target-job-demo-guide" aria-label="Demo steps">
+          <article>
+            <span>1</span>
+            <strong>Demo resume</strong>
+            <p>Use Maya's sample resume, or paste your own when you want to test real material.</p>
+          </article>
+          <article>
+            <span>2</span>
+            <strong>Instant packet</strong>
+            <p>Generate fit score, proof gaps, tailored bullets, and approval gates in one click.</p>
+          </article>
+          <article>
+            <span>3</span>
+            <strong>Review output</strong>
+            <p>Nothing is sent or applied. The packet stays in this browser.</p>
+          </article>
+        </section>
 
         <form class="target-job-form" data-target-job-form>
           <label>
@@ -109,8 +127,8 @@
             </div>
           </label>
 
-          <details class="target-job-structured-profile target-job-wide-field" data-target-job-structured-profile open>
-            <summary>Structured candidate profile</summary>
+          <details class="target-job-structured-profile target-job-wide-field" data-target-job-structured-profile>
+            <summary>Advanced: structured candidate profile</summary>
             <div class="target-job-structured-grid">
               <div class="target-job-structured-row">
                 <label>
@@ -344,8 +362,8 @@
             <input name="preferredLocation" placeholder="Remote, New York, Austin, Bay Area..." data-target-job-location />
           </label>
           <div class="target-job-actions">
-            <button class="primary-action" type="submit" data-target-job-analyze>Build application packet</button>
-            <button class="secondary-action" type="button" data-target-job-demo>Load sample</button>
+            <button class="primary-action" type="button" data-target-job-demo>Run sample demo</button>
+            <button class="secondary-action" type="submit" data-target-job-analyze>Build from my inputs</button>
             <button class="secondary-action" type="button" data-target-job-clear>Clear local pack</button>
           </div>
         </form>

@@ -332,6 +332,45 @@ textarea {
   gap: 24px;
 }
 
+.target-job-demo-guide {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.target-job-demo-guide article {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.target-job-demo-guide span {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 900;
+}
+
+.target-job-demo-guide strong {
+  color: var(--ink);
+}
+
+.target-job-demo-guide p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
 .target-job-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2512,6 +2551,7 @@ textarea {
   .hero,
   .review-loop,
   .early-access,
+  .target-job-demo-guide,
   .pricing-hero {
     grid-template-columns: 1fr;
   }

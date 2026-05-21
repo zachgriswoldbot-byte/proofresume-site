@@ -6072,7 +6072,7 @@ function bindTargetJobPack() {
 
   window.__proofresumeLatestTargetJobPacket = () => latestPacket;
 
-  document.querySelector("[data-target-job-demo]")?.addEventListener("click", () => {
+  const loadSampleDemo = ({ build = true, scroll = true } = {}) => {
     const resume = document.querySelector("[data-target-job-resume]");
     const post = document.querySelector("[data-target-job-post]");
     const location = document.querySelector("[data-target-job-location]");
@@ -6100,7 +6100,20 @@ function bindTargetJobPack() {
     });
     updateProfileStatus({ kind: "idle", message: "Sample loaded (not saved)" });
     renderLeadTracker();
-  });
+    if (build) form.requestSubmit();
+    if (scroll) {
+      setTimeout(() => {
+        document.querySelector("[data-target-job-output]")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    }
+  };
+
+  document.querySelector("[data-target-job-demo]")?.addEventListener("click", () => loadSampleDemo());
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("demo") === "sample") {
+    loadSampleDemo({ build: true, scroll: false });
+  }
 
   document.querySelector("[data-target-job-import-resume-file]")?.addEventListener("click", () => {
     document.querySelector("[data-target-job-import-resume-file-input]")?.click();
