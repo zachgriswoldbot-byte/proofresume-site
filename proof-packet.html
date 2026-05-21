@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProofResume Proof Packet | Local evidence-backed preview</title>
+    <meta
+      name="description"
+      content="A local-only ProofResume proof packet preview that bundles accepted resume bullets, evidence provenance, claim-risk flags, and follow-up source notes."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="ProofResume home">
+        <span class="brand-mark">P</span>
+        <span>ProofResume</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/#product">Product</a>
+        <a href="/review.html">Sample report</a>
+        <a href="/intake.html">Try yours</a>
+        <a href="/target-job.html">Target job pack</a>
+        <a href="/#early-access">Early access</a>
+      </nav>
+    </header>
+
+    <main class="report">
+      <header class="report-hero">
+        <div>
+          <p class="eyebrow" data-pr="packetMode">Proof packet</p>
+          <h1>Evidence-backed packet preview (local-only).</h1>
+          <p class="hero-text" data-pr="packetSubtitle">
+            This proof packet bundles accepted resume bullets, evidence provenance, claim-risk flags, and follow-up source notes. Local redactions made
+            on the review page are preserved here and in the JSON download.
+          </p>
+          <div class="hero-actions">
+            <a class="secondary-action" href="/intake.html">Return to intake</a>
+            <a class="secondary-action" data-pr="backToReview" href="/review.html">Return to review</a>
+            <a class="primary-action" data-pr="downloadPacket" href="#" download="proofresume-proof-packet.json">Download packet JSON</a>
+            <button
+              class="secondary-action"
+              type="button"
+              data-pr="importExportBundle"
+              data-export-bundle-import-entrypoint="proof-packet"
+            >
+              Import bundle .json
+            </button>
+            <input
+              type="file"
+              accept="application/json"
+              hidden
+              data-pr="importExportBundleFile"
+              data-export-bundle-import-file-entrypoint="proof-packet"
+            />
+          </div>
+          <p class="report-note" data-pr="importExportBundleStatus" aria-live="polite">
+            Import a previously downloaded ProofResume bundle JSON to replay the saved proof packet snapshot on this page.
+          </p>
+          <p class="report-note" data-pr="packetModeNote">
+            Bundle replay mode shows a locally imported snapshot and keeps the review link aligned with the bundle you are replaying.
+          </p>
+        </div>
+        <section class="report-summary" aria-label="Proof packet summary">
+          <div class="review-topline">
+            <span>Packet ready</span>
+            <strong data-pr="packetStatus">Local-only</strong>
+          </div>
+          <div class="score-grid">
+            <div>
+              <span>Accepted</span>
+              <strong data-pr="packetAccepted">0</strong>
+            </div>
+            <div>
+              <span>Sections</span>
+              <strong data-pr="packetSections">0</strong>
+            </div>
+            <div>
+              <span>Claim risks</span>
+              <strong data-pr="packetRisks">0</strong>
+            </div>
+          </div>
+        </section>
+      </header>
+
+      <section class="report-section" aria-label="Proof packet contents">
+        <div class="section-head">
+          <p class="eyebrow">Packet contents</p>
+          <h2>Accepted bullets plus provenance.</h2>
+          <p class="hero-text">
+            This page never changes your export text. It only summarizes accepted updates and the evidence that supports them in this browser.
+            Redacted source excerpts and raw follow-up notes stay omitted from this packet.
+          </p>
+        </div>
+        <div class="export-panel" data-pr="packetBody">
+          <p class="report-note">
+            Load a local intake and approve evidence on the review page to generate a proof packet.
+          </p>
+        </div>
+      </section>
+
+      <footer class="report-footer">
+        <p>
+          No email is sent and no external service is contacted. This proof packet is stored and generated locally in your browser.
+        </p>
+      </footer>
+    </main>
+
+    <script src="proof-packet.js"></script>
+  </body>
+</html>

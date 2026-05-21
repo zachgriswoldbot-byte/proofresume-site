@@ -1,0 +1,24 @@
+{
+  "format": "proofresume-target-job-local-contract-input-v1",
+  "asOfDate": "2026-05-16T00:00:00.000Z",
+  "candidateLevel": "mid",
+  "preferredLocation": "Remote",
+  "resumeText": "Maya Patel\nCustomer Operations Lead\nSummary\nOperations lead focused on onboarding, support quality, and customer launch workflows.\nExperience\nCustomer Operations Lead at Northstar SaaS | 2021-2025\n- Built a customer onboarding dashboard that reduced repeat intake questions by 32% across 6 pilot accounts.\n- Led weekly launch reviews with sales, product, and support to unblock enterprise customer issues.\n- Improved handoff documentation and cut first-response delays from 2 days to 8 hours.\nSkills\nHubSpot, Excel, customer operations, workflow design, stakeholder communication, support analytics",
+  "structuredProfile": {
+    "identity": {
+      "name": "Maya Patel",
+      "headline": "Customer Operations Lead",
+      "location": "Remote"
+    },
+    "skills": ["HubSpot", "Excel", "customer operations", "workflow design", "support analytics"],
+    "experience": [
+      "Built onboarding dashboards and launch workflows for SaaS customers.",
+      "Partnered with sales, product, and support to reduce customer handoff delays."
+    ],
+    "projects": [
+      "Created CRM reporting views for onboarding risk and support response trends."
+    ],
+    "education": ["B.S. Business Analytics"]
+  },
+  "jobText": "Customer Operations Manager - Remote\nCompany: BrightLedger\nApply: https://example.com/jobs/customer-operations-manager\nPosted: 10 days ago\nLocation: Remote\nWe are hiring a Customer Operations Manager to improve onboarding, support workflows, customer launch quality, and CRM reporting.\nResponsibilities include building dashboards, partnering with product and sales, reducing support delays, and creating scalable launch playbooks.\nRequirements: 3+ years in customer operations, HubSpot or Salesforce, Excel, analytics, stakeholder communication, remote collaboration.\nNice to have: SaaS onboarding, workflow automation, support metrics, implementation experience.\nSalary range: $95,000-$120,000."
+}

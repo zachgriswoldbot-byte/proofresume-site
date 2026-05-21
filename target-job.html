@@ -1,0 +1,1363 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProofResume Demo | Resume-to-application workflow</title>
+    <meta
+      name="description"
+      content="Try the ProofResume workflow: import a resume, evaluate a target job, find proof gaps, and draft an approval-ready application packet."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="ProofResume home">
+        <span class="brand-mark">P</span>
+        <span>ProofResume</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/#product">How it works</a>
+        <a href="/target-job.html" aria-current="page">Try demo</a>
+        <a href="/pricing.html">Pricing</a>
+      </nav>
+    </header>
+
+    <main class="target-job-page" data-target-job-pack>
+      <header class="report-hero target-job-hero">
+        <div>
+          <p class="eyebrow">Resume-to-application demo</p>
+          <h1>See how ProofResume turns a resume into an application packet.</h1>
+          <p class="hero-text">
+            The real product starts by uploading your resume, then sources and ranks jobs for you. This demo lets you
+            import a resume and paste one job post to preview the matching, proof-gap, and tailoring engine.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#target-job-workbench">Start with a resume</a>
+            <a class="secondary-action" href="/#early-access">Join pilot list</a>
+          </div>
+        </div>
+        <section class="report-summary target-job-summary" aria-label="Target job pack summary">
+          <div class="review-topline">
+            <span>Workflow includes</span>
+            <strong>Fit + tailoring</strong>
+          </div>
+          <div class="change-list">
+            <article>
+              <span>Resume first</span>
+              <p>Import or paste your resume once, then reuse the profile for multiple roles.</p>
+            </article>
+            <article>
+              <span>Fit score</span>
+              <p>Compare role, skills, seniority, location, and evidence before spending effort.</p>
+            </article>
+            <article>
+              <span>Approval gate</span>
+              <p>Draft tailored assets, then review before any apply or send action.</p>
+            </article>
+          </div>
+        </section>
+      </header>
+
+      <section class="section-band target-job-workbench" id="target-job-workbench" aria-label="Target job analysis workbench">
+        <div class="section-head">
+          <p class="eyebrow">Demo workbench</p>
+          <h2>Import a resume, then test one target job.</h2>
+          <p class="hero-text">
+            This static demo does not scrape or submit applications. It shows the core workflow we are turning into
+            managed sourcing, matching, tailoring, and approval-first apply.
+          </p>
+        </div>
+
+        <form class="target-job-form" data-target-job-form>
+          <label>
+            Resume upload or paste
+            <textarea
+              name="resumeText"
+              rows="13"
+              placeholder="Import a resume file or paste your current resume here..."
+              data-target-job-resume
+            ></textarea>
+            <div class="target-job-inline-actions" aria-label="Resume profile controls">
+              <button class="secondary-action target-job-compact-action" type="button" data-target-job-import-resume-file>
+                Import resume file
+              </button>
+              <input
+                type="file"
+                accept="text/plain,text/markdown,text/html,.txt,.md,.markdown,.html,.htm"
+                hidden
+                data-target-job-import-resume-file-input
+              />
+              <button class="secondary-action target-job-compact-action" type="button" data-target-job-save-profile>
+                Save profile locally
+              </button>
+              <button class="secondary-action target-job-compact-action" type="button" data-target-job-export-profile>
+                Export profile JSON
+              </button>
+              <button class="secondary-action target-job-compact-action" type="button" data-target-job-import-profile>
+                Import profile JSON
+              </button>
+              <input type="file" accept="application/json,.json" hidden data-target-job-import-profile-input />
+              <button class="secondary-action target-job-compact-action" type="button" data-target-job-import-export-bundle>
+                Import ProofResume bundle .json
+              </button>
+              <input type="file" accept="application/json,.json" hidden data-target-job-import-export-bundle-input />
+              <button class="secondary-action target-job-compact-action" type="button" data-target-job-clear-profile>
+                Clear saved profile
+              </button>
+              <span class="status-pill is-pending" data-target-job-profile-status>Profile not saved</span>
+            </div>
+          </label>
+
+          <details class="target-job-structured-profile target-job-wide-field" data-target-job-structured-profile open>
+            <summary>Structured candidate profile</summary>
+            <div class="target-job-structured-grid">
+              <div class="target-job-structured-row">
+                <label>
+                  Full name
+                  <input name="profileName" placeholder="Maya Patel" data-target-job-profile-full-name data-target-job-profile-name />
+                </label>
+                <label>
+                  Headline
+                  <input name="profileHeadline" placeholder="Customer Operations Lead" data-target-job-profile-headline />
+                </label>
+              </div>
+              <div class="target-job-structured-row">
+                <label>
+                  Email
+                  <input name="profileEmail" placeholder="name@example.com" data-target-job-profile-email />
+                </label>
+                <label>
+                  Phone
+                  <input name="profilePhone" placeholder="Optional" data-target-job-profile-phone />
+                </label>
+              </div>
+              <div class="target-job-structured-row">
+                <label>
+                  Summary
+                  <textarea name="profileSummary" rows="4" placeholder="Brief profile summary" data-target-job-profile-summary></textarea>
+                </label>
+                <label>
+                  Skills
+                  <textarea
+                    name="profileSkills"
+                    rows="4"
+                    placeholder="HubSpot&#10;Excel&#10;support analytics"
+                    data-target-job-profile-skills
+                  ></textarea>
+                </label>
+              </div>
+              <div class="target-job-structured-row">
+                <label>
+                  LinkedIn
+                  <input name="profileLinkedIn" placeholder="https://linkedin.com/in/name" data-target-job-profile-linkedin />
+                </label>
+                <label>
+                  GitHub
+                  <input name="profileGithub" placeholder="https://github.com/name" data-target-job-profile-github />
+                </label>
+              </div>
+              <label>
+                Portfolio
+                <input name="profilePortfolio" placeholder="https://your-site.example" data-target-job-profile-portfolio />
+              </label>
+
+              <section class="target-job-structured-card" aria-label="Experience">
+                <div class="target-job-structured-head">
+                  <h3>Experience</h3>
+                  <p class="muted">Add roles and highlights that can support tailored claims.</p>
+                </div>
+                <div class="target-job-structured-list" data-target-job-experience-list></div>
+                <textarea name="profileExperience" rows="3" placeholder="Optional plain-text experience fallback" data-target-job-profile-experience></textarea>
+                <button class="secondary-action target-job-compact-action" type="button" data-target-job-add-experience>
+                  Add experience
+                </button>
+              </section>
+
+              <section class="target-job-structured-card" aria-label="Projects">
+                <div class="target-job-structured-head">
+                  <h3>Projects</h3>
+                  <p class="muted">Add projects with proof points and outcomes.</p>
+                </div>
+                <div class="target-job-structured-list" data-target-job-project-list></div>
+                <textarea name="profileProjects" rows="3" placeholder="Optional plain-text project fallback" data-target-job-profile-projects></textarea>
+                <button class="secondary-action target-job-compact-action" type="button" data-target-job-add-project>
+                  Add project
+                </button>
+              </section>
+
+              <section class="target-job-structured-card" aria-label="Education">
+                <div class="target-job-structured-head">
+                  <h3>Education</h3>
+                  <p class="muted">Add degrees, schools, coursework, or training.</p>
+                </div>
+                <div class="target-job-structured-list" data-target-job-education-list></div>
+                <textarea name="profileEducation" rows="3" placeholder="Optional plain-text education fallback" data-target-job-profile-education></textarea>
+                <button class="secondary-action target-job-compact-action" type="button" data-target-job-add-education>
+                  Add education
+                </button>
+              </section>
+
+              <section class="target-job-structured-card" aria-label="Certifications">
+                <div class="target-job-structured-head">
+                  <h3>Certifications</h3>
+                  <p class="muted">Add credentials and issuers.</p>
+                </div>
+                <div class="target-job-structured-list" data-target-job-certification-list></div>
+                <textarea
+                  name="profileCertifications"
+                  rows="3"
+                  placeholder="Optional plain-text certification fallback"
+                  data-target-job-profile-certifications
+                ></textarea>
+                <button class="secondary-action target-job-compact-action" type="button" data-target-job-add-certification>
+                  Add certification
+                </button>
+              </section>
+
+              <section class="target-job-structured-card" aria-label="Achievements">
+                <div class="target-job-structured-head">
+                  <h3>Achievements</h3>
+                  <p class="muted">Add quantified wins and proof-backed outcomes.</p>
+                </div>
+                <div class="target-job-structured-list" data-target-job-achievement-list></div>
+                <textarea
+                  name="profileAchievements"
+                  rows="3"
+                  placeholder="Optional plain-text achievement fallback"
+                  data-target-job-profile-achievements
+                ></textarea>
+                <button class="secondary-action target-job-compact-action" type="button" data-target-job-add-achievement>
+                  Add achievement
+                </button>
+              </section>
+            </div>
+
+            <template data-target-job-experience-template>
+              <div class="target-job-structured-item" data-target-job-structured-item="experience">
+                <div class="target-job-structured-row">
+                  <input placeholder="Company" data-field="company" />
+                  <input placeholder="Role" data-field="role" />
+                </div>
+                <div class="target-job-structured-row">
+                  <input placeholder="Start" data-field="start" />
+                  <input placeholder="End" data-field="end" />
+                </div>
+                <textarea rows="3" placeholder="Highlights" data-field="highlights"></textarea>
+                <button class="secondary-action target-job-compact-action" type="button" data-target-job-remove-structured-item>
+                  Remove
+                </button>
+              </div>
+            </template>
+
+            <template data-target-job-project-template>
+              <div class="target-job-structured-item" data-target-job-structured-item="project">
+                <div class="target-job-structured-row">
+                  <input placeholder="Project name" data-field="name" />
+                  <input placeholder="URL" data-field="url" />
+                </div>
+                <textarea rows="3" placeholder="Highlights" data-field="highlights"></textarea>
+                <button class="secondary-action target-job-compact-action" type="button" data-target-job-remove-structured-item>
+                  Remove
+                </button>
+              </div>
+            </template>
+
+            <template data-target-job-education-template>
+              <div class="target-job-structured-item" data-target-job-structured-item="education">
+                <div class="target-job-structured-row">
+                  <input placeholder="School" data-field="school" />
+                  <input placeholder="Degree" data-field="degree" />
+                </div>
+                <div class="target-job-structured-row">
+                  <input placeholder="Field" data-field="field" />
+                  <input placeholder="Year" data-field="year" />
+                </div>
+                <button class="secondary-action target-job-compact-action" type="button" data-target-job-remove-structured-item>
+                  Remove
+                </button>
+              </div>
+            </template>
+
+            <template data-target-job-certification-template>
+              <div class="target-job-structured-item" data-target-job-structured-item="certification">
+                <div class="target-job-structured-row">
+                  <input placeholder="Name" data-field="name" />
+                  <input placeholder="Issuer" data-field="issuer" />
+                </div>
+                <div class="target-job-structured-row">
+                  <input placeholder="Year" data-field="year" />
+                  <input placeholder="URL" data-field="url" />
+                </div>
+                <button class="secondary-action target-job-compact-action" type="button" data-target-job-remove-structured-item>
+                  Remove
+                </button>
+              </div>
+            </template>
+
+            <template data-target-job-achievement-template>
+              <div class="target-job-structured-item" data-target-job-structured-item="achievement">
+                <div class="target-job-structured-row">
+                  <input placeholder="Achievement" data-field="title" />
+                  <input placeholder="Year" data-field="year" />
+                </div>
+                <textarea rows="3" placeholder="Detail" data-field="detail"></textarea>
+                <button class="secondary-action target-job-compact-action" type="button" data-target-job-remove-structured-item>
+                  Remove
+                </button>
+              </div>
+            </template>
+          </details>
+
+          <label>
+            Target job post for this demo
+            <textarea
+              name="jobText"
+              rows="13"
+              required
+              placeholder="Paste one job post to simulate the sourcing and matching step..."
+              data-target-job-post
+            ></textarea>
+            <div class="target-job-inline-actions" aria-label="Target job file controls">
+              <button class="secondary-action target-job-compact-action" type="button" data-target-job-import-job-file>
+                Import job post file
+              </button>
+              <input
+                type="file"
+                accept="text/plain,text/markdown,text/html,.txt,.md,.markdown,.html,.htm"
+                hidden
+                data-target-job-import-job-file-input
+              />
+            </div>
+          </label>
+          <label>
+            Candidate level
+            <select name="candidateLevel" data-target-job-candidate-level>
+              <option value="early">Early career / pivoting</option>
+              <option value="mid" selected>Mid-level</option>
+              <option value="senior">Senior</option>
+              <option value="executive">Executive</option>
+            </select>
+          </label>
+          <label>
+            Preferred location
+            <input name="preferredLocation" placeholder="Remote, New York, Austin, Bay Area..." data-target-job-location />
+          </label>
+          <div class="target-job-actions">
+            <button class="primary-action" type="submit" data-target-job-analyze>Build application packet</button>
+            <button class="secondary-action" type="button" data-target-job-demo>Load sample</button>
+            <button class="secondary-action" type="button" data-target-job-clear>Clear local pack</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="section-band target-job-workbench" id="target-job-tracker" aria-label="Target job tracker">
+        <div class="section-head">
+          <p class="eyebrow">Lead tracker</p>
+          <h2>Build a local job pipeline, then compare which roles are worth the effort.</h2>
+          <p class="hero-text">
+            Import several pasted job posts, gate their quality, track status, record feedback, and open any lead in the
+            pack builder. This is the local CRM layer; it still does not scrape, apply, or send outreach.
+          </p>
+        </div>
+
+        <form class="target-job-form target-job-import-form" data-target-job-import-form>
+          <label>
+            Source label
+            <input
+              name="sourceLabel"
+              placeholder="Manual paste, company board, HN, friend referral..."
+              data-target-job-source-label
+            />
+          </label>
+          <fieldset class="target-job-source-adapter-panel target-job-wide-field" data-target-job-source-adapter-panel>
+            <legend>Local source adapter</legend>
+            <div class="target-job-source-adapter-grid">
+              <label>
+                Adapter
+                <select name="sourceAdapter" data-target-job-source-adapter>
+                  <option value="generic-paste" selected>Generic paste</option>
+                  <option value="greenhouse">Greenhouse</option>
+                  <option value="lever">Lever</option>
+                  <option value="ashby">Ashby</option>
+                  <option value="workable">Workable</option>
+                  <option value="hn-community">HN / community</option>
+                  <option value="rss-like">RSS-like</option>
+                  <option value="csv-json">CSV / JSON</option>
+                </select>
+              </label>
+              <div class="target-job-source-adapter-copy" data-target-job-source-adapter-copy>
+                <strong>Local import only</strong>
+                <p>
+                  Paste exported or copied text from the selected source. ProofResume normalizes local input only; it
+                  does not fetch job boards, call ATS APIs, scrape pages, apply, or send outreach.
+                </p>
+              </div>
+            </div>
+            <section class="target-job-source-policy" aria-label="Source policy for job imports">
+              <div class="target-job-source-policy-head">
+                <div>
+                  <p class="eyebrow">Source policy</p>
+                  <h3>Allowed inputs must be reviewable and user-provided.</h3>
+                </div>
+                <span class="status-pill is-pending">Admin review copy</span>
+              </div>
+              <div class="target-job-source-policy-grid">
+                <article data-source-policy="official">
+                  <span>Preferred</span>
+                  <h4>Official APIs, RSS, and exports</h4>
+                  <p>
+                    Use employer or ATS-provided feeds, RSS, CSV/JSON exports, email alerts, or copied postings when
+                    the source permits reuse for personal job tracking.
+                  </p>
+                </article>
+                <article data-source-policy="public">
+                  <span>Limited</span>
+                  <h4>Permitted public scraping</h4>
+                  <p>
+                    Only ingest public pages when terms and robots guidance allow it, rate limits are respected, and
+                    the content is transformed into local notes before analysis.
+                  </p>
+                </article>
+                <article data-source-policy="credentialed">
+                  <span>Manual only</span>
+                  <h4>Credentialed sources</h4>
+                  <p>
+                    Logged-in portals, recruiter inboxes, and private communities require the user to export or paste
+                    content they are authorized to access. ProofResume does not collect credentials.
+                  </p>
+                </article>
+                <article data-source-policy="forbidden">
+                  <span>Forbidden</span>
+                  <h4>Blocked sources and actions</h4>
+                  <p>
+                    Do not import paywalled data, bypass access controls, ignore site terms, submit applications,
+                    message employers, buy credits, or run external crawlers from this page.
+                  </p>
+                </article>
+              </div>
+            </section>
+            <div class="target-job-source-diagnostics" aria-label="Sourced import diagnostics placeholders">
+              <section>
+                <span>Source</span>
+                <strong data-target-job-source-diagnostic>Not checked</strong>
+                <p>Placeholder for adapter, source URL, source label, and human-reviewable provenance.</p>
+              </section>
+              <section>
+                <span>Freshness</span>
+                <strong data-target-job-freshness-diagnostic>Not checked</strong>
+                <p>Placeholder for posted date, last-seen date, stale threshold, and repost uncertainty.</p>
+              </section>
+              <section>
+                <span>Terms risk</span>
+                <strong data-target-job-terms-risk-diagnostic>Review needed</strong>
+                <p>Placeholder for source class, permitted use notes, credential boundary, and forbidden-action flags.</p>
+              </section>
+            </div>
+            <div
+              class="target-job-import-diagnostics"
+              data-target-job-import-diagnostics
+              aria-label="Local import diagnostics"
+              aria-live="polite"
+            >
+              <span>
+                Accepted
+                <strong data-target-job-import-diagnostics-accepted>0</strong>
+              </span>
+              <span>
+                Rejected
+                <strong data-target-job-import-diagnostics-rejected>0</strong>
+              </span>
+              <span>
+                Duplicate
+                <strong data-target-job-import-diagnostics-duplicate>0</strong>
+              </span>
+              <span>
+                Missing URL
+                <strong data-target-job-import-diagnostics-missing-url>0</strong>
+              </span>
+              <span>
+                Missing company
+                <strong data-target-job-import-diagnostics-missing-company>0</strong>
+              </span>
+              <span>
+                Stale
+                <strong data-target-job-import-diagnostics-stale>0</strong>
+              </span>
+              <span>
+                Fresh
+                <strong data-target-job-import-diagnostics-fresh>0</strong>
+              </span>
+              <span>
+                Terms-risk review
+                <strong data-target-job-import-diagnostics-terms-risk>0</strong>
+              </span>
+            </div>
+            <section class="target-job-import-phase-report" aria-label="Import phase diagnostics">
+              <div class="target-job-source-policy-head">
+                <div>
+                  <p class="eyebrow">Phase diagnostics</p>
+                  <h3>Import report shows where the batch changed or failed.</h3>
+                </div>
+                <button
+                  class="secondary-action target-job-compact-action"
+                  type="button"
+                  data-target-job-export-import-report
+                  disabled
+                >
+                  Export report JSON
+                </button>
+              </div>
+              <div data-target-job-import-phase-report>
+                <div class="target-job-import-phase-grid" data-target-job-import-phase-counts>
+                  <span>Parsed <strong data-target-job-import-phase-parsed>0</strong></span>
+                  <span>Normalized <strong data-target-job-import-phase-normalized>0</strong></span>
+                  <span>Quality accepted <strong data-target-job-import-phase-quality-accepted>0</strong></span>
+                  <span>Quality rejected <strong data-target-job-import-phase-quality-rejected>0</strong></span>
+                  <span>Deduped <strong data-target-job-import-phase-deduped>0</strong></span>
+                  <span>Saved <strong data-target-job-import-phase-saved>0</strong></span>
+                </div>
+                <div class="target-job-import-rejections" data-target-job-import-rejections>
+                  <p class="muted">Import a local batch to see rejected lead reasons and the troubleshooting payload.</p>
+                </div>
+              </div>
+            </section>
+          </fieldset>
+          <label>
+            Split mode
+            <select name="splitMode" data-target-job-split-mode>
+              <option value="separator">Separator: ---</option>
+              <option value="blank-lines">Blank lines</option>
+              <option value="single">Single lead</option>
+            </select>
+          </label>
+          <label class="target-job-wide-field">
+            Job posts
+            <textarea
+              name="leadBatch"
+              rows="12"
+              placeholder="Paste one or more job posts. Use --- on its own line between posts for best results."
+              data-target-job-lead-batch
+            ></textarea>
+          </label>
+          <div class="target-job-actions">
+            <button class="primary-action" type="submit" data-target-job-import-leads>Import local leads</button>
+            <button class="secondary-action" type="button" data-target-job-clear-leads>Clear tracker</button>
+            <span class="status-pill is-pending" data-target-job-import-status>No leads imported yet</span>
+          </div>
+        </form>
+
+	        <div class="target-job-tracker-toolbar">
+	          <label>
+	            Bulk status
+	            <select data-target-job-bulk-status>
+	              <option value="">Choose status...</option>
+	              <option value="discovered">Discovered</option>
+	              <option value="evaluating">Evaluating</option>
+	              <option value="tailoring">Tailoring</option>
+	              <option value="ready">Ready</option>
+	              <option value="applied">Applied</option>
+	              <option value="interviewing">Interviewing</option>
+	              <option value="accepted">Accepted</option>
+	              <option value="rejected">Rejected</option>
+	              <option value="discarded">Discarded</option>
+	            </select>
+	          </label>
+	          <button class="secondary-action" type="button" data-target-job-apply-bulk-status>Apply to selected</button>
+	          <label>
+	            Bulk feedback
+	            <select data-target-job-bulk-feedback>
+	              <option value="">Choose feedback...</option>
+	              <option value="good-fit">Good fit</option>
+	              <option value="bad-fit">Bad fit</option>
+	              <option value="applied-response">Applied response</option>
+	              <option value="interview">Interview</option>
+	              <option value="rejected">Rejected</option>
+	              <option value="offer">Offer</option>
+	              <option value="none">Reset feedback</option>
+	            </select>
+	          </label>
+	          <button class="secondary-action" type="button" data-target-job-apply-bulk-feedback>Apply feedback</button>
+	          <button class="secondary-action" type="button" data-target-job-delete-selected>Delete selected</button>
+	          <button class="secondary-action" type="button" data-target-job-export-leads>Export tracker JSON</button>
+	          <button class="secondary-action" type="button" data-target-job-import-leads-file>Import tracker JSON</button>
+	          <input type="file" accept="application/json,.json" hidden data-target-job-import-leads-file-input />
+          <label>
+            Status
+            <select data-target-job-status-filter>
+              <option value="all">All</option>
+              <option value="discovered">Discovered</option>
+              <option value="evaluating">Evaluating</option>
+              <option value="tailoring">Tailoring</option>
+              <option value="ready">Ready</option>
+              <option value="applied">Applied</option>
+              <option value="interviewing">Interviewing</option>
+              <option value="accepted">Accepted</option>
+              <option value="rejected">Rejected</option>
+              <option value="discarded">Discarded</option>
+            </select>
+          </label>
+          <label>
+            Sort
+            <select data-target-job-sort>
+              <option value="fit">Fit score</option>
+              <option value="learned">Learned fit</option>
+              <option value="quality">Lead quality</option>
+              <option value="recent">Recently updated</option>
+              <option value="company">Company</option>
+            </select>
+	          </label>
+	          <span data-target-job-tracker-summary>0 leads tracked locally</span>
+	        </div>
+
+	        <details class="target-job-workspace-archive" data-target-job-workspace-archive>
+	          <summary>Archive &amp; restore workspace</summary>
+	          <div class="target-job-workspace-controls">
+	            <button class="secondary-action" type="button" data-target-job-export-workspace>
+	              Export workspace archive
+	            </button>
+	            <button class="secondary-action" type="button" data-target-job-import-workspace>
+	              Preview archive import
+	            </button>
+	            <input type="file" accept="application/json,.json" hidden data-target-job-import-workspace-input />
+	            <label>
+	              Import mode
+	              <select data-target-job-workspace-import-mode>
+	                <option value="merge">Merge newest updatedAt</option>
+	                <option value="replace">Replace valid archive sections</option>
+	              </select>
+	            </label>
+	            <button class="secondary-action" type="button" disabled data-target-job-apply-workspace-import>
+	              Apply previewed import
+	            </button>
+	            <span class="status-pill is-pending" data-target-job-workspace-status>No archive selected</span>
+	          </div>
+	          <div class="target-job-workspace-preview" data-target-job-workspace-preview hidden></div>
+	          <p class="muted">
+	            Archives stay local and include the saved profile, tracker leads, feedback notes, learning settings, generated packs, and asset metadata.
+	          </p>
+	        </details>
+
+	        <details class="target-job-learning-panel" data-target-job-learning-panel>
+	          <summary>Learning &amp; personalization</summary>
+	          <div class="target-job-learning-controls">
+	            <label class="inline-checkbox">
+	              <input type="checkbox" data-target-job-learning-enabled />
+	              Use feedback learning to personalize fit scores (local-only)
+	            </label>
+	            <label class="inline-checkbox">
+	              <input type="checkbox" data-target-job-learning-status-sync />
+	              Auto-sync lead status from feedback outcomes
+	            </label>
+	            <button class="secondary-action" type="button" data-target-job-reset-learning>Reset learning feedback</button>
+	            <span class="status-pill is-pending" data-target-job-learning-summary>No rated feedback yet</span>
+            </div>
+	          <div class="target-job-learning-insights" data-target-job-learning-insights data-target-job-learning-overlay>
+	            <p class="muted">Rate at least 2 leads to see which signals are boosting or penalizing scores.</p>
+	          </div>
+	        </details>
+
+        <div class="target-job-tracker-surface" data-target-job-tracker-surface>
+          <span class="target-job-board-summary" data-target-job-board-summary>
+            Local pipeline board ready for imported leads.
+          </span>
+          <div class="target-job-board-tabs" aria-label="Pipeline status filters" data-target-job-board-tabs>
+            <button class="target-job-board-tab is-active" type="button" aria-pressed="true" data-target-job-board-tab="all">
+              All
+              <span data-target-job-board-count="all">0</span>
+            </button>
+            <button class="target-job-board-tab" type="button" aria-pressed="false" data-target-job-board-tab="discovered">
+              Discovered
+              <span data-target-job-board-count="discovered">0</span>
+            </button>
+            <button class="target-job-board-tab" type="button" aria-pressed="false" data-target-job-board-tab="evaluating">
+              Evaluating
+              <span data-target-job-board-count="evaluating">0</span>
+            </button>
+            <button class="target-job-board-tab" type="button" aria-pressed="false" data-target-job-board-tab="tailoring">
+              Tailoring
+              <span data-target-job-board-count="tailoring">0</span>
+            </button>
+            <button class="target-job-board-tab" type="button" aria-pressed="false" data-target-job-board-tab="ready">
+              Ready
+              <span data-target-job-board-count="ready">0</span>
+            </button>
+            <button class="target-job-board-tab" type="button" aria-pressed="false" data-target-job-board-tab="applied">
+              Applied
+              <span data-target-job-board-count="applied">0</span>
+            </button>
+            <button class="target-job-board-tab" type="button" aria-pressed="false" data-target-job-board-tab="interviewing">
+              Interviewing
+              <span data-target-job-board-count="interviewing">0</span>
+            </button>
+            <button class="target-job-board-tab" type="button" aria-pressed="false" data-target-job-board-tab="accepted">
+              Accepted
+              <span data-target-job-board-count="accepted">0</span>
+            </button>
+            <button class="target-job-board-tab" type="button" aria-pressed="false" data-target-job-board-tab="rejected">
+              Rejected
+              <span data-target-job-board-count="rejected">0</span>
+            </button>
+            <button class="target-job-board-tab" type="button" aria-pressed="false" data-target-job-board-tab="discarded">
+              Discarded
+              <span data-target-job-board-count="discarded">0</span>
+            </button>
+          </div>
+
+          <template data-target-job-board-card-template>
+            <button class="target-job-board-card" type="button" data-target-job-board-card data-target-job-open-detail>
+              <strong data-target-job-board-card-title></strong>
+              <span data-target-job-board-card-company></span>
+              <small data-target-job-board-card-meta></small>
+            </button>
+          </template>
+
+          <div class="target-job-board" data-target-job-board data-target-job-pipeline-board aria-label="Local job pipeline board">
+            <section class="target-job-board-column" data-target-job-board-column="discovered" data-status="discovered" aria-label="Discovered leads">
+              <div class="target-job-board-column-head">
+                <span>Discovered</span>
+                <strong data-target-job-board-column-count="discovered">0</strong>
+              </div>
+              <div class="target-job-board-lane" data-target-job-board-lane="discovered"></div>
+            </section>
+            <section class="target-job-board-column" data-target-job-board-column="evaluating" data-status="evaluating" aria-label="Evaluating leads">
+              <div class="target-job-board-column-head">
+                <span>Evaluating</span>
+                <strong data-target-job-board-column-count="evaluating">0</strong>
+              </div>
+              <div class="target-job-board-lane" data-target-job-board-lane="evaluating"></div>
+            </section>
+            <section class="target-job-board-column" data-target-job-board-column="tailoring" data-status="tailoring" aria-label="Tailoring leads">
+              <div class="target-job-board-column-head">
+                <span>Tailoring</span>
+                <strong data-target-job-board-column-count="tailoring">0</strong>
+              </div>
+              <div class="target-job-board-lane" data-target-job-board-lane="tailoring"></div>
+            </section>
+            <section class="target-job-board-column" data-target-job-board-column="ready" data-status="ready" aria-label="Ready leads">
+              <div class="target-job-board-column-head">
+                <span>Ready</span>
+                <strong data-target-job-board-column-count="ready">0</strong>
+              </div>
+              <div class="target-job-board-lane" data-target-job-board-lane="ready"></div>
+            </section>
+            <section class="target-job-board-column" data-target-job-board-column="applied" data-status="applied" aria-label="Applied leads">
+              <div class="target-job-board-column-head">
+                <span>Applied</span>
+                <strong data-target-job-board-column-count="applied">0</strong>
+              </div>
+              <div class="target-job-board-lane" data-target-job-board-lane="applied"></div>
+            </section>
+            <section class="target-job-board-column" data-target-job-board-column="interviewing" data-status="interviewing" aria-label="Interviewing leads">
+              <div class="target-job-board-column-head">
+                <span>Interviewing</span>
+                <strong data-target-job-board-column-count="interviewing">0</strong>
+              </div>
+              <div class="target-job-board-lane" data-target-job-board-lane="interviewing"></div>
+            </section>
+            <section class="target-job-board-column" data-target-job-board-column="accepted" data-status="accepted" aria-label="Accepted leads">
+              <div class="target-job-board-column-head">
+                <span>Accepted</span>
+                <strong data-target-job-board-column-count="accepted">0</strong>
+              </div>
+              <div class="target-job-board-lane" data-target-job-board-lane="accepted"></div>
+            </section>
+            <section class="target-job-board-column" data-target-job-board-column="rejected" data-status="rejected" aria-label="Rejected leads">
+              <div class="target-job-board-column-head">
+                <span>Rejected</span>
+                <strong data-target-job-board-column-count="rejected">0</strong>
+              </div>
+              <div class="target-job-board-lane" data-target-job-board-lane="rejected"></div>
+            </section>
+            <section class="target-job-board-column" data-target-job-board-column="discarded" data-status="discarded" aria-label="Discarded leads">
+              <div class="target-job-board-column-head">
+                <span>Discarded</span>
+                <strong data-target-job-board-column-count="discarded">0</strong>
+              </div>
+              <div class="target-job-board-lane" data-target-job-board-lane="discarded"></div>
+            </section>
+          </div>
+        </div>
+
+        <div class="target-job-tracker-layout" data-target-job-tracker-layout>
+          <div class="target-job-lead-list" data-target-job-lead-list></div>
+
+          <aside
+            class="target-job-detail-panel"
+            data-target-job-detail-panel
+            data-target-job-lead-detail
+            data-target-job-detail-lead-id=""
+            tabindex="-1"
+            hidden
+            aria-label="Selected lead detail"
+          >
+            <div class="target-job-detail-head">
+              <div>
+                <p class="eyebrow">Lead detail</p>
+                <h3 data-target-job-detail-title>Select a local lead</h3>
+                <p data-target-job-detail-company>Job intel, fit review, drafts, feedback, and pack links stay local.</p>
+              </div>
+              <button class="secondary-action target-job-compact-action" type="button" data-target-job-detail-close data-target-job-close-detail>
+                Close
+              </button>
+            </div>
+
+            <div class="target-job-detail-status-row">
+              <label>
+                Move status
+                <select data-target-job-detail-status>
+                  <option value="discovered">Discovered</option>
+                  <option value="evaluating">Evaluating</option>
+                  <option value="tailoring">Tailoring</option>
+                  <option value="ready">Ready</option>
+                  <option value="applied">Applied</option>
+                  <option value="interviewing">Interviewing</option>
+                  <option value="accepted">Accepted</option>
+                  <option value="rejected">Rejected</option>
+                  <option value="discarded">Discarded</option>
+                </select>
+              </label>
+              <button class="secondary-action target-job-compact-action" type="button" data-target-job-detail-status-apply>
+                Update local status
+              </button>
+            </div>
+
+            <div class="target-job-detail-grid">
+              <section class="target-job-detail-section" data-target-job-detail-section="job-intel" data-target-job-detail-job-intel>
+                <h4>Job intel</h4>
+                <dl>
+                  <div>
+                    <dt>Company</dt>
+                    <dd data-target-job-detail-company-name>--</dd>
+                  </div>
+                  <div>
+                    <dt>Location</dt>
+                    <dd data-target-job-detail-location>--</dd>
+                  </div>
+                  <div>
+                    <dt>Source</dt>
+                    <dd data-target-job-detail-source>Local import</dd>
+                  </div>
+                  <div>
+                    <dt>Freshness</dt>
+                    <dd data-target-job-detail-freshness>Pending sourced-import check</dd>
+                  </div>
+                  <div>
+                    <dt>Terms risk</dt>
+                    <dd data-target-job-detail-terms-risk>Pending admin review</dd>
+                  </div>
+                  <div>
+                    <dt>Apply URL</dt>
+                    <dd data-target-job-detail-apply-url>No external action taken</dd>
+                  </div>
+                </dl>
+              </section>
+
+              <section class="target-job-detail-section" data-target-job-detail-section="quality-gate" data-target-job-detail-quality-gate>
+                <h4>Quality gate</h4>
+                <div class="target-job-detail-metric" data-target-job-detail-quality>--</div>
+              </section>
+
+              <section class="target-job-detail-section" data-target-job-detail-section="fit-breakdown" data-target-job-detail-fit-breakdown>
+                <h4>Fit breakdown</h4>
+                <div class="target-job-detail-metric" data-target-job-detail-fit>--</div>
+              </section>
+
+              <section class="target-job-detail-section" data-target-job-detail-section="missing-proof" data-target-job-detail-missing-proof>
+                <h4>Missing proof</h4>
+                <ul data-target-job-detail-missing-proof-list></ul>
+              </section>
+
+              <section class="target-job-detail-section" data-target-job-detail-section="match-points" data-target-job-detail-match-points>
+                <h4>Match points</h4>
+                <ul data-target-job-detail-match-points-list></ul>
+              </section>
+
+              <section class="target-job-detail-section" data-target-job-detail-section="drafts" data-target-job-detail-drafts>
+                <h4>Drafts</h4>
+                <div data-target-job-detail-draft-list></div>
+              </section>
+
+              <section class="target-job-detail-section" data-target-job-detail-section="feedback" data-target-job-detail-feedback>
+                <h4>Feedback</h4>
+                <div data-target-job-detail-feedback-notes></div>
+              </section>
+
+              <section class="target-job-detail-section" data-target-job-detail-section="follow-up" data-target-job-detail-follow-up>
+                <h4>Follow-up</h4>
+                <div data-target-job-detail-follow-up-plan></div>
+              </section>
+
+              <section class="target-job-detail-section" data-target-job-detail-section="pack-links" data-target-job-detail-pack-links>
+                <h4>Pack links</h4>
+                <div class="target-job-detail-links" data-target-job-detail-pack-link-list></div>
+              </section>
+            </div>
+          </aside>
+        </div>
+	      </section>
+
+      <section class="section-band target-job-output" data-target-job-output hidden aria-label="Target job application pack output">
+        <div class="section-head">
+          <p class="eyebrow">Application pack</p>
+          <h2>Fit, gaps, and review-ready drafts.</h2>
+          <p class="hero-text" data-target-job-summary-line>
+            Analyze a target job to generate a local application pack.
+          </p>
+        </div>
+
+        <div class="target-job-result-grid">
+          <article class="target-job-card target-job-score-card">
+            <span>Fit score</span>
+            <strong data-target-job-fit-score>--</strong>
+            <p data-target-job-fit-reason>No fit score yet.</p>
+          </article>
+          <article class="target-job-card" data-target-job-quality>
+            <span>Lead quality</span>
+            <strong data-target-job-quality-score>--</strong>
+            <p data-target-job-quality-reason>No quality gate yet.</p>
+          </article>
+          <article class="target-job-card">
+            <span>Coverage</span>
+            <strong data-target-job-keyword-coverage>--</strong>
+            <p data-target-job-keyword-summary>No keyword coverage yet.</p>
+          </article>
+        </div>
+
+        <article class="target-job-panel target-job-keyword-highlight" data-target-job-keyword-highlight-view>
+          <div class="target-job-panel-head target-job-keyword-highlight-head">
+            <div>
+              <p class="eyebrow">Keyword highlights</p>
+              <h3>Matched, missing, and proof-needed terms</h3>
+            </div>
+            <div class="target-job-keyword-counts" aria-label="Keyword match counts">
+              <span class="status-pill is-approved" data-target-job-highlight-matched-count>0 matched</span>
+              <span class="status-pill is-rejected" data-target-job-highlight-proof-needed-count>0 proof-needed</span>
+              <span class="status-pill is-excluded" data-target-job-highlight-not-applicable-count>0 not-applicable</span>
+            </div>
+          </div>
+          <p class="target-job-keyword-note">
+            Terms are extracted from the pasted job post and checked against pasted resume text plus the structured
+            profile. Missing terms stay unapproved: add only real proof, or mark seniority/domain mismatches as not
+            applicable.
+          </p>
+          <div class="target-job-keyword-highlight-grid">
+            <section class="target-job-keyword-column" aria-label="Matched job terms">
+              <h4>Matched terms</h4>
+              <div class="target-job-keyword-chip-list" data-target-job-highlight-matched></div>
+            </section>
+            <section class="target-job-keyword-column" aria-label="Missing job terms">
+              <h4>Missing terms</h4>
+              <div class="target-job-keyword-chip-list" data-target-job-highlight-missing></div>
+            </section>
+          </div>
+          <div class="target-job-keyword-source-grid">
+            <section>
+              <h4>Job post terms</h4>
+              <div class="target-job-highlight-text" data-target-job-highlight-job-text></div>
+            </section>
+            <section>
+              <h4>Resume/profile evidence</h4>
+              <div class="target-job-highlight-text" data-target-job-highlight-profile-text></div>
+            </section>
+          </div>
+        </article>
+
+        <article class="target-job-panel target-job-llm-evaluator" aria-label="Optional evaluator boundary" data-target-job-llm-evaluator>
+          <div class="target-job-panel-head">
+            <div>
+              <p class="eyebrow">Optional evaluator</p>
+              <h3>Offline fixture only, disabled by default</h3>
+            </div>
+            <span class="status-pill is-rejected" data-target-job-llm-evaluator-mode>disabled / offline-fixture-only</span>
+          </div>
+          <label class="inline-checkbox" data-target-job-llm-evaluator-enabled>
+            <input type="checkbox" disabled />
+            Use an external LLM evaluator after provider, privacy, cost, and consent controls exist
+          </label>
+          <p class="target-job-asset-caveat">
+            This prototype does not collect API keys or call an LLM. The prompt contract treats job posts as untrusted
+            input and the fixture below returns deterministic sample review output for QA.
+          </p>
+          <div class="target-job-result-grid" aria-label="Optional AI cost and run boundary" data-target-job-ai-cost-transparency>
+            <article class="target-job-card">
+              <span>Estimated provider cost</span>
+              <strong data-target-job-ai-cost-range>Generate a pack to estimate cost</strong>
+              <p data-target-job-ai-token-range>Token estimate appears after local packet generation.</p>
+            </article>
+            <article class="target-job-card">
+              <span>Run state</span>
+              <strong data-target-job-ai-run-state>Disabled</strong>
+              <p>Optional AI stays unavailable until provider evidence, business controls, and per-run confirmation exist.</p>
+            </article>
+          </div>
+          <label class="inline-checkbox" data-target-job-llm-cost-confirmation>
+            <input type="checkbox" disabled />
+            I understand the estimated provider cost and packet data that would be sent before running this optional AI review.
+          </label>
+          <div class="target-job-two-column">
+            <section>
+              <h4>Would be sent to provider</h4>
+              <ul data-target-job-ai-data-sent>
+                <li>Generate a local pack to see the exact disclosure.</li>
+              </ul>
+            </section>
+            <section>
+              <h4>Stays local</h4>
+              <ul data-target-job-ai-data-local>
+                <li>Provider credentials, tracker history, application submission, payment, analytics, and outreach actions.</li>
+              </ul>
+            </section>
+          </div>
+          <div class="target-job-two-column">
+            <section>
+              <h4>Prompt contract</h4>
+              <textarea
+                class="export-output target-job-json-output"
+                readonly
+                data-target-job-llm-evaluator-prompt-contract
+              ></textarea>
+            </section>
+            <section>
+              <h4>Offline fixture result</h4>
+              <textarea
+                class="export-output target-job-json-output"
+                readonly
+                data-target-job-llm-evaluator-fixture-output
+              ></textarea>
+            </section>
+          </div>
+        </article>
+
+        <div class="target-job-two-column">
+          <article class="target-job-panel">
+            <div class="target-job-panel-head">
+              <p class="eyebrow">Missing proof</p>
+              <h3>What to verify before applying</h3>
+            </div>
+            <ul data-target-job-missing-proof data-target-job-missing-proof-groups></ul>
+          </article>
+
+          <article class="target-job-panel">
+            <div class="target-job-panel-head">
+              <p class="eyebrow">Match points</p>
+              <h3>Evidence already present</h3>
+            </div>
+            <ul data-target-job-match-points></ul>
+          </article>
+        </div>
+
+        <article class="target-job-panel">
+          <div class="target-job-panel-head">
+            <p class="eyebrow">Fit components</p>
+            <h3>Why the base score moved</h3>
+          </div>
+          <div class="target-job-fit-component-grid" data-target-job-fit-components></div>
+        </article>
+
+        <article class="target-job-panel">
+          <div class="target-job-panel-head">
+            <p class="eyebrow">Tailored resume bullets</p>
+            <h3>Unapproved drafts based only on pasted resume evidence</h3>
+          </div>
+          <ol class="target-job-draft-list" data-target-job-tailored-bullets></ol>
+        </article>
+
+        <div class="target-job-two-column">
+          <article class="target-job-panel">
+            <div class="target-job-panel-head">
+              <p class="eyebrow">Cover note</p>
+              <h3>Short application note</h3>
+            </div>
+            <textarea class="export-output" readonly data-target-job-cover-note></textarea>
+          </article>
+
+          <article class="target-job-panel">
+            <div class="target-job-panel-head">
+              <p class="eyebrow">Outreach draft</p>
+              <h3>Private draft, no-send</h3>
+            </div>
+            <textarea class="export-output" readonly data-target-job-outreach-draft></textarea>
+          </article>
+        </div>
+
+	        <div class="target-job-two-column">
+	          <article class="target-job-panel">
+	            <div class="target-job-panel-head">
+	              <p class="eyebrow">Evidence rationale</p>
+	              <h3>Why these examples were selected</h3>
+	            </div>
+	            <ul data-target-job-project-rationale></ul>
+	          </article>
+
+	          <article class="target-job-panel">
+	            <div class="target-job-panel-head">
+	              <p class="eyebrow">Channel drafts</p>
+	              <h3>LinkedIn, cold email, and follow-up</h3>
+	            </div>
+	            <textarea class="export-output" readonly data-target-job-channel-drafts></textarea>
+	          </article>
+	        </div>
+
+	        <article class="target-job-panel target-job-asset-generator" aria-label="Asset generator V2">
+	          <div class="target-job-panel-head target-job-asset-head">
+	            <div>
+	              <p class="eyebrow">Asset generator V2</p>
+	              <h3>Local resume and cover-letter artifacts</h3>
+	            </div>
+	            <span class="status-pill is-pending">Unapproved until source-line review</span>
+	          </div>
+	          <p class="target-job-asset-caveat">
+	            These files are generated locally from pasted resume evidence and the target job only. They do not apply,
+	            upload, send outreach, fetch network data, or replace human review of cited source lines.
+	          </p>
+	          <ul class="target-job-asset-guardrails" aria-label="Asset generator review caveats">
+	            <li><strong>Unapproved</strong><span>Draft-only until a human approves the tailored claims.</span></li>
+	            <li><strong>Source-line</strong><span>Every claim must map back to pasted resume evidence.</span></li>
+	            <li><strong>No-send</strong><span>No apply, upload, outreach, or external handoff action runs here.</span></li>
+	          </ul>
+
+	          <div class="target-job-asset-grid">
+	            <section class="target-job-asset-card">
+	              <div class="target-job-panel-head">
+	                <p class="eyebrow">Tailored resume text</p>
+	                <h4>Full role-specific resume artifact</h4>
+	              </div>
+	              <textarea class="export-output target-job-asset-output" readonly data-target-job-resume-export></textarea>
+	              <div class="target-job-inline-actions" aria-label="Resume text artifact actions">
+	                <button
+	                  class="secondary-action target-job-compact-action"
+	                  type="button"
+	                  data-target-job-download-resume-md
+	                >
+	                  Download resume text .md
+	                </button>
+	              </div>
+	              <small>Approval state, source-line caveats, and keyword coverage stay visible in the exported text.</small>
+	            </section>
+
+	            <section class="target-job-asset-card">
+	              <div class="target-job-panel-head">
+	                <p class="eyebrow">Cover letter text</p>
+	                <h4>Full review-ready cover-letter artifact</h4>
+	              </div>
+	              <textarea class="export-output target-job-asset-output" readonly data-target-job-cover-letter></textarea>
+	              <div class="target-job-inline-actions" aria-label="Cover letter artifact actions">
+	                <button
+	                  class="secondary-action target-job-compact-action"
+	                  type="button"
+	                  data-target-job-download-cover-letter-md
+	                >
+	                  Download cover letter .md
+	                </button>
+	              </div>
+	              <small>No-send draft: outbound use requires a separate authorized control and source-policy review.</small>
+	            </section>
+	          </div>
+
+	          <div class="target-job-asset-metadata-grid" aria-label="Generated asset metadata">
+	            <section>
+	              <h4>Resume asset metadata</h4>
+	              <dl>
+	                <div>
+	                  <dt>Type</dt>
+	                  <dd>proofresume-target-job-tailored-resume-text-v1</dd>
+	                </div>
+	                <div>
+	                  <dt>Source lead</dt>
+	                  <dd>Stored in the local packet and application bundle.</dd>
+	                </div>
+	                <div>
+	                  <dt>Approval</dt>
+	                  <dd>Unapproved until each tailored claim is checked against source lines.</dd>
+	                </div>
+	                <div>
+	                  <dt>Coverage</dt>
+	                  <dd>Uses the keyword coverage score shown above and in packet JSON.</dd>
+	                </div>
+	              </dl>
+	            </section>
+	            <section>
+	              <h4>Cover-letter asset metadata</h4>
+	              <dl>
+	                <div>
+	                  <dt>Type</dt>
+	                  <dd>proofresume-target-job-cover-letter-text-v1</dd>
+	                </div>
+	                <div>
+	                  <dt>Generated</dt>
+	                  <dd>Timestamped in the local packet and bundle export.</dd>
+	                </div>
+	                <div>
+	                  <dt>Boundary</dt>
+	                  <dd>Local-only, no external fetch, no upload, no outbound send, no auto-apply.</dd>
+	                </div>
+	                <div>
+	                  <dt>Review state</dt>
+	                  <dd>Draft text stays unapproved until source-line caveats are cleared.</dd>
+	                </div>
+	              </dl>
+	            </section>
+	          </div>
+
+	          <div class="target-job-asset-downloads" aria-label="Asset bundle and HTML download controls">
+	            <button
+	              class="secondary-action target-job-compact-action"
+	              type="button"
+	              data-target-job-download-application-bundle
+	            >
+	              Download text asset bundle .json
+	            </button>
+	            <button class="secondary-action target-job-compact-action" type="button" data-target-job-download-html>
+	              Download printable HTML
+	            </button>
+	            <button class="secondary-action target-job-compact-action" type="button" data-target-job-print-view>
+	              Open print/PDF view
+	            </button>
+	          </div>
+	        </article>
+
+	        <article class="target-job-panel target-job-auto-apply" aria-label="Disabled auto-apply workspace controls" data-target-job-auto-apply-controls>
+	          <div class="target-job-panel-head target-job-auto-apply-head">
+	            <div>
+	              <p class="eyebrow">Auto-apply controls</p>
+	              <h3>Disabled dry-run workspace</h3>
+	            </div>
+	            <span class="status-pill is-rejected">Disabled by default</span>
+	          </div>
+	          <p class="target-job-auto-apply-caveat">
+	            No submission occurs here. This workspace only prepares review copy, dry-run field mappings, and an
+	            audit record. External submission remains gated by explicit candidate consent and explicit target-job
+	            consent and approval for the selected role.
+	          </p>
+	          <div class="target-job-auto-apply-grid">
+	            <section>
+	              <h4>Consent and approval gates</h4>
+	              <label class="inline-checkbox" data-target-job-auto-apply-candidate-consent>
+	                <input type="checkbox" disabled />
+	                Candidate identity and consent captured for this candidate
+	              </label>
+	              <label class="inline-checkbox" data-target-job-auto-apply-job-consent>
+	                <input type="checkbox" disabled />
+	                Per-job approval captured for this exact target job
+	              </label>
+	              <label class="inline-checkbox">
+	                <input type="checkbox" disabled />
+	                Resume, cover note, and attachments approved for submission
+	              </label>
+	              <p>
+	                Auto-apply is controlled by the business control
+	                <strong>enabled_with_candidate_consent</strong>; without these approvals, the only allowed action is
+	                dry-run planning.
+	              </p>
+	            </section>
+	            <section data-target-job-auto-apply-dry-run-plan>
+	              <h4>Dry-run field mapping</h4>
+	              <dl class="target-job-auto-apply-map">
+	                <div>
+	                  <dt>Candidate fields</dt>
+	                  <dd>Name, email, phone, links, and location map from the approved profile only.</dd>
+	                </div>
+	                <div>
+	                  <dt>Target-job fields</dt>
+	                  <dd>Company, title, apply URL, and source notes map from this approved job pack.</dd>
+	                </div>
+	                <div>
+	                  <dt>Materials</dt>
+	                  <dd>Use only the approved resume, cover note, and attachments selected above.</dd>
+	                </div>
+	                <div>
+	                  <dt>Unknown questions</dt>
+	                  <dd>Stop and ask the candidate; never infer answers or personal judgment.</dd>
+	                </div>
+	              </dl>
+	            </section>
+	            <section data-target-job-auto-apply-sensitive-question-stop data-target-job-auto-apply-network-boundary>
+	              <h4>Stop conditions</h4>
+	              <ul>
+	                <li>Candidate consent missing or target job not approved.</li>
+	                <li>Application asks sensitive demographic, EEO, disability, veteran, legal, or salary questions.</li>
+	                <li>Site forbids automation, requests account creation, shows MFA, or presents anti-bot checks.</li>
+	                <li>Daily application limit would exceed 10 submissions.</li>
+	              </ul>
+	            </section>
+	            <section>
+	              <h4>Audit and submission log copy</h4>
+	              <textarea class="export-output target-job-auto-apply-log" readonly data-target-job-auto-apply-audit-log data-target-job-auto-apply-submission-log>DRY RUN ONLY - no application submitted from ProofResume.
+
+Required before any external submission:
+- Candidate consent: missing
+- Target-job consent/approval: missing
+- Materials approval: missing
+- Answer policy for unknown questions: missing
+
+Submission limits:
+- Daily application limit: 10
+- Account creation: not allowed
+- Anti-bot bypass: not allowed
+- Sensitive demographic answers: not allowed
+
+Record after candidate-approved external submission:
+- Candidate, target job, approved materials, submitted fields, confirmation, timestamp, and stop-condition review.
+</textarea>
+	            </section>
+	          </div>
+	          <div class="target-job-asset-downloads" aria-label="Disabled auto-apply actions">
+	            <button class="secondary-action target-job-compact-action" type="button" disabled>
+	              Preview dry-run only
+	            </button>
+	            <button class="secondary-action target-job-compact-action" type="button" disabled>
+	              External submit unavailable here
+	            </button>
+	          </div>
+	        </article>
+
+	        <article class="target-job-panel">
+	          <div class="target-job-panel-head">
+	            <p class="eyebrow">Packet JSON</p>
+	            <h3>Local artifact for review or handoff</h3>
+	          </div>
+	          <textarea class="export-output target-job-json-output" readonly data-target-job-packet-json></textarea>
+          <div class="target-job-actions">
+            <button class="secondary-action" type="button" data-target-job-download>Download packet JSON</button>
+          </div>
+          <p class="report-note">
+            Every tailored item remains unapproved until a human checks it against the source lines. This page does not apply,
+            send messages, collect payments, or create production evidence.
+          </p>
+        </article>
+      </section>
+
+      <section class="section-band target-job-boundaries" aria-label="Target job mode boundaries">
+        <div class="section-head">
+          <p class="eyebrow">Controls</p>
+          <h2>Useful now, bounded until business controls are enabled.</h2>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <h3>No autonomous applying</h3>
+            <p>
+              ProofResume drafts, scores, and dry-runs mappings. It does not submit applications here; external
+              submission requires explicit candidate consent plus target-job consent and approval for the exact role.
+            </p>
+          </article>
+          <article>
+            <h3>No outbound sends</h3>
+            <p>Outreach text is a local draft only. Sending waits for an authorized outbound control and source policy.</p>
+          </article>
+          <article>
+            <h3>No invented claims</h3>
+            <p>Draft bullets cite pasted resume source lines and stay unapproved until reviewed.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>ProofResume</span>
+      <span>Resume improvements, target-job fit, and application drafts with visible proof.</span>
+    </footer>
+
+    <script type="module" src="target-job.js"></script>
+  </body>
+</html>

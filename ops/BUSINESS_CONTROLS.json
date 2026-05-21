@@ -1,0 +1,417 @@
+{
+  "format": "proofresume-business-controls-v1",
+  "updatedAt": "2026-05-16T17:45:00-07:00",
+  "purpose": "Positive authority controls for moving ProofResume from local product work to externally visible business activity, revenue generation, and customer learning without inventing evidence or asking for routine permission.",
+  "operatingRule": "Agents may act without action-time confirmation only inside controls whose status is enabled and whose required evidence is present. If a control is setup_needed or blocked, agents prepare everything up to the boundary and ask only for the missing item named by that control.",
+  "moneyGoal": {
+    "target": "Generate revenue from evidence-backed resume reviews.",
+    "currentRevenueState": "Not observed",
+    "nextRevenueUnlock": "Enable public deploy, production lead capture, and payment-intent capture with explicit limits."
+  },
+  "globalLimits": {
+    "dailyOutboundLimit": 25,
+    "dailySpendLimitUsd": 25,
+    "monthlySpendLimitUsd": 200,
+    "maxPriceExperimentUsd": 99,
+    "humanStopRequiredFor": [
+      "spending above daily or monthly limit",
+      "sending above daily outbound limit",
+      "collecting fields outside the approved customer-data schema",
+      "changing DNS ownership or transferring domains",
+      "collecting card data directly",
+      "submitting job applications without explicit candidate consent"
+    ],
+    "autonomyPrinciple": "Agents should act toward revenue when inside enabled controls, prefer free-tier proof-of-concept paths, log evidence for every external action, and stop only at explicit control boundaries."
+  },
+  "controls": [
+    {
+      "id": "public_deploy",
+      "label": "Public deploy",
+      "status": "enabled",
+      "businessPurpose": "Make the website reachable by prospects and search/social traffic.",
+      "agentCanDoNow": [
+        "prepare static deploy artifacts",
+        "run credential-free rehearsal",
+        "draft deploy runbooks",
+        "validate local routes"
+      ],
+      "agentCanDoWhenEnabled": [
+        "select and configure a free-tier static hosting path when no secrets or paid plan are required",
+        "deploy the approved static site",
+        "run post-deploy route checks",
+        "record production health evidence"
+      ],
+      "requiredEvidenceToEnable": [
+        "selected hosting platform",
+        "deploy credential or connector access",
+        "production URL",
+        "rollback method"
+      ],
+      "limitsWhenEnabled": {
+        "allowedTargets": [
+          "GitHub Pages",
+          "Netlify free tier",
+          "Vercel free tier",
+          "Cloudflare Pages free tier"
+        ],
+        "requiresPostDeployHealthCheck": true,
+        "mayChangeDns": false,
+        "mayUseFreeTier": true,
+        "requiresApprovalForPaidPlan": true
+      },
+      "askUserOnlyFor": [
+        "hosting account access",
+        "credential or connector setup",
+        "DNS or production URL ownership"
+      ],
+      "stopConditions": [
+        "deploy check fails",
+        "credentials missing or rejected",
+        "production URL unknown",
+        "rollback method unavailable"
+      ]
+    },
+    {
+      "id": "lead_capture",
+      "label": "Production lead capture",
+      "status": "enabled",
+      "businessPurpose": "Collect real prospect interest and convert it into scheduled free audits or paid review intent.",
+      "agentCanDoNow": [
+        "improve local lead form",
+        "write privacy-safe field contracts",
+        "prepare local JSONL fallback",
+        "show lead readiness in admin"
+      ],
+      "agentCanDoWhenEnabled": [
+        "use free-tier managed forms/databases or repository-backed JSONL when appropriate",
+        "store allowed lead fields",
+        "route leads into the admin dashboard",
+        "score lead source and target role fit",
+        "prepare outreach follow-up drafts"
+      ],
+      "requiredEvidenceToEnable": [
+        "approved storage destination or free-tier/local fallback",
+        "allowed fields",
+        "privacy copy",
+        "retention rule"
+      ],
+      "limitsWhenEnabled": {
+        "allowedFields": [
+          "name",
+          "email",
+          "targetRole",
+          "source",
+          "consentTimestamp"
+        ],
+        "disallowedFields": [
+          "full resume text in production lead form",
+          "government identifiers",
+          "payment card data"
+        ],
+        "retentionDays": 90
+      },
+      "askUserOnlyFor": [
+        "external database or form service access",
+        "privacy/legal copy if materially changed"
+      ],
+      "stopConditions": [
+        "storage destination unavailable",
+        "privacy copy missing",
+        "sensitive fields requested"
+      ]
+    },
+    {
+      "id": "outbound_outreach",
+      "label": "Outbound outreach",
+      "status": "enabled",
+      "businessPurpose": "Reach qualified prospects and book evidence-backed resume audits.",
+      "agentCanDoNow": [
+        "draft private outreach packets",
+        "prepare no-send recipient review checklists",
+        "build targeting rules without contact details"
+      ],
+      "agentCanDoWhenEnabled": [
+        "source prospects under recipient source policy",
+        "send messages within daily limits",
+        "record real sent facts",
+        "route replies into scheduling or objection handling"
+      ],
+      "requiredEvidenceToEnable": [
+        "authorized sending account or approved platform connector",
+        "recipient source policy",
+        "daily message limit",
+        "unsubscribe or stop-handling rule"
+      ],
+      "limitsWhenEnabled": {
+        "dailyMessageLimit": 25,
+        "channels": [
+          "email",
+          "LinkedIn manual/connector if available",
+          "approved communities where self-promotion is permitted"
+        ],
+        "mayUseContactDetails": true,
+        "mayAutonomouslySend": true,
+        "requiresOptOutHandling": true,
+        "mustLogSourceAndMessage": true
+      },
+      "askUserOnlyFor": [
+        "sending account connector",
+        "recipient list authorization",
+        "message limit increase"
+      ],
+      "stopConditions": [
+        "complaint or opt-out observed",
+        "recipient source unclear",
+        "daily limit reached",
+        "message contains unsupported outcome or demand claim"
+      ]
+    },
+    {
+      "id": "payment_collection",
+      "label": "Payment collection",
+      "status": "enabled",
+      "businessPurpose": "Turn validated resume-review interest into actual revenue.",
+      "agentCanDoNow": [
+        "draft pricing experiments",
+        "prepare payment-intent copy",
+        "add admin readiness visibility"
+      ],
+      "agentCanDoWhenEnabled": [
+        "recommend and configure free setup payment-link providers when connector/access exists",
+        "publish approved payment links",
+        "record payment intent and conversion evidence",
+        "run approved price tests within limit"
+      ],
+      "requiredEvidenceToEnable": [
+        "payment provider or payment-link access, or documented blocker if access is unavailable",
+        "approved offer",
+        "refund/support policy",
+        "maximum price experiment"
+      ],
+      "limitsWhenEnabled": {
+        "maxPriceExperimentUsd": 99,
+        "mayIssueRefunds": false,
+        "mayStoreCardData": false
+      },
+      "askUserOnlyFor": [
+        "payment account access",
+        "offer approval above max price",
+        "refund authority"
+      ],
+      "stopConditions": [
+        "payment provider unavailable",
+        "refund/support policy missing",
+        "price exceeds authorized limit",
+        "customer data handling not enabled"
+      ]
+    },
+    {
+      "id": "analytics",
+      "label": "Analytics",
+      "status": "enabled",
+      "businessPurpose": "Learn which pages, offers, and traffic sources produce revenue intent.",
+      "agentCanDoNow": [
+        "define event taxonomy",
+        "track local QA events",
+        "prepare privacy-safe analytics copy"
+      ],
+      "agentCanDoWhenEnabled": [
+        "configure privacy-safe free-tier analytics when no sensitive resume text is sent",
+        "instrument approved events",
+        "report funnel metrics in admin",
+        "run page-copy experiments"
+      ],
+      "requiredEvidenceToEnable": [
+        "analytics provider",
+        "allowed event list",
+        "cookie/privacy decision"
+      ],
+      "limitsWhenEnabled": {
+        "mayTrackSensitiveResumeText": false,
+        "mayUseThirdPartyCookies": false,
+        "allowedEvents": [
+          "page_view",
+          "lead_form_view",
+          "lead_submit",
+          "pricing_view",
+          "payment_intent_click"
+        ]
+      },
+      "askUserOnlyFor": [
+        "analytics provider access",
+        "cookie/privacy policy decision"
+      ],
+      "stopConditions": [
+        "event would include resume text",
+        "privacy copy missing",
+        "provider credential unavailable"
+      ]
+    },
+    {
+      "id": "customer_data",
+      "label": "Customer resume data",
+      "status": "enabled",
+      "businessPurpose": "Process real customer resumes safely outside local-only prototype mode.",
+      "agentCanDoNow": [
+        "keep prototype local-only",
+        "write data-minimization rules",
+        "prepare secure-intake requirements"
+      ],
+      "agentCanDoWhenEnabled": [
+        "accept real resume uploads or paste data through the approved secure path",
+        "apply retention and deletion policy",
+        "surface processing state in admin"
+      ],
+      "requiredEvidenceToEnable": [
+        "secure storage path or local-first customer-controlled processing path",
+        "consent copy",
+        "retention and deletion policy",
+        "support contact"
+      ],
+      "limitsWhenEnabled": {
+        "mayStoreSensitiveResumeText": true,
+        "retentionDays": 30,
+        "requiresDeletionPath": true
+      },
+      "askUserOnlyFor": [
+        "secure storage provider",
+        "consent and privacy policy approval",
+        "support contact decision"
+      ],
+      "stopConditions": [
+        "consent missing",
+        "secure storage unavailable",
+        "deletion path unavailable",
+        "sensitive data appears in logs"
+      ]
+    },
+    {
+      "id": "job_sourcing_scraping",
+      "label": "Job sourcing and scraping",
+      "status": "enabled",
+      "businessPurpose": "Find target jobs, learn market demand, and support job-search workflows without relying only on manual paste.",
+      "agentCanDoNow": [
+        "research public sources and APIs",
+        "build compliant source adapters",
+        "scrape public pages where permitted",
+        "use RSS/API/export sources when available",
+        "record source, terms-risk notes, and freshness"
+      ],
+      "agentCanDoWhenEnabled": [
+        "collect public job posting metadata",
+        "normalize leads into the local tracker",
+        "monitor target companies and public boards",
+        "avoid authentication bypass, CAPTCHAs, rate-limit abuse, and sources that forbid scraping"
+      ],
+      "requiredEvidenceToEnable": [
+        "source policy",
+        "rate limit",
+        "data fields",
+        "terms-risk note"
+      ],
+      "limitsWhenEnabled": {
+        "dailySourceFetchLimit": 250,
+        "preferOfficialApis": true,
+        "respectRobotsAndTerms": true,
+        "mayBypassAuthOrCaptcha": false,
+        "mayCollectPersonalEmailsFromJobPages": false
+      },
+      "askUserOnlyFor": [
+        "approval to use sources with unclear or restrictive terms",
+        "credentialed source access"
+      ],
+      "stopConditions": [
+        "source blocks scraping",
+        "terms prohibit the collection method",
+        "rate limit reached",
+        "personal data not needed for job matching appears in output"
+      ]
+    },
+    {
+      "id": "auto_apply",
+      "label": "Auto-apply and application submission",
+      "status": "enabled_with_candidate_consent",
+      "businessPurpose": "Support job seekers with controlled application workflows when they explicitly authorize submission.",
+      "agentCanDoNow": [
+        "build dry-run form-fill plans",
+        "prepare application packets",
+        "build consent checkpoints",
+        "log every field that would be submitted"
+      ],
+      "agentCanDoWhenEnabled": [
+        "fill and submit applications only after explicit candidate consent for the target job",
+        "attach only approved materials",
+        "record submitted facts and confirmation",
+        "stop on novel questions, EEO/disability/veteran questions, salary negotiation, legal attestations, or anything requiring personal judgment"
+      ],
+      "requiredEvidenceToEnable": [
+        "candidate identity and consent",
+        "approved resume/materials",
+        "target job approval",
+        "answer policy for application questions"
+      ],
+      "limitsWhenEnabled": {
+        "dailyApplicationLimit": 10,
+        "requiresPerCandidateConsent": true,
+        "requiresPerJobConsent": true,
+        "mayAnswerSensitiveDemographicQuestions": false,
+        "mayCreateAccounts": false,
+        "mayBypassAntiBot": false
+      },
+      "askUserOnlyFor": [
+        "candidate consent",
+        "unknown application answers",
+        "account credentials or MFA",
+        "policy for sensitive questions"
+      ],
+      "stopConditions": [
+        "candidate consent missing",
+        "job target not approved",
+        "application asks sensitive/legal/personal-judgment question",
+        "site forbids automation",
+        "anti-bot or MFA appears"
+      ]
+    },
+    {
+      "id": "external_services",
+      "label": "External services and connectors",
+      "status": "enabled",
+      "businessPurpose": "Use best-in-class commodity services instead of rebuilding auth, hosting, payments, email, analytics, storage, scheduling, or CRM.",
+      "agentCanDoNow": [
+        "research providers",
+        "choose free-tier defaults",
+        "configure services that require no payment and no unavailable secret",
+        "write setup requests only for missing credentials/connectors"
+      ],
+      "agentCanDoWhenEnabled": [
+        "activate free-tier services within the approved provider pattern",
+        "spend within daily/monthly limit when the case is documented",
+        "log provider, purpose, cost, and rollback path"
+      ],
+      "requiredEvidenceToEnable": [
+        "provider recommendation",
+        "cost case",
+        "data shared with provider",
+        "rollback/export path"
+      ],
+      "limitsWhenEnabled": {
+        "preferFreeTier": true,
+        "dailySpendLimitUsd": 25,
+        "monthlySpendLimitUsd": 200,
+        "requiresApprovalAboveLimit": true,
+        "mayStoreSecretsInRepo": false
+      },
+      "askUserOnlyFor": [
+        "credentials/connectors",
+        "approval above spend limits",
+        "legal/privacy copy when materially changed"
+      ],
+      "stopConditions": [
+        "provider requires spend above limit",
+        "provider requires unavailable credential",
+        "provider would receive data outside approved schema",
+        "rollback/export path unclear"
+      ]
+    }
+  ]
+}

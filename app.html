@@ -1,0 +1,3075 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProofResume App | Local workspace</title>
+    <meta
+      name="description"
+      content="Sign in to a local ProofResume workspace, restore the session in this browser, and prepare resume/job workflows without production auth calls."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .app-shell {
+        min-height: 100vh;
+        background: #f5f7fb;
+      }
+
+      .app-main {
+        display: grid;
+        gap: 24px;
+        padding: clamp(22px, 4vw, 44px);
+      }
+
+      .app-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+        gap: 24px;
+        align-items: stretch;
+      }
+
+      .app-panel {
+        display: grid;
+        gap: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        padding: 20px;
+      }
+
+      .app-panel h1,
+      .app-panel h2,
+      .app-panel h3,
+      .app-panel p {
+        margin: 0;
+      }
+
+      .app-panel h1 {
+        max-width: 760px;
+        font-size: clamp(34px, 5vw, 64px);
+        line-height: 1;
+      }
+
+      .app-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .app-card {
+        display: grid;
+        gap: 8px;
+        min-height: 130px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfaf6;
+        padding: 16px;
+      }
+
+      .app-card span,
+      .session-row span,
+      .workspace-row span,
+      .resume-row span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .app-card strong {
+        font-size: 18px;
+      }
+
+      .auth-form {
+        display: grid;
+        gap: 12px;
+      }
+
+      .auth-form label,
+      .workspace-form label,
+      .resume-form label,
+      .job-form label {
+        display: grid;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .auth-form input,
+      .workspace-form input,
+      .workspace-form select,
+      .workspace-form textarea,
+      .resume-form input,
+      .resume-form textarea,
+      .job-form input,
+      .job-form select,
+      .job-form textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        font: inherit;
+      }
+
+      .resume-form textarea,
+      .workspace-form textarea,
+      .job-form textarea {
+        min-height: 220px;
+        resize: vertical;
+      }
+
+      .workspace-form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .workspace-form label:last-of-type,
+      .workspace-form .app-actions,
+      .workspace-form .form-status {
+        grid-column: 1 / -1;
+      }
+
+      .job-form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .job-form label:last-of-type,
+      .job-actions,
+      .job-form .form-status,
+      .job-list,
+      .job-empty {
+        grid-column: 1 / -1;
+      }
+
+      .first-session-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+        gap: 16px;
+        align-items: start;
+      }
+
+      .first-session-form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .first-session-form label {
+        display: grid;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .first-session-form label:nth-child(2),
+      .first-session-form label:nth-child(3),
+      .first-session-form .app-actions,
+      .first-session-form .form-status {
+        grid-column: 1 / -1;
+      }
+
+      .first-session-form input,
+      .first-session-form select,
+      .first-session-form textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        font: inherit;
+      }
+
+      .first-session-form textarea {
+        min-height: 130px;
+        resize: vertical;
+      }
+
+      .handoff-preview {
+        max-height: 360px;
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f8fafc;
+        padding: 12px;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .rehearsal-boundary-list {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .proof-audit-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+        gap: 16px;
+        align-items: start;
+      }
+
+      .consented-handoff-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.96fr) minmax(300px, 1.04fr);
+        gap: 16px;
+        align-items: start;
+      }
+
+      .consented-handoff-checks,
+      .consented-handoff-boundaries {
+        display: grid;
+        gap: 10px;
+      }
+
+      .consented-handoff-check {
+        display: grid;
+        gap: 5px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfaf6;
+        padding: 12px;
+      }
+
+      .consented-handoff-check strong {
+        font-size: 15px;
+      }
+
+      .proof-audit-stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .proof-audit-preview,
+      .consented-handoff-preview {
+        max-height: 420px;
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f8fafc;
+        padding: 12px;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .app-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .demo-walkthrough-panel {
+        display: grid;
+        gap: 12px;
+        border: 1px solid rgba(37, 99, 235, 0.24);
+        border-radius: 8px;
+        background: #f8fbff;
+        padding: 14px;
+      }
+
+      .demo-walkthrough-panel strong,
+      .demo-walkthrough-panel p {
+        margin: 0;
+      }
+
+      .app-actions button,
+      .app-actions a {
+        min-height: 42px;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font: inherit;
+        font-weight: 800;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .app-actions button {
+        border: 0;
+        background: var(--blue);
+        color: #fff;
+      }
+
+      .app-actions button.secondary,
+      .app-actions a {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+      }
+
+      .session-stack,
+      .workspace-stack,
+      .resume-stack {
+        display: grid;
+        gap: 10px;
+      }
+
+      .workspace-step-section {
+        display: grid;
+        gap: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        padding: 18px;
+      }
+
+      .workspace-step-section h3,
+      .workspace-step-section p {
+        margin: 0;
+      }
+
+      .session-row,
+      .workspace-row,
+      .resume-row {
+        display: grid;
+        gap: 5px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 12px;
+      }
+
+      .app-route {
+        display: none;
+      }
+
+      .app-route[data-active="true"] {
+        display: grid;
+      }
+
+      .resume-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+        gap: 16px;
+        align-items: start;
+      }
+
+      .resume-summary-list {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .resume-output {
+        max-height: 180px;
+        overflow: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .job-pipeline-head {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .job-pipeline-head h3 {
+        margin: 0;
+      }
+
+      .job-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .journey-panel {
+        display: grid;
+        gap: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f8fbff;
+        padding: 16px;
+      }
+
+      .journey-panel h3,
+      .journey-panel p {
+        margin: 0;
+      }
+
+      .journey-steps {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .journey-step {
+        display: grid;
+        gap: 6px;
+        min-height: 108px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        padding: 10px;
+      }
+
+      .journey-step[data-state="done"] {
+        border-color: rgba(16, 185, 129, 0.35);
+        background: #ecfdf5;
+      }
+
+      .journey-step[data-state="current"] {
+        border-color: rgba(37, 99, 235, 0.36);
+        background: #eff6ff;
+      }
+
+      .journey-step span {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .journey-step strong {
+        font-size: 14px;
+      }
+
+      .job-card,
+      .application-card {
+        display: grid;
+        gap: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        padding: 14px;
+      }
+
+      .job-card-head,
+      .job-score-grid {
+        display: grid;
+        gap: 10px;
+      }
+
+      .job-card-head {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+      }
+
+      .job-card h4,
+      .job-card p {
+        margin: 0;
+      }
+
+      .job-score-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .job-score-grid div {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 10px;
+      }
+
+      .job-score-grid span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .job-score-grid strong {
+        font-size: 20px;
+      }
+
+      .application-checklist,
+      .application-fields,
+      .application-edit-panel,
+      .application-packet {
+        display: grid;
+        gap: 10px;
+      }
+
+      .application-status-rail {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .application-status-rail button {
+        min-height: 38px;
+        border: 0;
+        border-radius: 8px;
+        background: var(--blue);
+        color: #fff;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .application-status-rail button.secondary {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+      }
+
+      .application-packet {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .application-packet-section {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 12px;
+      }
+
+      .application-packet-section h5 {
+        margin: 0 0 8px;
+        font-size: 13px;
+      }
+
+      .application-packet-section ul {
+        display: grid;
+        gap: 6px;
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .application-checklist {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .application-edit-panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 12px;
+      }
+
+      .application-edit-panel summary {
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .application-edit-panel label {
+        display: grid;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .application-edit-panel textarea {
+        min-height: 84px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px;
+        font: inherit;
+        resize: vertical;
+      }
+
+      .application-checklist label {
+        display: flex;
+        align-items: start;
+        gap: 8px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 10px;
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .application-fields {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .application-fields label {
+        display: grid;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .application-fields input,
+      .application-fields select,
+      .application-fields textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px;
+        font: inherit;
+      }
+
+      .application-fields label:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .application-fields textarea {
+        min-height: 84px;
+        resize: vertical;
+      }
+
+      .job-empty {
+        border: 1px dashed var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 14px;
+      }
+
+      .status-pill[data-state="signed-in"] {
+        border-color: rgba(16, 185, 129, 0.3);
+        background: #ecfdf5;
+      }
+
+      .status-pill[data-state="signed-out"] {
+        border-color: rgba(245, 158, 11, 0.35);
+        background: #fffbeb;
+      }
+
+      @media (max-width: 900px) {
+        .app-hero,
+        .app-grid,
+        .resume-layout,
+        .first-session-grid,
+        .proof-audit-grid,
+        .consented-handoff-grid,
+        .workspace-form,
+        .first-session-form,
+        .job-form,
+        .job-card-head,
+        .job-score-grid,
+        .journey-steps,
+        .application-checklist,
+        .application-fields,
+        .application-status-rail,
+        .application-packet {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="ProofResume home">
+        <span class="brand-mark">P</span>
+        <span>ProofResume</span>
+      </a>
+      <nav class="nav" aria-label="App navigation">
+        <a href="#/workspace" data-auth-nav="workspace">Workspace</a>
+        <a href="#/signin" data-auth-nav="signin">Sign in</a>
+        <a href="target-job.html">Target Job Demo</a>
+      </nav>
+    </header>
+
+    <main class="app-main" data-proofresume-app data-auth-workspace-shell>
+      <section class="app-hero">
+        <div class="app-panel">
+          <p class="eyebrow">Local authenticated workspace</p>
+          <h1>Upload your resume. Get matched, tailored applications ready to approve.</h1>
+          <p class="hero-text">
+            Return to the same ProofResume workspace in this browser, then walk from account to resume, target role,
+            matched jobs, tailored packet, approval, and local tracking without third-party auth calls, production
+            credentials, or external customer-data storage.
+          </p>
+          <div class="app-grid" aria-label="Workspace readiness">
+            <article class="app-card">
+              <span data-auth-route-policy>Route policy</span>
+              <strong>Public pages stay open</strong>
+              <p class="muted">Saved workflows route through the signed-in workspace screen.</p>
+            </article>
+            <article class="app-card">
+              <span>Provider seam</span>
+              <strong>Provider-ready</strong>
+              <p class="muted">The local-dev auth adapter keeps email magic link, Google, and Apple disabled until credentials and controls exist.</p>
+            </article>
+            <article class="app-card">
+              <span>Data boundary</span>
+              <strong>Browser local only</strong>
+              <p class="muted">Session and workspace metadata persist in localStorage for prototype validation.</p>
+            </article>
+          </div>
+        </div>
+
+        <aside class="app-panel" aria-label="Current session">
+          <p class="eyebrow">Session</p>
+          <div class="status-pill" data-auth-state data-auth-session-status>Checking local session...</div>
+          <div class="session-stack">
+            <div class="session-row">
+              <span>User</span>
+              <strong data-session-user>Not signed in</strong>
+            </div>
+            <div class="session-row">
+              <span>Workspace</span>
+              <strong data-session-workspace>Protected until sign-in</strong>
+            </div>
+            <div class="session-row">
+              <span>Auth mode</span>
+              <strong data-session-mode>Local fallback</strong>
+            </div>
+          </div>
+          <div class="app-actions">
+            <button type="button" data-sign-out data-auth-sign-out class="secondary">Sign out</button>
+            <a href="#/workspace" data-auth-workspace-link>Open workspace</a>
+          </div>
+          <div class="demo-walkthrough-panel" aria-label="Seeded demo walkthrough">
+            <strong>Need the complete loop fast?</strong>
+            <p class="muted">
+              Load a clearly labeled local demo state for account, resume, preferences, matched jobs, packet,
+              approval, edit, reject, tracking, proof-audit result, and paid-preview handoff screens.
+            </p>
+            <div class="app-actions">
+              <button type="button" data-load-demo-walkthrough>Load full demo walkthrough</button>
+              <button type="button" class="secondary" data-reset-demo-workspace>Reset to blank workspace</button>
+            </div>
+            <p class="form-status" role="status" data-demo-walkthrough-message>
+              Demo walkthrough data stays in this browser and never sends, stores, applies, or tracks externally.
+            </p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="app-panel app-route" data-route="signin" aria-label="Sign in">
+        <p class="eyebrow">Sign in</p>
+        <h2>Start with a local demo identity.</h2>
+        <form class="auth-form" data-sign-in-form>
+          <label>
+            Email
+            <input name="email" type="email" autocomplete="email" value="demo@example.local" required />
+          </label>
+          <label>
+            Display name
+            <input name="name" autocomplete="name" value="Local Demo User" required />
+          </label>
+          <div class="app-actions">
+            <button type="submit" data-auth-sign-in-local>Sign in locally</button>
+          </div>
+          <p class="form-status" role="status" data-auth-message>
+            Production auth is disabled. No email, OAuth, or provider request will be sent.
+          </p>
+        </form>
+      </section>
+
+      <section class="app-panel app-route" data-route="workspace" aria-label="Protected workspace">
+        <p class="eyebrow">Workspace</p>
+        <h2>Your saved ProofResume workspace</h2>
+        <div class="workspace-stack">
+          <div class="workspace-row">
+            <span>Workspace id</span>
+            <strong data-workspace-id>Sign in to create a workspace</strong>
+          </div>
+          <div class="workspace-row">
+            <span>Profile status</span>
+            <strong data-workspace-profile>Status unavailable</strong>
+          </div>
+          <div class="workspace-row">
+            <span>Next action</span>
+            <strong data-workspace-next>Sign in, then import a resume.</strong>
+          </div>
+        </div>
+        <section class="journey-panel" data-workspace-journey aria-label="Walkable product journey">
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Walkthrough</p>
+              <h3>One loop, visible from start to finish.</h3>
+            </div>
+            <span class="status-pill" data-journey-progress>0 of 7 ready</span>
+          </div>
+          <ol class="journey-steps" data-journey-steps></ol>
+          <p class="form-status" role="status" data-journey-next>
+            Import a resume to start the local matching loop, then follow each customer-visible next action through paid preview.
+          </p>
+          <div class="app-actions">
+            <a href="#resume-import" data-next-step-link>Import resume</a>
+            <button type="button" class="secondary" data-load-demo-walkthrough>Load full demo walkthrough</button>
+            <button type="button" class="secondary" data-reset-demo-workspace>Reset to blank workspace</button>
+          </div>
+        </section>
+
+        <section class="app-panel" id="resume-import" aria-label="Resume import">
+          <p class="eyebrow">Primary action</p>
+          <h3>Import your resume into this workspace.</h3>
+          <div class="resume-layout">
+            <form class="resume-form" data-resume-form>
+              <label>
+                Resume file
+                <input name="resumeFile" type="file" accept=".txt,.md,text/plain,text/markdown" data-resume-file />
+              </label>
+              <label>
+                Resume text
+                <textarea
+                  name="resumeText"
+                  placeholder="Paste your resume text here, or choose a plain text/markdown file above."
+                  data-resume-text
+                ></textarea>
+              </label>
+              <div class="app-actions">
+                <button type="submit" data-save-resume>Save resume locally</button>
+                <button type="button" class="secondary" data-clear-resume>Clear resume</button>
+                <button type="button" class="secondary" data-export-workspace>Export workspace JSON</button>
+                <a href="target-job.html">Open Target Job Pack</a>
+              </div>
+              <p class="form-status" role="status" data-resume-message>
+                Production resume storage is disabled. This import stays in localStorage in this browser.
+              </p>
+            </form>
+            <aside class="resume-stack" aria-label="Current resume state">
+              <div class="resume-row">
+                <span>Resume state</span>
+                <strong data-resume-state>No resume imported</strong>
+              </div>
+              <div class="resume-row">
+                <span>Last import</span>
+                <strong data-resume-imported>Not imported yet</strong>
+              </div>
+              <div class="resume-row">
+                <span>File</span>
+                <strong data-resume-filename>Paste or upload text</strong>
+              </div>
+              <div class="resume-row">
+                <span>Derived summary</span>
+                <ul class="resume-summary-list" data-resume-summary>
+                  <li>Import a resume to derive a local profile summary.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Target preferences</span>
+                <ul class="resume-summary-list" data-preference-summary>
+                  <li>Save target role preferences before matching jobs.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Stored text preview</span>
+                <strong class="resume-output" data-resume-preview>Nothing stored yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="workspace-step-section" id="target-preferences" aria-label="Target role and preferences" data-target-preferences>
+          <p class="eyebrow">Target preferences</p>
+          <h3>Save roles, seniority, location, industries, and constraints before matching jobs.</h3>
+          <form class="workspace-form" data-workspace-form data-target-preferences-form>
+            <label>
+              Primary target role
+              <input name="targetRole" placeholder="Customer operations lead" />
+            </label>
+            <label>
+              Desired roles
+              <input name="desiredRoles" placeholder="Customer ops lead, revenue operations analyst" />
+            </label>
+            <label>
+              Seniority
+              <select name="seniority">
+                <option value="">Any seniority</option>
+                <option value="intern">Intern</option>
+                <option value="junior">Junior</option>
+                <option value="mid">Mid-level</option>
+                <option value="senior">Senior</option>
+                <option value="lead">Lead</option>
+                <option value="manager">Manager</option>
+                <option value="director">Director</option>
+              </select>
+            </label>
+            <label>
+              Location or remote preference
+              <input name="location" placeholder="Remote, New York, San Francisco..." />
+            </label>
+            <label>
+              Work mode
+              <select name="workMode">
+                <option value="">Any work mode</option>
+                <option value="remote">Remote</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="onsite">Onsite</option>
+              </select>
+            </label>
+            <label>
+              Industries
+              <input name="industries" placeholder="SaaS, fintech, healthcare" />
+            </label>
+            <label>
+              Must-have constraints
+              <input name="mustHaveConstraints" placeholder="Remote only, no relocation, US time zones" />
+            </label>
+            <label>
+              Nice-to-have keywords
+              <textarea name="niceToHaveKeywords" placeholder="SQL, onboarding, automation, dashboards"></textarea>
+            </label>
+            <div class="app-actions">
+              <button type="submit">Save target preferences</button>
+            </div>
+            <p class="form-status" role="status" data-workspace-message>
+              Target preferences are stored with the same browser-local workspace as your resume. No live sourcing runs here.
+            </p>
+          </form>
+        </section>
+
+        <section class="app-panel" id="job-pipeline" aria-label="Local job pipeline">
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Local job pipeline</p>
+              <h3>Paste jobs, rank fit, then build a tailored packet.</h3>
+            </div>
+            <span class="status-pill" data-job-pipeline-count>0 local jobs</span>
+          </div>
+          <form class="job-form" data-job-form>
+            <label>
+              Job title
+              <input name="jobTitle" placeholder="Customer Operations Manager" />
+            </label>
+            <label>
+              Company
+              <input name="company" placeholder="BrightLedger" />
+            </label>
+            <label>
+              Location
+              <input name="location" placeholder="Remote, New York..." />
+            </label>
+            <label>
+              Effort estimate
+              <select name="effort">
+                <option value="low">Low effort</option>
+                <option value="medium" selected>Medium effort</option>
+                <option value="high">High effort</option>
+              </select>
+            </label>
+            <label>
+              Source URL or note
+              <input name="sourceUrl" placeholder="Optional local reference; no fetch will occur" />
+            </label>
+            <label>
+              Job post text
+              <textarea
+                name="jobText"
+                placeholder="Paste a job post or local export here. Use --- between posts to import a small batch."
+                data-job-text
+              ></textarea>
+            </label>
+            <div class="app-actions job-actions">
+              <button type="submit" data-save-job>Save and rank job locally</button>
+              <button type="button" class="secondary" data-load-sample-job>Load sample job text</button>
+              <button type="button" class="secondary" data-load-demo-pipeline>Load demo matched pipeline</button>
+              <button type="button" class="secondary" data-clear-jobs>Clear jobs</button>
+            </div>
+            <p class="form-status" role="status" data-job-message>
+              Jobs stay in this browser. Demo matches are generated locally from saved preferences. No scraping, source fetching, sending, or applying is available here.
+            </p>
+            <div class="job-list" data-job-list></div>
+          </form>
+        </section>
+
+        <section class="app-panel" id="application-tracker" aria-label="Application approval and tracking" data-application-approval-tracker>
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Tailored packet approval loop</p>
+              <h3>Review the local packet, approve or edit it, then track outcomes.</h3>
+            </div>
+            <span class="status-pill" data-application-tracker-count>0 applications</span>
+          </div>
+          <p class="muted" data-application-provider-boundary>
+            Each packet requires claims, resume changes, cover note, answers, apply URL, and candidate consent approval
+            before it is marked ready. Prepare and export actions stay browser-local and cannot submit applications.
+          </p>
+          <div class="app-actions">
+            <a href="target-job.html">Open Target Job Pack</a>
+          </div>
+          <p class="form-status" role="status" data-application-message>
+            Create an application packet from a ranked job. External apply/send providers remain disabled.
+          </p>
+          <div class="job-list" data-application-list></div>
+          <div class="resume-row">
+            <span>Audit log</span>
+            <ul class="resume-summary-list" data-application-audit>
+              <li>No local application actions recorded yet.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="app-panel" id="proof-audit-packet" aria-label="Shareable Target Job Proof Audit packet" data-proof-audit-packet>
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Proof audit</p>
+              <h3>Preview a shareable Target Job Proof Audit.</h3>
+            </div>
+            <span class="status-pill" data-proof-audit-readiness>Needs local packet</span>
+          </div>
+          <p class="muted" data-proof-audit-boundary>
+            This is a local export/share preview for a free Target Job Proof Audit. Manual sharing is allowed only
+            after candidate consent and target-job approval; no external submission, upload, analytics, payment,
+            send, production storage, or auto-apply action runs here.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-proof-audit-json>Export proof audit JSON</button>
+            <button type="button" class="secondary" data-export-proof-audit-markdown>Export proof audit Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-proof-audit-message>
+            Load the seeded walkthrough or create an application packet to populate the audit preview.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Fit score</span>
+                <strong data-proof-audit-fit>--/100</strong>
+              </div>
+              <div class="resume-row">
+                <span>Summary</span>
+                <ul class="resume-summary-list" data-proof-audit-summary>
+                  <li>Create a local packet to build the proof audit.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Supported claims</span>
+                <ul class="resume-summary-list" data-proof-audit-claims>
+                  <li>No supported claims captured yet.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Proof gaps</span>
+                <ul class="resume-summary-list" data-proof-audit-gaps>
+                  <li>No tracked proof gaps yet.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Do-not-invent warnings</span>
+                <ul class="resume-summary-list" data-proof-audit-warnings>
+                  <li>Do not add unsupported claims.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Cover note</span>
+                <strong data-proof-audit-cover-note>No cover note generated yet.</strong>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Proof audit export preview">
+              <div class="resume-row">
+                <span>Markdown preview</span>
+                <strong class="proof-audit-preview" data-proof-audit-preview>No proof audit generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="app-panel" id="paid-packet-preview" aria-label="No-checkout Target Job Proof Packet preview" data-paid-packet-customer-preview>
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Paid packet preview</p>
+              <h3>Inspect what a Target Job Proof Packet includes before any checkout exists.</h3>
+            </div>
+            <span class="status-pill" data-paid-packet-preview-state>No checkout</span>
+          </div>
+          <p class="muted" data-paid-packet-preview-boundary>
+            Sample price preview: $49, authorized experiment cap: $99. This surface cannot display payment links,
+            collect payment, accept production customer materials, publish proof, send outreach, or submit applications.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Customer-inspectable deliverables</span>
+                <ul class="resume-summary-list" data-paid-packet-deliverables>
+                  <li>Proof map tied to supported resume evidence.</li>
+                  <li>Tailored bullet plan with missing-proof questions.</li>
+                  <li>Cover/outreach draft boundaries with do-not-invent warnings.</li>
+                  <li>Approval and tracking handoff for approve, edit-needed, and reject states.</li>
+                  <li>Operator review plus support/refund placeholders before live payment authority.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Preview choices</span>
+                <fieldset class="preview-choice-list" data-paid-packet-preview-choices>
+                  <label><input type="radio" name="paidPacketPreviewChoice" value="approve-preview" /> Approve preview for no-send offer prep</label>
+                  <label><input type="radio" name="paidPacketPreviewChoice" value="edit-needed" /> Edit needed before any paid ask</label>
+                  <label><input type="radio" name="paidPacketPreviewChoice" value="not-now" /> Not now or no-fit</label>
+                  <label><input type="radio" name="paidPacketPreviewChoice" value="blocked-by-trust-support-customer-data" /> Blocked by trust, support, or customer-data questions</label>
+                </fieldset>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Paid packet activation gates">
+              <div class="resume-row">
+                <span>Activation blockers</span>
+                <ul class="resume-summary-list" data-paid-packet-activation-blockers>
+                  <li>Payment authority and hosted checkout remain missing.</li>
+                  <li>Support/refund policy and tax/MoR owner remain unresolved.</li>
+                  <li>Customer-data consent, storage, deletion, and final go/no-go remain required.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Safe next route</span>
+                <strong data-paid-packet-safe-route>business_first_paid_packet_no_send_offer_prep</strong>
+                <small class="muted" data-paid-packet-route-detail>No external action, downstream queue mutation, or done claim.</small>
+              </div>
+            </aside>
+          </div>
+          <p class="form-status" role="status" data-paid-packet-preview-message>
+            Choose a preview route to store the browser-local handoff state. No payment, send, storage, or apply action occurs.
+          </p>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-session-customer-handoff-room"
+          aria-label="First-session customer handoff room"
+          data-first-session-customer-handoff-room
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Customer handoff room</p>
+              <h3>Show the first-session path, proof value, blocked gates, and one safe next route.</h3>
+            </div>
+            <span class="status-pill" data-customer-handoff-room-readiness>Not ready</span>
+          </div>
+          <p class="muted" data-customer-handoff-room-boundary>
+            This room uses sample/local or owner-approved redacted material only. It distinguishes approved local facts
+            from future recommendations, keeps raw resume and contact data out of exports, and cannot deploy, send,
+            schedule, collect payment, store production customer data, publish proof, run analytics, or submit applications.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-customer-handoff-room-json>Export room JSON</button>
+            <button type="button" class="secondary" data-export-customer-handoff-room-markdown>Export room Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-customer-handoff-room-message>
+            The selected next route is internal only and does not mutate downstream queues.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Customer path</span>
+                <ul class="resume-summary-list" data-customer-handoff-room-path>
+                  <li>Sign in locally and load the seeded walkthrough.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Approved facts and recommendations</span>
+                <ul class="resume-summary-list" data-customer-handoff-room-facts>
+                  <li>No customer handoff facts generated yet.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Value receipt</span>
+                <ul class="resume-summary-list" data-customer-handoff-room-value>
+                  <li>No proof value receipt generated yet.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Raw-input provenance</span>
+                <ul class="resume-summary-list" data-customer-handoff-room-provenance>
+                  <li>Raw inputs remain redacted from the customer handoff room.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Customer handoff room route and gates">
+              <div class="resume-row">
+                <span>Blocked gates</span>
+                <ul class="resume-summary-list" data-customer-handoff-room-gates>
+                  <li>Customer-data consent, payment, support/refund, public proof, deploy, analytics, and application submission remain blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Exactly one selected next route</span>
+                <strong data-customer-handoff-room-route>business_first_paid_packet_no_send_offer_prep</strong>
+                <small class="muted" data-customer-handoff-room-route-detail>No external action, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Room export preview</span>
+                <strong class="consented-handoff-preview" data-customer-handoff-room-preview>No customer handoff room generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-session-objection-repair-wizard"
+          aria-label="First-session objection-to-repair wizard"
+          data-first-session-objection-repair-wizard
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Objection repair wizard</p>
+              <h3>Convert one sample objection category into one internal repair route.</h3>
+            </div>
+            <span class="status-pill" data-objection-wizard-readiness>Sample/redacted only</span>
+          </div>
+          <p class="muted" data-objection-wizard-boundary>
+            The wizard stores category labels only. It rejects raw customer materials, private replies, contact details,
+            credentials, payment data, payment links, customer feedback claims, willingness-to-pay claims, public proof,
+            revenue claims, external actions, and downstream queue mutations.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-objection-wizard-json>Export wizard JSON</button>
+            <button type="button" class="secondary" data-export-objection-wizard-markdown>Export wizard Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-objection-wizard-message>
+            The selected repair route is internal only and does not mutate downstream queues.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Sample objection categories</span>
+                <ul class="resume-summary-list" data-objection-wizard-cases>
+                  <li>Comprehension, missing proof, trust/privacy, price/support, customer-data stop, payment stop, public-proof stop, product confusion, no-fit, and no-action.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Route rationale</span>
+                <ul class="resume-summary-list" data-objection-wizard-rationale>
+                  <li>Select one route before creating any downstream work.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Validation requirements</span>
+                <ul class="resume-summary-list" data-objection-wizard-validation>
+                  <li>Exactly one route, no forbidden inputs, no external action, no downstream mutation.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Objection repair route and blocked gates">
+              <div class="resume-row">
+                <span>Exactly one selected repair route</span>
+                <strong data-objection-wizard-route>product_first_session_missing_proof_repair</strong>
+                <small class="muted" data-objection-wizard-route-detail>No external action, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Blocked gates</span>
+                <ul class="resume-summary-list" data-objection-wizard-gates>
+                  <li>Customer data, payment, public proof, deploy, runtime evidence, and application consent remain blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Wizard export preview</span>
+                <strong class="consented-handoff-preview" data-objection-wizard-preview>No objection route generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-customer-concierge-demo-bundle"
+          aria-label="First-customer concierge demo bundle"
+          data-first-customer-concierge-demo-bundle
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Concierge demo bundle</p>
+              <h3>Run one local first-customer demo packet from start to route decision.</h3>
+            </div>
+            <span class="status-pill" data-concierge-demo-bundle-readiness>Sample/redacted only</span>
+          </div>
+          <p class="muted" data-concierge-demo-bundle-boundary>
+            This bundle packages the customer handoff room and objection wizard into one start/run/end operator packet.
+            It uses sample or owner-approved redacted material only and cannot deploy, send outreach, schedule, collect leads,
+            run analytics, mutate providers, display checkout, collect payment, handle production customer data, publish proof,
+            contact employers, auto-apply, fill forms, submit applications, mutate downstream queues, or mark downstream work done.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-concierge-demo-bundle-json>Export bundle JSON</button>
+            <button type="button" class="secondary" data-export-concierge-demo-bundle-markdown>Export bundle Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-concierge-demo-bundle-message>
+            The bundle keeps feedback, willingness-to-pay, payment intent, payment, public proof, production data, deploy,
+            outreach, analytics, auto-apply, and revenue evidence flags false.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Start</span>
+                <ul class="resume-summary-list" data-concierge-demo-bundle-start>
+                  <li>Confirm sample or owner-approved redacted context before the demo starts.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Run</span>
+                <ul class="resume-summary-list" data-concierge-demo-bundle-run>
+                  <li>Walk account, resume, target role, matched job, tailored packet, approval, tracking, proof audit, and paid preview.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>End</span>
+                <ul class="resume-summary-list" data-concierge-demo-bundle-end>
+                  <li>Export one local bundle and select exactly one internal route.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Customer-visible path</span>
+                <ul class="resume-summary-list" data-concierge-demo-bundle-path>
+                  <li>Load the seeded walkthrough to populate the customer-visible path.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Operator observation prompts</span>
+                <ul class="resume-summary-list" data-concierge-demo-bundle-prompts>
+                  <li>Capture safe category labels only, then select one internal route.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Concierge bundle route and boundaries">
+              <div class="resume-row">
+                <span>Blocked gates</span>
+                <ul class="resume-summary-list" data-concierge-demo-bundle-gates>
+                  <li>Customer data, payment, support/refund, public proof, deploy, analytics, and application submission remain blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>False evidence flags</span>
+                <ul class="resume-summary-list" data-concierge-demo-bundle-false-flags>
+                  <li>feedbackEvidence: false</li>
+                  <li>willingnessToPayEvidence: false</li>
+                  <li>revenueEvidence: false</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Exactly one selected route</span>
+                <strong data-concierge-demo-bundle-route>product_first_session_missing_proof_repair</strong>
+                <small class="muted" data-concierge-demo-bundle-route-detail>No external action, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Bundle export preview</span>
+                <strong class="consented-handoff-preview" data-concierge-demo-bundle-preview>No concierge demo bundle generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-customer-reaction-route-recorder"
+          aria-label="First-customer reaction route recorder"
+          data-first-customer-reaction-route-recorder
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Reaction route recorder</p>
+              <h3>Capture safe reaction labels and select one internal route.</h3>
+            </div>
+            <span class="status-pill" data-reaction-route-recorder-readiness>Sample/redacted only</span>
+          </div>
+          <p class="muted" data-reaction-route-recorder-boundary>
+            This recorder consumes the concierge demo bundle and stores sample or owner-approved redacted labels only.
+            It rejects prospect identities, contact details, raw resumes, private replies, credentials, payment data, payment
+            links, customer materials, customer feedback claims, willingness-to-pay claims, payment-intent claims, payment
+            claims, public proof, testimonials/referrals, revenue claims, external actions, and downstream queue mutations.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-reaction-route-recorder-json>Export recorder JSON</button>
+            <button type="button" class="secondary" data-export-reaction-route-recorder-markdown>Export recorder Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-reaction-route-recorder-message>
+            Exactly one route is selected; downstream queues are not mutated and delegated work is not marked done.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Observation labels</span>
+                <ul class="resume-summary-list" data-reaction-route-recorder-labels>
+                  <li>comprehension_level</li>
+                  <li>proof_gap_confidence</li>
+                  <li>trust_privacy_boundary</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Objection classes</span>
+                <ul class="resume-summary-list" data-reaction-route-recorder-classes>
+                  <li>missing_proof</li>
+                  <li>trust_privacy</li>
+                  <li>price_support</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Route options</span>
+                <ul class="resume-summary-list" data-reaction-route-recorder-routes>
+                  <li>Product repair, Business no-send prep, Approval Unblocker repair, Strategy threshold update, QA/reviewer, Commons follow-up, keep learning, or no action.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Route rationale</span>
+                <ul class="resume-summary-list" data-reaction-route-recorder-rationale>
+                  <li>Safe labels are routed to exactly one internal destination.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Reaction route boundaries">
+              <div class="resume-row">
+                <span>Blocked gates</span>
+                <ul class="resume-summary-list" data-reaction-route-recorder-gates>
+                  <li>Customer data, payment, support/refund, public proof, deploy, analytics, runtime evidence, and application consent remain blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>False claim flags</span>
+                <ul class="resume-summary-list" data-reaction-route-recorder-false-claims>
+                  <li>customerFeedbackClaim: false</li>
+                  <li>willingnessToPayClaim: false</li>
+                  <li>revenueClaim: false</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Exactly one selected route</span>
+                <strong data-reaction-route-recorder-route>product_first_session_missing_proof_repair</strong>
+                <small class="muted" data-reaction-route-recorder-route-detail>No external action, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Recorder export preview</span>
+                <strong class="consented-handoff-preview" data-reaction-route-recorder-preview>No reaction recorder generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-customer-evidence-inbox-room"
+          aria-label="First-customer evidence inbox room"
+          data-first-customer-evidence-inbox-room
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Evidence inbox room</p>
+              <h3>Normalize safe first-customer evidence before any route decision.</h3>
+            </div>
+            <span class="status-pill" data-evidence-inbox-room-readiness>Sample/redacted only</span>
+          </div>
+          <p class="muted" data-evidence-inbox-room-boundary>
+            This room accepts sample-only or owner-approved redacted evidence packets with source custody, consent,
+            redaction state, signal labels, blocked gates, and exactly one provisional internal owner. It rejects
+            prospect identities, contact details, raw resumes, private replies, credentials, payment data, payment links,
+            customer materials, public-proof claims, feedback claims, willingness-to-pay claims, payment-intent claims,
+            payment claims, revenue claims, external actions, and downstream queue mutations.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-evidence-inbox-room-json>Export inbox JSON</button>
+            <button type="button" class="secondary" data-export-evidence-inbox-room-markdown>Export inbox Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-evidence-inbox-room-message>
+            The evidence inbox is local only; it selects one internal route and writes no downstream queue items.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Source custody</span>
+                <ul class="resume-summary-list" data-evidence-inbox-room-source-custody>
+                  <li>Concierge bundle, reaction recorder, handoff room, and controls must be loaded.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Allowed modes</span>
+                <ul class="resume-summary-list" data-evidence-inbox-room-modes>
+                  <li>sample_only</li>
+                  <li>owner_approved_redacted</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Observation labels</span>
+                <ul class="resume-summary-list" data-evidence-inbox-room-labels>
+                  <li>comprehension_level</li>
+                  <li>proof_gap_confidence</li>
+                  <li>trust_privacy_boundary</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Missing before live use</span>
+                <ul class="resume-summary-list" data-evidence-inbox-room-missing>
+                  <li>Owner authority, consent, customer-data path, payment authority, public-proof consent, deploy/analytics/outreach gates, and final go/no-go remain missing.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Evidence inbox route and boundaries">
+              <div class="resume-row">
+                <span>Blocked gates</span>
+                <ul class="resume-summary-list" data-evidence-inbox-room-gates>
+                  <li>Customer data, support/refund, payment, public proof, deploy, analytics, outreach, and application consent remain blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Unsupported claims</span>
+                <ul class="resume-summary-list" data-evidence-inbox-room-false-claims>
+                  <li>customerFeedbackClaim: false</li>
+                  <li>willingnessToPayClaim: false</li>
+                  <li>paymentIntentClaim: false</li>
+                  <li>revenueClaim: false</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Exactly one provisional route</span>
+                <strong data-evidence-inbox-room-route>product_first_session_missing_proof_repair</strong>
+                <small class="muted" data-evidence-inbox-room-route-detail>No external action, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Route options</span>
+                <ul class="resume-summary-list" data-evidence-inbox-room-routes>
+                  <li>Product repair, Business no-send follow-up, Approval Unblocker repair, Strategy threshold update, QA/reviewer, Commons follow-up, keep learning, or no action.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Inbox export preview</span>
+                <strong class="consented-handoff-preview" data-evidence-inbox-room-preview>No evidence inbox generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-customer-evidence-route-scoreboard"
+          aria-label="First-customer evidence route scoreboard"
+          data-first-customer-evidence-route-scoreboard
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Evidence route scoreboard</p>
+              <h3>Score first-customer evidence into one safe next route.</h3>
+            </div>
+            <span class="status-pill" data-evidence-route-scoreboard-readiness>Fail-closed local scoreboard</span>
+          </div>
+          <p class="muted" data-evidence-route-scoreboard-boundary>
+            This local scoreboard consumes the evidence inbox packet, reaction recorder, paid decision room, paid preview,
+            strategy thresholds when available, and no-send business runbooks. It scores comprehension, trust/privacy,
+            value, proof completeness, paid-preview clarity, price/support concern, customer-data readiness, payment
+            readiness, and blocked external gates, then chooses exactly one internal route without claiming live feedback,
+            willingness to pay, payment intent, payment, revenue, public proof, deploy, outreach, analytics, production
+            customer data, auto-apply, application submission, or downstream queue mutation.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-evidence-route-scoreboard-json>Export scoreboard JSON</button>
+            <button type="button" class="secondary" data-export-evidence-route-scoreboard-markdown>Export scoreboard Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-evidence-route-scoreboard-message>
+            The scoreboard is local only; it routes weak sample evidence to Product repair and opens no live gates.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Consumed sources</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-sources>
+                  <li>Evidence inbox, reaction recorder, paid decision room, and paid preview are required.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Score dimensions</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-dimensions>
+                  <li>Comprehension, trust/privacy, value, proof completeness, paid-preview clarity, price/support concern, customer data, payment, and blocked gates.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Score fixtures</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-fixtures>
+                  <li>Every fixture maps to exactly one Product, Business, Approval, Strategy, QA, Commons, learning, or no-action route.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Narrow user ask</span>
+                <strong data-evidence-route-scoreboard-ask>No user ask. Product repair is the safe sample route.</strong>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Evidence route scoreboard decision and boundaries">
+              <div class="resume-row">
+                <span>Exactly one selected route</span>
+                <strong data-evidence-route-scoreboard-route>product_first_customer_evidence_proof_repair</strong>
+                <small class="muted" data-evidence-route-scoreboard-route-detail>No external action, queue mutation, payment/customer-data handling, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Route map</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-routes>
+                  <li>Product repair, Business no-send paid prep, Approval repair, Strategy threshold, QA/reviewer, Commons, keep learning, or no action.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Fail-closed claims</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-false-claims>
+                  <li>liveFeedbackClaim: false</li>
+                  <li>willingnessToPayClaim: false</li>
+                  <li>paymentIntentClaim: false</li>
+                  <li>revenueClaim: false</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Blocked gates</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-gates>
+                  <li>Customer data, payment, public proof, deploy, outreach, analytics, auto-apply, and application submission remain blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Scoreboard export preview</span>
+                <strong class="consented-handoff-preview" data-evidence-route-scoreboard-preview>No route scoreboard generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-customer-evidence-route-scoreboard"
+          aria-label="First-customer evidence route scoreboard"
+          data-first-customer-evidence-route-scoreboard
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Evidence route scoreboard</p>
+              <h3>Score first-customer evidence into one safe next route.</h3>
+            </div>
+            <span class="status-pill" data-evidence-route-scoreboard-readiness>Fail-closed local scoreboard</span>
+          </div>
+          <p class="muted" data-evidence-route-scoreboard-boundary>
+            The scoreboard consumes the local evidence inbox, reaction route recorder, paid decision room, paid-packet
+            preview, strategy rules when available, and business no-send runbooks when available. It scores only
+            sample or owner-approved redacted labels, keeps live feedback and revenue claims false, and cannot mutate
+            queues, collect payment, store production customer data, send outreach, run analytics, deploy, or submit
+            applications.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-evidence-route-scoreboard-json>Export scoreboard JSON</button>
+            <button type="button" class="secondary" data-export-evidence-route-scoreboard-markdown>Export scoreboard Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-evidence-route-scoreboard-message>
+            The route scoreboard is local only; it selects one internal route and writes no downstream queue items.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Consumed sources</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-sources>
+                  <li>Evidence inbox, reaction recorder, paid decision room, paid preview, strategy rules, and no-send runbooks.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Score dimensions</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-dimensions>
+                  <li>Comprehension, trust/privacy, value, proof completeness, paid-preview clarity, support/price concern, customer data, payment, and blocked gates.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Exactly-one route fixtures</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-fixtures>
+                  <li>Every deterministic fixture maps to exactly one route family.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Narrow user ask</span>
+                <strong data-evidence-route-scoreboard-ask>No user ask. Product repair is the local route.</strong>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Evidence route scoreboard boundaries">
+              <div class="resume-row">
+                <span>Selected route</span>
+                <strong data-evidence-route-scoreboard-route>product_first_customer_evidence_proof_repair</strong>
+                <small class="muted" data-evidence-route-scoreboard-route-detail>No external action, queue mutation, payment/customer-data handling, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Route options</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-routes>
+                  <li>Product repair, Business no-send paid prep, Approval Unblocker owner repair, Strategy threshold update, QA/reviewer, Commons follow-up, keep learning, or no action.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>False claim controls</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-false-claims>
+                  <li>liveFeedbackClaim: false</li>
+                  <li>willingnessToPayClaim: false</li>
+                  <li>paymentIntentClaim: false</li>
+                  <li>revenueClaim: false</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Blocked external gates</span>
+                <ul class="resume-summary-list" data-evidence-route-scoreboard-gates>
+                  <li>Deploy, outreach, analytics, production customer data, payment, auto-apply, and application submission remain blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Scoreboard export preview</span>
+                <strong class="consented-handoff-preview" data-evidence-route-scoreboard-preview>No route scoreboard generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-customer-evidence-proof-repair-packet"
+          aria-label="First-customer evidence proof-repair packet"
+          data-first-customer-evidence-proof-repair-packet
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Evidence proof repair</p>
+              <h3>Repair missing proof before any live claim.</h3>
+            </div>
+            <span class="status-pill" data-evidence-proof-repair-readiness>Local repair packet</span>
+          </div>
+          <p class="muted" data-evidence-proof-repair-boundary>
+            This packet consumes the selected route product_first_customer_evidence_proof_repair, lists missing proof
+            categories, generates safe follow-up prompts, shows before/after repair copy, labels source custody, and
+            exports only sample/redacted repair evidence. It blocks deploy, outreach, scheduling, lead capture,
+            analytics sends, provider mutation, payment links, checkout, payment collection, production customer data,
+            public proof, testimonials, referrals, employer contact, auto-apply, form fill, application submission,
+            downstream queue mutation, and downstream done claims.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-evidence-proof-repair-json>Export proof repair JSON</button>
+            <button type="button" class="secondary" data-export-evidence-proof-repair-markdown>Export proof repair Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-evidence-proof-repair-message>
+            The repair packet is local only and excludes raw customer materials.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Selected internal route</span>
+                <strong data-evidence-proof-repair-route>product_first_customer_evidence_proof_repair</strong>
+                <small class="muted" data-evidence-proof-repair-route-detail>No external action, payment/customer-data handling, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Missing proof categories</span>
+                <ul class="resume-summary-list" data-evidence-proof-repair-missing>
+                  <li>Role-specific evidence, metric provenance, source custody, and consent-ready proof remain incomplete.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Safe follow-up prompts</span>
+                <ul class="resume-summary-list" data-evidence-proof-repair-prompts>
+                  <li>Ask for repo-safe labels and candidate-approved evidence only.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Proof repair output and boundaries">
+              <div class="resume-row">
+                <span>Before and after repair copy</span>
+                <ul class="resume-summary-list" data-evidence-proof-repair-copy>
+                  <li>Unsupported broad claim becomes a proof-scoped candidate review prompt.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Source custody labels</span>
+                <ul class="resume-summary-list" data-evidence-proof-repair-custody>
+                  <li>safe_summary_labels_only</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Blocked actions</span>
+                <ul class="resume-summary-list" data-evidence-proof-repair-blocked>
+                  <li>Payment, production customer data, public proof, outreach, deploy, analytics, auto-apply, and downstream mutation remain blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>False claims</span>
+                <ul class="resume-summary-list" data-evidence-proof-repair-claims>
+                  <li>customerFeedbackClaim: false</li>
+                  <li>willingnessToPayClaim: false</li>
+                  <li>paymentIntentClaim: false</li>
+                  <li>falseUnsupportedClaims: true</li>
+                  <li>revenueClaim: false</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Repair export preview</span>
+                <strong class="consented-handoff-preview" data-evidence-proof-repair-preview>No proof repair packet generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="repaired-proof-to-paid-ask-room"
+          aria-label="Repaired proof to paid ask room"
+          data-repaired-proof-to-paid-ask-room
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Paid ask rehearsal</p>
+              <h3>Turn repaired proof into a no-send paid-packet ask.</h3>
+            </div>
+            <span class="status-pill" data-paid-ask-room-readiness>Sample no-send</span>
+          </div>
+          <p class="muted" data-paid-ask-room-boundary>
+            This room consumes repaired proof, the paid packet preview, first paid decision room, no-send offer brief,
+            and fulfillment boundary drill. It can show proof delta, missing-proof asks, deliverables, support/refund
+            posture, disabled payment state, and one internal route. It cannot display payment links, open checkout,
+            collect money, accept production customer data, send outreach, schedule sessions, publish proof, mutate
+            downstream queues, contact employers, auto-apply, fill forms, submit applications, or claim feedback,
+            willingness to pay, payment intent, payment, public proof, testimonials, referrals, or revenue.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-paid-ask-room-json>Export paid ask JSON</button>
+            <button type="button" class="secondary" data-export-paid-ask-room-markdown>Export paid ask Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-paid-ask-room-message>
+            The paid ask room is local/sample-redacted only. No checkout, send, provider, or customer-data action occurs.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Selected route</span>
+                <strong data-paid-ask-room-route>business_private_paid_packet_discussion_no_checkout</strong>
+                <small class="muted" data-paid-ask-room-route-detail>No external action, payment, customer-data handling, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Proof delta</span>
+                <ul class="resume-summary-list" data-paid-ask-room-proof-delta>
+                  <li>Unsupported claims are downgraded before any paid discussion.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Missing-proof asks</span>
+                <ul class="resume-summary-list" data-paid-ask-room-missing-proof>
+                  <li>Ask only for candidate-owned or owner-approved redacted proof labels.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Objection routes</span>
+                <ul class="resume-summary-list" data-paid-ask-room-objections>
+                  <li>value_unclear -> product_paid_packet_value_clarity_repair</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Paid ask controls and preview">
+              <div class="resume-row">
+                <span>Paid packet deliverables</span>
+                <ul class="resume-summary-list" data-paid-ask-room-deliverables>
+                  <li>Proof map, missing-proof questions, safer bullet plan, and approval handoff.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Support/refund/payment posture</span>
+                <ul class="resume-summary-list" data-paid-ask-room-gates>
+                  <li>Payment owner, support/refund, tax/MoR, customer-data, and go/no-go gates remain blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Disabled payment state</span>
+                <ul class="resume-summary-list" data-paid-ask-room-payment-state>
+                  <li>paymentLinkDisplay: false</li>
+                  <li>checkoutDisplay: false</li>
+                  <li>paymentCollection: false</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Private operator handoff</span>
+                <strong class="consented-handoff-preview" data-paid-ask-room-preview>No paid ask rehearsal generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="paid-ask-outcome-router"
+          aria-label="Paid ask outcome router"
+          data-paid-ask-outcome-router
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Paid ask outcome router</p>
+              <h3>Route a paid-ask rehearsal outcome into exactly one safe next action.</h3>
+            </div>
+            <span class="status-pill" data-paid-ask-router-readiness>Fail-closed local router</span>
+          </div>
+          <p class="muted" data-paid-ask-router-boundary>
+            This router consumes the paid ask room when available and otherwise falls back to the evidence route
+            scoreboard, proof-repair packet, first-paid decision room, objection repair kit, Commons handoff pattern,
+            and business controls. It persists or exports a repo-safe route packet, separates sample readiness from
+            live feedback, willingness-to-pay, payment intent, payment, public proof, referral/testimonial, and revenue
+            states, and cannot mutate downstream queues, mark delegated work done, collect payment, handle production
+            customer data, call providers, send outreach, deploy, publish proof, contact employers, auto-apply, fill
+            forms, submit applications, or claim traction.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-paid-ask-router-json>Export router JSON</button>
+            <button type="button" class="secondary" data-export-paid-ask-router-markdown>Export router Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-paid-ask-router-message>
+            The router is local/sample-redacted only. It selects one internal route and performs no downstream action.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Selected route</span>
+                <strong data-paid-ask-router-route>product_paid_ask_packet_or_proof_repair</strong>
+                <small class="muted" data-paid-ask-router-route-detail>No queue mutation, external action, payment/customer-data handling, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Consumed sources</span>
+                <ul class="resume-summary-list" data-paid-ask-router-sources>
+                  <li>Paid ask room optional; evidence route and proof repair fixtures provide fallback.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Route packet</span>
+                <ul class="resume-summary-list" data-paid-ask-router-packet>
+                  <li>Evidence mode, consent/redaction state, blocked gates, owner, acceptance, and validation.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Outcome routes</span>
+                <ul class="resume-summary-list" data-paid-ask-router-routes>
+                  <li>Product, Business, Strategy, Approval Unblocker, QA/reviewer, Commons, keep learning, or no action.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Paid ask router claim controls">
+              <div class="resume-row">
+                <span>Evidence state legend</span>
+                <ul class="resume-summary-list" data-paid-ask-router-states>
+                  <li>Sample readiness is not live feedback, payment intent, payment, proof, referral, or revenue.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Unsupported claim flags</span>
+                <ul class="resume-summary-list" data-paid-ask-router-claims>
+                  <li>liveFeedback: false</li>
+                  <li>willingnessToPay: false</li>
+                  <li>paymentIntent: false</li>
+                  <li>revenue: false</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Blocked gates</span>
+                <ul class="resume-summary-list" data-paid-ask-router-gates>
+                  <li>Payment, customer-data, support/refund, public-proof, deploy, analytics, outreach, and final go/no-go remain blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Route export preview</span>
+                <strong class="consented-handoff-preview" data-paid-ask-router-preview>No paid ask outcome route generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="paid-ask-proof-packet-clarity-repair"
+          aria-label="Paid ask proof packet clarity repair"
+          data-paid-ask-proof-packet-clarity-repair
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Paid ask clarity repair</p>
+              <h3>Repair proof, packet mechanics, and approval controls before live use.</h3>
+            </div>
+            <span class="status-pill" data-paid-ask-clarity-readiness>Product repair ready</span>
+          </div>
+          <p class="muted" data-paid-ask-clarity-boundary>
+            This repair consumes the selected product_paid_ask_packet_or_proof_repair route, the repaired proof
+            paid-ask room, the proof-repair packet, and business controls. It improves proof explanations, paid
+            packet mechanics, approval controls, support/refund/payment/customer-data stop copy, and operator
+            next-route wording while blocking checkout, payment links, payment collection, production customer data,
+            live feedback, willingness-to-pay, payment intent, public proof, revenue, provider calls, outreach,
+            deploy, analytics, employer contact, auto-apply, form fill, application submission, downstream queue
+            mutation, and delegated done claims.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-paid-ask-clarity-json>Export clarity repair JSON</button>
+            <button type="button" class="secondary" data-export-paid-ask-clarity-markdown>Export clarity repair Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-paid-ask-clarity-message>
+            The clarity repair is local/sample-redacted only and emits one no-send next-route packet.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Safe next route</span>
+                <strong data-paid-ask-clarity-route>business_private_paid_packet_discussion_no_checkout</strong>
+                <small class="muted" data-paid-ask-clarity-route-detail>No checkout, payment, customer-data handling, external action, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Consumed sources</span>
+                <ul class="resume-summary-list" data-paid-ask-clarity-sources>
+                  <li>Paid ask router, paid ask room, proof repair packet, and business controls.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Clarity repairs</span>
+                <ul class="resume-summary-list" data-paid-ask-clarity-repairs>
+                  <li>Proof delta explanation, packet mechanics, approval controls, stop copy, and route wording.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Approval controls</span>
+                <ul class="resume-summary-list" data-paid-ask-clarity-controls>
+                  <li>Claim accuracy, source custody, support/refund, payment, customer data, public proof, and final go/no-go.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Paid ask clarity repair controls">
+              <div class="resume-row">
+                <span>Stop copy</span>
+                <ul class="resume-summary-list" data-paid-ask-clarity-stop-copy>
+                  <li>Support/refund, payment, customer data, public proof, outbound, and application actions stay blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Next-route packet</span>
+                <ul class="resume-summary-list" data-paid-ask-clarity-packet>
+                  <li>Exactly one no-send route packet for private operator review.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Unsupported claim flags</span>
+                <ul class="resume-summary-list" data-paid-ask-clarity-claims>
+                  <li>liveFeedback: false</li>
+                  <li>willingnessToPay: false</li>
+                  <li>paymentIntent: false</li>
+                  <li>payment: false</li>
+                  <li>revenue: false</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Repair export preview</span>
+                <strong class="consented-handoff-preview" data-paid-ask-clarity-preview>No paid ask clarity repair generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="paid-ask-objection-response-simulator"
+          aria-label="Paid ask objection response simulator"
+          data-paid-ask-objection-response-simulator
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Paid ask objection simulator</p>
+              <h3>Rehearse safe responses before any live paid ask is trusted.</h3>
+            </div>
+            <span class="status-pill" data-paid-ask-objection-simulator-readiness>Sample objection simulator</span>
+          </div>
+          <p class="muted" data-paid-ask-objection-simulator-boundary>
+            This simulator consumes the paid ask clarity repair, paid ask outcome router, evidence route scoreboard,
+            and business controls. It covers value understood, missing proof, trust/privacy, price, support/refund,
+            customer-data stop, payment-owner stop, no-fit, and no-action objection states. Every sample response
+            shows operator-safe copy, a product repair cue, evidence state, first blocking gate, and exactly one
+            internal route while blocking live feedback, willingness-to-pay, payment intent, payment, public proof,
+            testimonials, referrals, revenue, checkout, payment links, production customer data, outreach, deploy,
+            analytics, provider calls, employer contact, auto-apply, form fill, application submission, downstream
+            queue mutation, and delegated done claims.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-paid-ask-objection-simulator-json>Export objection simulator JSON</button>
+            <button type="button" class="secondary" data-export-paid-ask-objection-simulator-markdown>Export objection simulator Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-paid-ask-objection-simulator-message>
+            The simulator is local/sample-redacted only and creates no downstream work.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Selected sample route</span>
+                <strong data-paid-ask-objection-simulator-route>product_missing_proof_response_repair</strong>
+                <small class="muted" data-paid-ask-objection-simulator-route-detail>No checkout, payment, customer-data handling, external action, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Consumed sources</span>
+                <ul class="resume-summary-list" data-paid-ask-objection-simulator-sources>
+                  <li>Paid ask clarity repair, paid ask router, evidence route scoreboard, and business controls.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Sample objection states</span>
+                <ul class="resume-summary-list" data-paid-ask-objection-simulator-objections>
+                  <li>Value understood, missing proof, trust/privacy, price, support/refund, customer-data stop, payment-owner stop, no-fit, and no-action.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Operator-safe response copy</span>
+                <ul class="resume-summary-list" data-paid-ask-objection-simulator-responses>
+                  <li>Reply with no-send, sample-only guidance and never infer payment intent or revenue.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Paid ask objection simulator controls">
+              <div class="resume-row">
+                <span>Product repair cues</span>
+                <ul class="resume-summary-list" data-paid-ask-objection-simulator-repairs>
+                  <li>Strengthen proof, value, privacy, support/refund, payment, or route clarity before live use.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Exactly one route per objection</span>
+                <ul class="resume-summary-list" data-paid-ask-objection-simulator-routes>
+                  <li>Product, Business no-send, Strategy, Approval Unblocker, keep-learning, or no-action route.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>First blocking gates</span>
+                <ul class="resume-summary-list" data-paid-ask-objection-simulator-gates>
+                  <li>Payment, support/refund, customer data, proof, price threshold, or insufficient signal.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Evidence state boundary</span>
+                <ul class="resume-summary-list" data-paid-ask-objection-simulator-states>
+                  <li>Sample readiness is not feedback, willingness to pay, payment intent, public proof, or revenue.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Unsupported claim flags</span>
+                <ul class="resume-summary-list" data-paid-ask-objection-simulator-claims>
+                  <li>liveFeedback: false</li>
+                  <li>willingnessToPay: false</li>
+                  <li>paymentIntent: false</li>
+                  <li>payment: false</li>
+                  <li>revenue: false</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Simulator export preview</span>
+                <strong class="consented-handoff-preview" data-paid-ask-objection-simulator-preview>No paid ask objection simulator generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-paid-pilot-handoff-room"
+          aria-label="First paid pilot handoff room"
+          data-first-paid-pilot-handoff-room
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">First paid pilot handoff</p>
+              <h3>Show the owner go/no-go packet before checkout or customer-data handling exists.</h3>
+            </div>
+            <span class="status-pill" data-first-paid-pilot-handoff-readiness>Local handoff ready</span>
+          </div>
+          <p class="muted" data-first-paid-pilot-handoff-boundary>
+            This local room consumes the paid ask clarity repair, repaired-proof paid ask room, first-paid decision
+            room, customer-data fulfillment decision, business controls, and the Business post-proof no-send packet
+            when present. It keeps checkout, payment links, payment collection, production customer data, public
+            proof, deploy, outreach, scheduling, provider calls, analytics, auto-apply, application submission,
+            downstream queue mutation, and delegated done claims disabled.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-first-paid-pilot-handoff-json>Export pilot handoff JSON</button>
+            <button type="button" class="secondary" data-export-first-paid-pilot-handoff-markdown>Export pilot handoff Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-first-paid-pilot-handoff-message>
+            The handoff emits one owner go/no-go packet for private review only.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Pilot value</span>
+                <ul class="resume-summary-list" data-first-paid-pilot-handoff-value>
+                  <li>Proof quality, missing-proof questions, safer bullet direction, approval handoff, and receipt rehearsal.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Proof delta and missing proof</span>
+                <ul class="resume-summary-list" data-first-paid-pilot-handoff-proof>
+                  <li>Supported claim map, unsupported claims removed, and candidate-owned proof still required.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Deliverables</span>
+                <ul class="resume-summary-list" data-first-paid-pilot-handoff-deliverables>
+                  <li>Target Job Proof Packet, approval notes, support/refund stop copy, and fulfillment receipt.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Approval state</span>
+                <ul class="resume-summary-list" data-first-paid-pilot-handoff-approval>
+                  <li>Owner go/no-go, candidate consent, support/refund, payment, customer data, and public proof remain separated.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="First paid pilot handoff controls">
+              <div class="resume-row">
+                <span>Closed gates</span>
+                <ul class="resume-summary-list" data-first-paid-pilot-handoff-gates>
+                  <li>Payment, checkout, customer data, public proof, deploy, outreach, scheduling, analytics, and applications remain blocked.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Owner go/no-go fields</span>
+                <ul class="resume-summary-list" data-first-paid-pilot-handoff-owner-fields>
+                  <li>Payment owner, support/refund, customer-data path, display scope, consent rule, final owner, and stop condition.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Handoff route</span>
+                <strong data-first-paid-pilot-handoff-route>owner_first_paid_pilot_go_no_go_packet</strong>
+                <small class="muted" data-first-paid-pilot-handoff-route-detail>No downstream queue mutation or live-action claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Handoff export preview</span>
+                <strong class="consented-handoff-preview" data-first-paid-pilot-handoff-preview>No first paid pilot handoff generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-dollar-readiness-room"
+          aria-label="First dollar readiness room"
+          data-first-dollar-readiness-room
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">First dollar readiness</p>
+              <h3>See the first blocking owner gate before any payment or customer-data path opens.</h3>
+            </div>
+            <span class="status-pill" data-first-dollar-readiness-state>Fail-closed local</span>
+          </div>
+          <p class="muted" data-first-dollar-readiness-boundary>
+            This local room consumes paid ask proof clarity, the paid ask outcome router, repaired proof, first paid
+            pilot handoff, pilot gate simulator, payment owner references, owner authority references, and business
+            controls. It keeps payment links, checkout UI, customer-data upload, outreach sends, scheduling links,
+            analytics sends, public proof, testimonial or referral asks, employer contact, auto-apply, form fill,
+            application submission, provider mutation, downstream queue mutation, and delegated done claims disabled.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-first-dollar-readiness-json>Export readiness JSON</button>
+            <button type="button" class="secondary" data-export-first-dollar-readiness-markdown>Export readiness Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-first-dollar-readiness-message>
+            The room emits one internal owner-evidence repair route for first-dollar readiness.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Proof clarity</span>
+                <ul class="resume-summary-list" data-first-dollar-readiness-proof>
+                  <li>Supported claims, missing-proof questions, and risky-claim warnings are sample/local only.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Packet deliverables</span>
+                <ul class="resume-summary-list" data-first-dollar-readiness-deliverables>
+                  <li>Supported claim map, missing-proof questions, safer bullets, and owner handoff.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Readiness questions</span>
+                <ul class="resume-summary-list" data-first-dollar-readiness-questions>
+                  <li>Support/refund, local-first customer data, payment owner, and public proof remain blocked.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="First dollar readiness controls">
+              <div class="resume-row">
+                <span>First blocking gate</span>
+                <ul class="resume-summary-list" data-first-dollar-readiness-gate>
+                  <li>approval_unblocker_first_dollar_owner_evidence_repair</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Selected internal route</span>
+                <strong data-first-dollar-readiness-route>approval_unblocker_first_dollar_owner_evidence_repair</strong>
+                <small class="muted" data-first-dollar-readiness-route-detail>No downstream queue mutation or first-dollar claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Disabled affordances</span>
+                <ul class="resume-summary-list" data-first-dollar-readiness-disabled>
+                  <li>Payment link, checkout, customer-data upload, send, schedule, analytics, public proof, testimonial, referral, employer contact, auto-apply, form fill, and submission.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Readiness export preview</span>
+                <strong class="consented-handoff-preview" data-first-dollar-readiness-preview>No first dollar readiness room generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-dollar-owner-evidence-repair-room"
+          aria-label="First dollar owner evidence repair room"
+          data-first-dollar-owner-evidence-repair-room
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Owner evidence repair</p>
+              <h3>Turn the first-dollar blocker into one private owner-evidence path.</h3>
+            </div>
+            <span class="status-pill" data-first-dollar-owner-evidence-state>Repair needed</span>
+          </div>
+          <p class="muted" data-first-dollar-owner-evidence-boundary>
+            This local room consumes first-dollar readiness, first paid pilot gate simulation, paid ask objection
+            response simulation, owner evidence references, first paid pilot owner answer intake, and business
+            controls. It keeps payment links, checkout UI, customer-data upload, outreach sends, scheduling links,
+            analytics sends, public proof, testimonial or referral asks, employer contact, auto-apply, form fill,
+            application submission, provider mutation, downstream queue mutation, and delegated done claims disabled.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-first-dollar-owner-evidence-json>Export owner evidence JSON</button>
+            <button type="button" class="secondary" data-export-first-dollar-owner-evidence-markdown>Export owner evidence Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-first-dollar-owner-evidence-message>
+            The room emits one approval-unblocker owner-evidence repair route for private off-repo answer intake.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Owner evidence fields</span>
+                <ul class="resume-summary-list" data-first-dollar-owner-evidence-fields>
+                  <li>Payment owner, display scope, support/refund, tax/MoR, customer-data path, session/contact owner, deploy/outreach prerequisites, public-proof stop, and final go/no-go.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Private answer path</span>
+                <ul class="resume-summary-list" data-first-dollar-owner-evidence-answer-path>
+                  <li>Use private off-repo owner answer intake; repo-visible exports contain labels only.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Export guardrails</span>
+                <ul class="resume-summary-list" data-first-dollar-owner-evidence-export>
+                  <li>No credentials, raw resumes, customer contacts, payment links, dashboard URLs, customer materials, private replies, card data, calendar links, or prospect identities.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="First dollar owner evidence controls">
+              <div class="resume-row">
+                <span>First blocking gate</span>
+                <ul class="resume-summary-list" data-first-dollar-owner-evidence-gate>
+                  <li>payment_owner_evidence</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Selected internal route</span>
+                <strong data-first-dollar-owner-evidence-route>approval_unblocker_owner_evidence_repair</strong>
+                <small class="muted" data-first-dollar-owner-evidence-route-detail>No downstream queue mutation or first-dollar claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Disabled affordances</span>
+                <ul class="resume-summary-list" data-first-dollar-owner-evidence-disabled>
+                  <li>Payment link, checkout, customer-data upload, send, schedule, analytics, public proof, testimonial, referral, employer contact, auto-apply, form fill, and submission.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Repair export preview</span>
+                <strong class="consented-handoff-preview" data-first-dollar-owner-evidence-preview>No owner evidence repair room generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-paid-pilot-fulfillment-receipt-preview"
+          aria-label="First paid pilot fulfillment receipt preview"
+          data-first-paid-pilot-fulfillment-receipt-preview
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Fulfillment receipt preview</p>
+              <h3>Preview what the first paid pilot would deliver before checkout exists.</h3>
+            </div>
+            <span class="status-pill" data-fulfillment-receipt-state>Sample receipt only</span>
+          </div>
+          <p class="muted" data-fulfillment-receipt-boundary>
+            This local receipt consumes the paid pilot handoff, first-dollar readiness room, paid-ask proof repair,
+            paid-ask objection simulator, local-first customer-data decision, fulfillment boundary drill, and business
+            controls. It keeps checkout, payment links, payment collection, production customer-data upload or storage,
+            outreach, scheduling, analytics sends, provider mutation, public proof, testimonial or referral asks,
+            employer contact, auto-apply, form fill, application submission, downstream queue mutation, and delegated
+            done claims disabled.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-fulfillment-receipt-json>Export receipt JSON</button>
+            <button type="button" class="secondary" data-export-fulfillment-receipt-markdown>Export receipt Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-fulfillment-receipt-message>
+            The preview emits one internal owner-evidence repair route and no live customer, payment, or revenue claim.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Receipt deliverables</span>
+                <ul class="resume-summary-list" data-fulfillment-receipt-deliverables>
+                  <li>Proof-backed resume edits, target job packet, missing-proof prompts, and operator review scope.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Proof delta</span>
+                <ul class="resume-summary-list" data-fulfillment-receipt-proof-delta>
+                  <li>Supported claims, unsupported removals, and missing proof asks are sample/redacted only.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Customer-controlled data path</span>
+                <ul class="resume-summary-list" data-fulfillment-receipt-data-path>
+                  <li>Local-first handoff remains customer controlled; no production storage opens here.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Fulfillment receipt controls">
+              <div class="resume-row">
+                <span>Source custody</span>
+                <ul class="resume-summary-list" data-fulfillment-receipt-source-custody>
+                  <li>Safe labels only; raw customer materials are excluded.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Unsupported flags</span>
+                <ul class="resume-summary-list" data-fulfillment-receipt-unsupported>
+                  <li>No live feedback, willingness-to-pay, payment intent, payment, public proof, or revenue claim.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Selected internal route</span>
+                <strong data-fulfillment-receipt-route>approval_unblocker_first_paid_receipt_owner_evidence_repair</strong>
+                <small class="muted" data-fulfillment-receipt-route-detail>No downstream queue mutation or paid-customer claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Receipt export preview</span>
+                <strong class="consented-handoff-preview" data-fulfillment-receipt-preview>No fulfillment receipt generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-live-proof-audit-copilot"
+          aria-label="First live proof-audit copilot"
+          data-first-live-proof-audit-copilot
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Live proof-audit copilot</p>
+              <h3>Run one sample or owner-approved redacted proof-audit session from script to route.</h3>
+            </div>
+            <span class="status-pill" data-live-proof-audit-copilot-state>Sample/redacted only</span>
+          </div>
+          <p class="muted" data-live-proof-audit-copilot-boundary>
+            This copilot combines the first-audit command room, authorized session runner, first-dollar readiness
+            room, paid-ask objection simulator, first paid pilot handoff, and pilot gate simulator. It exports one
+            repo-safe session packet with no raw resumes, private contact details, raw transcripts, private replies,
+            payment data, credentials, dashboard URLs, public-proof material, unsupported feedback claims, payment
+            claims, revenue claims, external actions, downstream queue mutation, or delegated done claims.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-live-proof-audit-copilot-json>Export copilot JSON</button>
+            <button type="button" class="secondary" data-export-live-proof-audit-copilot-markdown>Export copilot Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-live-proof-audit-copilot-message>
+            The copilot emits exactly one internal route for private operator review.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Selected route</span>
+                <strong data-live-proof-audit-copilot-route>open_private_paid_pilot_decision_room</strong>
+                <small class="muted" data-live-proof-audit-copilot-route-detail>No external action, payment/customer-data handling, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Consumed sources</span>
+                <ul class="resume-summary-list" data-live-proof-audit-copilot-sources>
+                  <li>Command room, authorized runner, first-dollar readiness, paid objections, paid pilot handoff, and gate simulator.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Session script</span>
+                <ul class="resume-summary-list" data-live-proof-audit-copilot-script>
+                  <li>Open context, proof audit, consent/redaction check, paid-pilot cues, and route selection.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Proof-audit checkpoints</span>
+                <ul class="resume-summary-list" data-live-proof-audit-copilot-checkpoints>
+                  <li>Supported claims, missing proof, risky claims, approval state, tracking, first blocking gate, paid-pilot handoff, and objection path.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Consent and redaction</span>
+                <ul class="resume-summary-list" data-live-proof-audit-copilot-redaction>
+                  <li>Safe labels only; raw resumes, contact details, transcripts, replies, credentials, dashboard URLs, and payment data excluded.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Live proof-audit copilot controls">
+              <div class="resume-row">
+                <span>Candidate-fit assumptions</span>
+                <ul class="resume-summary-list" data-live-proof-audit-copilot-assumptions>
+                  <li>Fit is a local prioritization cue, not an outcome claim.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>First blocking gate</span>
+                <ul class="resume-summary-list" data-live-proof-audit-copilot-gate>
+                  <li>Payment owner, support/refund, customer data, public proof, and final go/no-go remain gated.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Paid-pilot readiness cues</span>
+                <ul class="resume-summary-list" data-live-proof-audit-copilot-cues>
+                  <li>Proof quality, objections, owner handoff, and blocked gates are visible for private review.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>No-send operator prompts</span>
+                <ul class="resume-summary-list" data-live-proof-audit-copilot-prompts>
+                  <li>No outreach, scheduling, payment, customer-data upload, public proof, employer contact, or application submission.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Route options</span>
+                <ul class="resume-summary-list" data-live-proof-audit-copilot-routes>
+                  <li>Paid-pilot decision room, product repair, business no-send dispatch, strategy threshold, approval repair, QA/reviewer, keep learning, or no action.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Unsupported claim flags</span>
+                <ul class="resume-summary-list" data-live-proof-audit-copilot-claims>
+                  <li>liveFeedback: false</li>
+                  <li>willingnessToPay: false</li>
+                  <li>paymentIntent: false</li>
+                  <li>payment: false</li>
+                  <li>revenue: false</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Copilot export preview</span>
+                <strong class="consented-handoff-preview" data-live-proof-audit-copilot-preview>No live proof-audit copilot generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="live-to-paid-pilot-decision-room"
+          aria-label="Live session to paid pilot decision room"
+          data-live-to-paid-pilot-decision-room
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Paid-pilot decision</p>
+              <h3>Choose the one safe route after a proof-audit session.</h3>
+            </div>
+            <span class="status-pill" data-live-to-paid-pilot-decision-state>Sample decision only</span>
+          </div>
+          <p class="muted">
+            This local room separates sample readiness, owner-approved redacted evidence, live feedback, willingness to pay,
+            payment intent, payment, public proof, referral/testimonial, and revenue before any paid pilot ask is trusted.
+          </p>
+          <div class="app-actions">
+            <button class="secondary-action" type="button" data-export-live-to-paid-pilot-decision-json>Export decision JSON</button>
+            <button class="secondary-action" type="button" data-export-live-to-paid-pilot-decision-markdown>Export decision Markdown</button>
+          </div>
+          <p class="muted" data-live-to-paid-pilot-decision-message>
+            Local export only. Checkout, payment links, payment collection, production customer data, provider action, outreach,
+            public proof, queue mutation, delegated completion, and revenue claims stay blocked.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Selected route</span>
+                <strong data-live-to-paid-pilot-decision-route>product_repair_before_paid_pilot_ask</strong>
+                <small class="muted" data-live-to-paid-pilot-decision-route-detail>No external action, payment/customer-data handling, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Consumed sources</span>
+                <ul class="resume-summary-list" data-live-to-paid-pilot-decision-sources>
+                  <li>Copilot, first-dollar readiness, objections, paid-pilot handoff, gate simulator, owner go/no-go, and controls.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Session evidence boundary</span>
+                <ul class="resume-summary-list" data-live-to-paid-pilot-decision-boundary>
+                  <li>Sample or owner-approved redacted post-session evidence only.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Gate states</span>
+                <ul class="resume-summary-list" data-live-to-paid-pilot-decision-gates>
+                  <li>Comprehension, trust, missing proof, value, support/refund, customer data, payment owner, deploy/outreach, and public proof.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Paid pilot decision controls">
+              <div class="resume-row">
+                <span>Evidence states</span>
+                <ul class="resume-summary-list" data-live-to-paid-pilot-decision-evidence>
+                  <li>Only sample readiness is present; live and revenue evidence remains absent.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Decision signals</span>
+                <ul class="resume-summary-list" data-live-to-paid-pilot-decision-signals>
+                  <li>Value and comprehension are ready; trust and missing proof require repair.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Route options</span>
+                <ul class="resume-summary-list" data-live-to-paid-pilot-decision-routes>
+                  <li>Product repair, business no-send handoff, approval repair, strategy threshold, QA/reviewer, keep learning, or no action.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Blocked actions</span>
+                <ul class="resume-summary-list" data-live-to-paid-pilot-decision-blocked>
+                  <li>Checkout, payment, customer data, deploy, outreach, analytics, public proof, provider mutation, applications, queue mutation, and done claims.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Decision export preview</span>
+                <strong class="consented-handoff-preview" data-live-to-paid-pilot-decision-preview>No paid-pilot decision generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="live-proof-trust-gap-repair-room"
+          aria-label="Live proof audit trust gap repair room"
+          data-live-proof-trust-gap-repair-room
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Trust gap repair</p>
+              <h3>Repair privacy, custody, and proof-source doubts before any paid-pilot ask.</h3>
+            </div>
+            <span class="status-pill" data-live-proof-trust-gap-repair-state>Sample repair only</span>
+          </div>
+          <p class="muted">
+            This local room consumes the paid-pilot decision route and produces one owner-safe trust repair packet.
+            It cannot collect customer data, show checkout, send follow-up, publish proof, mutate providers, or mark
+            downstream work complete.
+          </p>
+          <div class="app-actions">
+            <button class="secondary-action" type="button" data-export-live-proof-trust-gap-repair-json>Export trust repair JSON</button>
+            <button class="secondary-action" type="button" data-export-live-proof-trust-gap-repair-markdown>Export trust repair Markdown</button>
+          </div>
+          <p class="muted" data-live-proof-trust-gap-repair-message>
+            Local export only. Raw resumes, private contact details, payment data, credentials, dashboard URLs,
+            customer materials, public proof, provider actions, and revenue claims stay excluded.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Selected route</span>
+                <strong data-live-proof-trust-gap-repair-route>missing_proof_cue_repair</strong>
+                <small class="muted" data-live-proof-trust-gap-repair-route-detail>No external action, payment/customer-data handling, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Consumed route</span>
+                <ul class="resume-summary-list" data-live-proof-trust-gap-repair-sources>
+                  <li>Live-to-paid-pilot decision room: product repair before paid pilot ask.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Trust and privacy objections</span>
+                <ul class="resume-summary-list" data-live-proof-trust-gap-repair-objections>
+                  <li>Evidence provenance, privacy, storage, unsupported claims, and paid ask timing.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Proof-source custody</span>
+                <ul class="resume-summary-list" data-live-proof-trust-gap-repair-custody>
+                  <li>Safe labels only; raw resumes, transcripts, private replies, and customer files are excluded.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Trust gap repair controls">
+              <div class="resume-row">
+                <span>Missing proof</span>
+                <ul class="resume-summary-list" data-live-proof-trust-gap-repair-missing-proof>
+                  <li>Request proof categories, not raw materials, before stronger claims are offered.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Stops</span>
+                <ul class="resume-summary-list" data-live-proof-trust-gap-repair-stops>
+                  <li>Customer data, payment/support, public proof, outreach, provider, employer contact, auto-apply, and revenue claims remain stopped.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Owner-safe wording</span>
+                <ul class="resume-summary-list" data-live-proof-trust-gap-repair-wording>
+                  <li>Use privacy/provenance language and request missing proof without implying live demand or payment intent.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Repair export preview</span>
+                <strong class="consented-handoff-preview" data-live-proof-trust-gap-repair-preview>No trust repair packet generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="live-proof-missing-proof-cue-repair"
+          aria-label="Live proof audit missing-proof cue repair"
+          data-live-proof-missing-proof-cue-repair
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Missing-proof cues</p>
+              <h3>Prioritize what proof is missing before stronger claims or paid-pilot asks.</h3>
+            </div>
+            <span class="status-pill" data-live-proof-missing-proof-cue-state>Sample cue repair only</span>
+          </div>
+          <p class="muted">
+            This local repair turns trust-gap output into ranked proof gaps and owner-facing prompts. It asks for
+            proof categories only and keeps raw customer materials out of repo-visible files.
+          </p>
+          <div class="app-actions">
+            <button class="secondary-action" type="button" data-export-live-proof-missing-proof-cue-json>Export cue repair JSON</button>
+            <button class="secondary-action" type="button" data-export-live-proof-missing-proof-cue-markdown>Export cue repair Markdown</button>
+          </div>
+          <p class="muted" data-live-proof-missing-proof-cue-message>
+            Local export only. No send, payment, customer-data storage, provider action, public proof, downstream mutation, or revenue claim occurs.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Selected route</span>
+                <strong data-live-proof-missing-proof-cue-route>business_no_send_follow_up</strong>
+                <small class="muted" data-live-proof-missing-proof-cue-route-detail>No external send, customer/payment handling, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Prioritized proof gaps</span>
+                <ul class="resume-summary-list" data-live-proof-missing-proof-cue-gaps>
+                  <li>Customer value, claim risk, owner follow-up ease, and paid-pilot relevance.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Scoring factors</span>
+                <ul class="resume-summary-list" data-live-proof-missing-proof-cue-scoring>
+                  <li>Value, risk, ease, paid relevance, and total priority.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Missing-proof cue repair controls">
+              <div class="resume-row">
+                <span>Owner prompts</span>
+                <ul class="resume-summary-list" data-live-proof-missing-proof-cue-prompts>
+                  <li>Request proof categories without storing raw customer materials.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Blocked actions</span>
+                <ul class="resume-summary-list" data-live-proof-missing-proof-cue-blocked>
+                  <li>No external sends, payments, customer data, public proof, applications, queue mutation, or revenue claims.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Cue export preview</span>
+                <strong class="consented-handoff-preview" data-live-proof-missing-proof-cue-preview>No missing-proof cue packet generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="paid-pilot-trust-gap-repair-lab"
+          aria-label="Paid pilot trust objection close lab"
+          data-paid-pilot-trust-gap-repair-lab
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Paid pilot trust lab</p>
+              <h3>Rehearse how proof gaps are handled before any concierge paid-pilot ask.</h3>
+            </div>
+            <span class="status-pill" data-paid-pilot-trust-gap-lab-state>Sample close rehearsal only</span>
+          </div>
+          <p class="muted">
+            This local lab turns repaired proof gaps into safe paid-pilot discussion responses, disqualifiers, and
+            missing-evidence prompts while checkout, payment, customer-data handling, and live claims stay closed.
+          </p>
+          <div class="app-actions">
+            <button class="secondary-action" type="button" data-export-paid-pilot-trust-gap-lab-json>Export lab JSON</button>
+            <button class="secondary-action" type="button" data-export-paid-pilot-trust-gap-lab-markdown>Export lab Markdown</button>
+          </div>
+          <p class="muted" data-paid-pilot-trust-gap-lab-message>
+            Local export only. No payment link, send, public proof, provider action, downstream mutation, or revenue claim occurs.
+          </p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Selected route</span>
+                <strong data-paid-pilot-trust-gap-lab-route>business_no_send_owner_prospect_prep</strong>
+                <small class="muted" data-paid-pilot-trust-gap-lab-route-detail>No external send, checkout, customer/payment handling, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Proof-strength gaps</span>
+                <ul class="resume-summary-list" data-paid-pilot-trust-gap-lab-gaps>
+                  <li>Target fit, claim provenance, missing evidence, trust/privacy, support/refund, customer-data, payment-owner, and public-proof stops.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Paid pilot trust gap lab controls">
+              <div class="resume-row">
+                <span>Repair prompts</span>
+                <ul class="resume-summary-list" data-paid-pilot-trust-gap-lab-prompts>
+                  <li>Operator-safe response prompts only; no live prospect send.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Disqualifiers</span>
+                <ul class="resume-summary-list" data-paid-pilot-trust-gap-lab-disqualifiers>
+                  <li>Missing consent, unsupported claim, customer-data stop, payment-owner stop, and public-proof stop.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Lab export preview</span>
+                <strong class="consented-handoff-preview" data-paid-pilot-trust-gap-lab-preview>No paid-pilot trust lab generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="app-panel" id="proof-delta-value-snapshot" aria-label="Proof delta value snapshot" data-proof-delta-value-snapshot>
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Proof delta</p>
+              <h3>Show the before/after value without implying live traction.</h3>
+            </div>
+            <span class="status-pill" data-proof-delta-value-state>Sample snapshot only</span>
+          </div>
+          <p class="muted">
+            This snapshot compares weak generic bullets to evidence-backed claims, lists missing proof, and explains paid-pilot scope boundaries while live feedback, payment, public proof, and revenue states remain absent.
+          </p>
+          <div class="app-actions">
+            <button class="secondary-action" type="button" data-export-proof-delta-value-json>Export proof delta JSON</button>
+            <button class="secondary-action" type="button" data-export-proof-delta-value-markdown>Export proof delta Markdown</button>
+          </div>
+          <p class="muted" data-proof-delta-value-message>Local export only. No raw resume, customer material, payment link, public proof, send, or revenue claim occurs.</p>
+          <div class="proof-audit-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Selected route</span>
+                <strong data-proof-delta-value-route>business_no_send_follow_up</strong>
+                <small class="muted" data-proof-delta-value-route-detail>No external send, customer/payment handling, queue mutation, or done claim.</small>
+              </div>
+              <div class="resume-row">
+                <span>Before/after bullets</span>
+                <ul class="resume-summary-list" data-proof-delta-value-bullets>
+                  <li>Generic claim to proof-backed claim with source label and proof strength.</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Proof delta snapshot controls">
+              <div class="resume-row">
+                <span>Missing proof</span>
+                <ul class="resume-summary-list" data-proof-delta-value-missing>
+                  <li>Missing metric, source artifact, and approval state.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Boundary states</span>
+                <ul class="resume-summary-list" data-proof-delta-value-boundaries>
+                  <li>Sample delta is separated from live feedback, willingness-to-pay, payment, public proof, and revenue.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Snapshot export preview</span>
+                <strong class="consented-handoff-preview" data-proof-delta-value-preview>No proof-delta snapshot generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="app-panel" id="consented-audit-handoff" aria-label="Consented proof-audit handoff preview" data-consented-audit-handoff-preview>
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">Consented handoff</p>
+              <h3>Review what a candidate would approve before a proof-audit session.</h3>
+            </div>
+            <span class="status-pill" data-consented-handoff-readiness>Needs proof audit</span>
+          </div>
+          <p class="muted" data-consented-handoff-boundary>
+            This manual-share preview connects the local proof audit to consent, target-job approval, redaction,
+            evidence custody, and candidate-visible next steps. It cannot send outreach, schedule sessions,
+            collect payment, publish proof, run analytics, upload data, or submit applications.
+          </p>
+          <div class="app-actions">
+            <button type="button" class="secondary" data-export-consented-handoff-json>Export handoff JSON</button>
+            <button type="button" class="secondary" data-export-consented-handoff-markdown>Export handoff Markdown</button>
+          </div>
+          <p class="form-status" role="status" data-consented-handoff-message>
+            Load the seeded walkthrough or create a proof-audit packet to populate the consented handoff preview.
+          </p>
+          <div class="consented-handoff-grid">
+            <div class="proof-audit-stack">
+              <div class="resume-row">
+                <span>Consent and approval checks</span>
+                <div class="consented-handoff-checks" data-consented-handoff-checks>
+                  <article class="consented-handoff-check">
+                    <strong>Candidate consent required</strong>
+                    <small class="muted">Not observed in this browser-local preview.</small>
+                  </article>
+                </div>
+              </div>
+              <div class="resume-row">
+                <span>Custody and redaction</span>
+                <ul class="resume-summary-list" data-consented-handoff-custody>
+                  <li>No proof-audit custody state generated yet.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Blocked actions</span>
+                <ul class="resume-summary-list" data-consented-handoff-boundaries>
+                  <li>No send, apply, payment, analytics, production storage, or public-proof action is available here.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Candidate-visible next step</span>
+                <strong data-consented-handoff-next>Build a local proof audit before sharing.</strong>
+              </div>
+            </div>
+            <aside class="resume-stack" aria-label="Consented handoff export preview">
+              <div class="resume-row">
+                <span>Manual-share preview</span>
+                <strong class="consented-handoff-preview" data-consented-handoff-preview-text>No consented handoff generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="app-panel"
+          id="first-session-handoff"
+          aria-label="First feedback session rehearsal and handoff"
+          data-first-session-handoff
+          data-first-session-rehearsal
+        >
+          <div class="job-pipeline-head">
+            <div>
+              <p class="eyebrow">First-session rehearsal</p>
+              <h3>Package the local prototype state for a feedback session and rehearse the first proof-audit conversation.</h3>
+            </div>
+            <span class="status-pill" data-handoff-readiness>Not ready</span>
+          </div>
+          <p class="muted" data-handoff-boundary>
+            This handoff is local-only. It summarizes account/workspace state, resume import status, target preferences,
+            matched job, tailored packet, approval/tracking state, and proof gaps without sending data, applying,
+            or storing anything in production.
+          </p>
+          <ul class="rehearsal-boundary-list muted" data-rehearsal-boundaries>
+            <li>Use demo, sample, old, or redacted material only; no real customer materials are required.</li>
+            <li>No outreach, scheduling, public send, analytics send, payment link, application submission, or production customer-data storage.</li>
+            <li>Repo-visible evidence must omit prospect names, contact details, raw resumes, private replies, payment data, credentials, and screenshots.</li>
+          </ul>
+          <div class="first-session-grid">
+            <form class="first-session-form" data-first-session-form>
+              <label>
+                Tester role or segment
+                <input name="testerSegment" placeholder="Early-career operations candidate, career coach..." />
+              </label>
+              <label>
+                Proof-loop comprehension
+                <select name="proofLoopComprehension">
+                  <option value="">Not captured</option>
+                  <option value="clear">Clear</option>
+                  <option value="partial">Partial</option>
+                  <option value="confused">Confused</option>
+                </select>
+              </label>
+              <label>
+                Trust in evidence
+                <select name="trustInEvidence">
+                  <option value="">Not captured</option>
+                  <option value="trusted">Trusted</option>
+                  <option value="needs-more-proof">Needs more proof</option>
+                  <option value="distrusted">Distrusted</option>
+                </select>
+              </label>
+              <label>
+                Objections
+                <textarea name="strongestObjection" placeholder="Strongest sample objection, trust concern, privacy hesitation, or rejection reason."></textarea>
+              </label>
+              <label>
+                Confusion points
+                <textarea name="confusionPoints" placeholder="Where did the tester get lost or need operator explanation?"></textarea>
+              </label>
+              <label>
+                Willingness to share materials
+                <select name="willingnessToShareMaterials">
+                  <option value="">Not captured</option>
+                  <option value="no">No</option>
+                  <option value="maybe">Maybe</option>
+                  <option value="yes">Yes</option>
+                </select>
+              </label>
+              <label>
+                Paid-packet interest signal
+                <select name="paidPacketInterest">
+                  <option value="">Not captured</option>
+                  <option value="none">None</option>
+                  <option value="curious">Curious</option>
+                  <option value="explicit-interest">Explicit interest</option>
+                </select>
+              </label>
+              <label>
+                Requested next action
+                <input name="requestedNextAction" placeholder="Send sample pack, book audit, fix unclear matching..." />
+              </label>
+              <div class="app-actions">
+                <button type="submit" data-save-first-session>Save rehearsal notes locally</button>
+                <button type="button" class="secondary" data-export-first-session-json>Export rehearsal evidence JSON</button>
+                <button type="button" class="secondary" data-export-first-session-markdown>Export rehearsal Markdown</button>
+              </div>
+              <p class="form-status" role="status" data-first-session-message>
+                Export warns and redacts sensitive resume/contact data. Rehearsal evidence is sample/local only and creates no real feedback, revenue, outreach, scheduling, payment, analytics, production storage, or apply action.
+              </p>
+            </form>
+            <aside class="resume-stack" aria-label="Redacted session summary">
+              <div class="resume-row">
+                <span>Rehearsal mode</span>
+                <strong data-rehearsal-mode>Sample/local only</strong>
+              </div>
+              <div class="resume-row">
+                <span>Summary</span>
+                <ul class="resume-summary-list" data-handoff-summary>
+                  <li>Sign in locally to build a first-session handoff.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Remaining proof gaps</span>
+                <ul class="resume-summary-list" data-handoff-proof-gaps>
+                  <li>No tailored packet proof gaps captured yet.</li>
+                </ul>
+              </div>
+              <div class="resume-row">
+                <span>Redacted export preview</span>
+                <strong class="handoff-preview" data-handoff-preview>No handoff generated yet.</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </section>
+
+      <section class="app-panel" data-auth-control-gate aria-label="Auth control gate">
+        <p class="eyebrow">Control gate</p>
+        <h2>Production account features remain blocked.</h2>
+        <div class="app-grid">
+          <article class="app-card">
+            <span>Account</span>
+            <strong>Local fallback allowed</strong>
+            <p class="muted">Real `/app` authenticated-user sessions require the `auth` control and provider credentials.</p>
+          </article>
+          <article class="app-card">
+            <span>Customer data</span>
+            <strong>No production storage</strong>
+            <p class="muted">Resume/customer data storage stays blocked until the `customer_data` control is fully enabled.</p>
+          </article>
+          <article class="app-card">
+            <span>Admin access</span>
+            <strong>Fail closed</strong>
+            <p class="muted">Admin/account roles need `admin_access` and `external_auth_email` controls before provider activation.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

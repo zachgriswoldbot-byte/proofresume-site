@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProofResume Admin | Agent Progress</title>
+    <meta name="description" content="ProofResume autonomous company admin dashboard." />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="ProofResume home">
+        <span class="brand-mark">P</span>
+        <span>ProofResume</span>
+      </a>
+      <nav class="nav" aria-label="Admin navigation">
+        <a href="index.html">Website</a>
+        <a href="#first-customer-launch-room">Launch Room</a>
+        <a href="#first-customer-signal-surface">Signal Surface</a>
+        <a href="#first-customer-evidence-inbox-room">Evidence Room</a>
+        <a href="#first-customer-evidence-proof-repair-packet">Proof Repair</a>
+        <a href="#repaired-proof-to-paid-ask-room">Paid Ask</a>
+        <a href="#paid-ask-outcome-router">Ask Router</a>
+        <a href="#paid-ask-proof-packet-clarity-repair">Ask Repair</a>
+        <a href="#paid-ask-objection-response-simulator">Ask Objections</a>
+        <a href="#first-paid-pilot-handoff-room">Paid Pilot</a>
+        <a href="#first-paid-pilot-gate-simulator">Pilot Gates</a>
+        <a href="#first-dollar-readiness-room">First Dollar</a>
+        <a href="#first-dollar-owner-evidence-repair-room">Owner Evidence</a>
+        <a href="#first-paid-pilot-fulfillment-receipt-preview">Receipt</a>
+        <a href="#first-live-proof-audit-copilot">Audit Copilot</a>
+        <a href="#live-to-paid-pilot-decision-room">Pilot Decision</a>
+        <a href="#live-proof-trust-gap-repair-room">Trust Repair</a>
+        <a href="#live-proof-missing-proof-cue-repair">Proof Cues</a>
+        <a href="#paid-pilot-trust-gap-repair-lab">Trust Lab</a>
+        <a href="#proof-delta-value-snapshot">Proof Delta</a>
+        <a href="#first-authorized-session-runner">Session Runner</a>
+        <a href="#first-customer-pilot-console">Pilot Console</a>
+        <a href="#pilot-revenue-simulator">Revenue Sim</a>
+        <a href="#consented-audit-handoff">Audit Handoff</a>
+        <a href="#business-controls">Controls</a>
+        <a href="#owner-authority-repair">Owner Repair</a>
+        <a href="#concierge-fulfillment">Fulfillment</a>
+        <a href="#redacted-evidence-inbox">Evidence Inbox</a>
+        <a href="#feedback-roadmap">Feedback Roadmap</a>
+        <a href="#operations">Operations</a>
+        <a href="#bundle-library">Bundles</a>
+        <a href="#active-queue">Active Queue</a>
+        <a href="#turnover">Turnover</a>
+        <a href="#deliverable-readiness">Readiness</a>
+        <a href="#recently-shipped">Shipped</a>
+        <a href="#decision-ledger">Decisions</a>
+        <a href="#validation-freshness">Freshness</a>
+        <a href="#swarm-throughput">Throughput</a>
+        <a href="#rapid-ticks">Rapid Ticks</a>
+        <a href="#lanes">Lanes</a>
+        <a href="#passes">Passes</a>
+        <a href="#documents">Documents</a>
+      </nav>
+    </header>
+
+    <main class="admin-shell">
+      <section class="admin-hero">
+        <div>
+          <p class="eyebrow">Autonomous company control room</p>
+          <h1>Agent progress, goals, sprints, and operating documents.</h1>
+          <p class="hero-text">
+            This dashboard is generated from the files agents update after each pass, so progress can be reviewed without digging through the workspace.
+          </p>
+        </div>
+        <div class="admin-status-panel">
+          <span>Workspace</span>
+          <strong id="workspace-path">Loading...</strong>
+          <span>Generated</span>
+          <strong id="generated-at">Loading...</strong>
+        </div>
+      </section>
+
+      <section class="admin-metrics" aria-label="Company metrics">
+        <article>
+          <span>Total passes</span>
+          <strong id="metric-passes">0</strong>
+        </article>
+        <article>
+          <span>Complete</span>
+          <strong id="metric-complete">0</strong>
+        </article>
+        <article>
+          <span>In progress</span>
+          <strong id="metric-progress">0</strong>
+        </article>
+        <article>
+          <span>Visual QA</span>
+          <strong id="metric-qa">Unknown</strong>
+        </article>
+        <article>
+          <span>Active queue</span>
+          <strong id="metric-active-queue">0</strong>
+        </article>
+        <article>
+          <span>Recently shipped</span>
+          <strong id="metric-shipped">0</strong>
+        </article>
+        <article>
+          <span>Stale flags</span>
+          <strong id="metric-stale-queue">0</strong>
+        </article>
+        <article>
+          <span>Safe close</span>
+          <strong id="metric-safe-close">0</strong>
+        </article>
+        <article>
+          <span>Needs pass</span>
+          <strong id="metric-needs-pass">0</strong>
+        </article>
+        <article>
+          <span>Stuck risk</span>
+          <strong id="metric-stuck-risk">0</strong>
+        </article>
+        <article>
+          <span>Proof newer</span>
+          <strong id="metric-proof-newer">0</strong>
+        </article>
+        <article>
+          <span>Rapid ticks</span>
+          <strong id="metric-rapid-ticks">0</strong>
+        </article>
+        <article>
+          <span>Mismatches</span>
+          <strong id="metric-mismatches">0</strong>
+        </article>
+        <article>
+          <span>Ready lanes</span>
+          <strong id="metric-ready-lanes">0</strong>
+        </article>
+        <article>
+          <span>Newly ready</span>
+          <strong id="metric-newly-ready">0</strong>
+        </article>
+        <article>
+          <span>Older evidence</span>
+          <strong id="metric-older-evidence">0</strong>
+        </article>
+        <article>
+          <span>Accept blocked</span>
+          <strong id="metric-accept-blocked">0</strong>
+        </article>
+        <article>
+          <span>Bulk ready</span>
+          <strong id="metric-bulk-ready">Check</strong>
+        </article>
+        <article>
+          <span>Market controls</span>
+          <strong id="metric-market-controls">0 / 0</strong>
+        </article>
+      </section>
+
+      <section class="admin-panel first-customer-launch-room" id="first-customer-launch-room" aria-label="First-customer launch room">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First-customer launch room</p>
+            <h2>Readiness, Evidence, Gates, and Next Route</h2>
+          </div>
+          <strong id="launch-room-state">Local sample only</strong>
+        </div>
+        <p class="panel-note" id="launch-room-note">
+          Coordinate repo-safe launch readiness before any live deploy, outreach, scheduling, payment, analytics, provider, or customer-data action.
+        </p>
+        <div class="launch-room-summary" id="launch-room-summary"></div>
+        <div class="launch-room-next-action" id="launch-room-next-action"></div>
+        <div class="launch-room-grid" id="launch-room-grid"></div>
+      </section>
+
+      <section class="admin-panel first-customer-signal-surface" id="first-customer-signal-surface" aria-label="First-customer signal surface">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First-customer signal surface</p>
+            <h2>Value Receipt, Redacted Reaction, Gates, and Route</h2>
+          </div>
+          <strong id="signal-surface-state">Local sample only</strong>
+        </div>
+        <p class="panel-note" id="signal-surface-note">
+          Inspect one sample/redacted first-customer signal path before any live deploy, outreach, scheduling, payment, analytics, provider, public-proof, or customer-data action.
+        </p>
+        <div class="launch-room-summary" id="signal-surface-summary"></div>
+        <div class="launch-room-next-action" id="signal-surface-route"></div>
+        <div class="launch-room-grid" id="signal-surface-grid"></div>
+      </section>
+
+      <section class="admin-panel first-customer-evidence-inbox-room" id="first-customer-evidence-inbox-room" aria-label="First customer evidence inbox room">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First customer evidence inbox</p>
+            <h2>Custody, Missing Gates, and One Route</h2>
+          </div>
+          <strong id="evidence-inbox-room-state">Sample/redacted only</strong>
+        </div>
+        <p class="panel-note" id="evidence-inbox-room-note">
+          Inspect source custody, consent/redaction state, blocked gates, unsupported claim flags, and exactly one provisional internal route before any live customer session evidence is acted on.
+        </p>
+        <div class="launch-room-summary" id="evidence-inbox-room-summary"></div>
+        <div class="launch-room-next-action" id="evidence-inbox-room-route"></div>
+        <div class="launch-room-grid" id="evidence-inbox-room-grid"></div>
+      </section>
+
+      <section class="admin-panel first-customer-evidence-route-scoreboard" id="first-customer-evidence-route-scoreboard" aria-label="First customer evidence route scoreboard">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First customer evidence route</p>
+            <h2>Scoreboard, Gates, and One Route</h2>
+          </div>
+          <strong id="evidence-route-scoreboard-state">Fail-closed local</strong>
+        </div>
+        <p class="panel-note" id="evidence-route-scoreboard-note">
+          Inspect the local route scoreboard before evidence is promoted into paid prep, owner repair, strategy, QA, Commons, learning, or no action.
+        </p>
+        <div class="launch-room-summary" id="evidence-route-scoreboard-summary"></div>
+        <div class="launch-room-next-action" id="evidence-route-scoreboard-route"></div>
+        <div class="launch-room-grid" id="evidence-route-scoreboard-grid"></div>
+      </section>
+
+      <section class="admin-panel first-customer-evidence-proof-repair-packet" id="first-customer-evidence-proof-repair-packet" aria-label="First customer evidence proof repair packet">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First customer proof repair</p>
+            <h2>Missing Proof, Repair Copy, and Custody</h2>
+          </div>
+          <strong id="evidence-proof-repair-state">Local repair only</strong>
+        </div>
+        <p class="panel-note" id="evidence-proof-repair-note">
+          Inspect the local proof-repair packet selected by the evidence route scoreboard before any live, paid, customer-data, public-proof, outreach, deploy, or downstream queue action.
+        </p>
+        <div class="launch-room-summary" id="evidence-proof-repair-summary"></div>
+        <div class="launch-room-next-action" id="evidence-proof-repair-route"></div>
+        <div class="launch-room-grid" id="evidence-proof-repair-grid"></div>
+      </section>
+
+      <section class="admin-panel repaired-proof-to-paid-ask-room" id="repaired-proof-to-paid-ask-room" aria-label="Repaired proof to paid ask room">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Paid ask rehearsal</p>
+            <h2>Proof Delta, Offer Gates, and One Route</h2>
+          </div>
+          <strong id="paid-ask-room-state">Sample no-send</strong>
+        </div>
+        <p class="panel-note" id="paid-ask-room-note">
+          Inspect the local repaired-proof to paid-ask rehearsal before any live payment, customer-data, outreach, public-proof, deploy, or downstream queue action.
+        </p>
+        <div class="launch-room-summary" id="paid-ask-room-summary"></div>
+        <div class="launch-room-next-action" id="paid-ask-room-route"></div>
+        <div class="launch-room-grid" id="paid-ask-room-grid"></div>
+      </section>
+
+      <section class="admin-panel paid-ask-outcome-router" id="paid-ask-outcome-router" aria-label="Paid ask outcome router">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Paid ask outcome router</p>
+            <h2>Exactly-One Outcome, No Queue Mutation</h2>
+          </div>
+          <strong id="paid-ask-router-state">Fail-closed local</strong>
+        </div>
+        <p class="panel-note" id="paid-ask-router-note">
+          Inspect the sample/redacted paid-ask outcome router before any downstream Product, Business, Strategy, Approval Unblocker, QA, Commons, learning, or no-action route is trusted.
+        </p>
+        <div class="launch-room-summary" id="paid-ask-router-summary"></div>
+        <div class="launch-room-next-action" id="paid-ask-router-route"></div>
+        <div class="launch-room-grid" id="paid-ask-router-grid"></div>
+      </section>
+
+      <section class="admin-panel paid-ask-proof-packet-clarity-repair" id="paid-ask-proof-packet-clarity-repair" aria-label="Paid ask proof packet clarity repair">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Paid ask clarity repair</p>
+            <h2>Proof, Packet Mechanics, and Approval Controls</h2>
+          </div>
+          <strong id="paid-ask-clarity-state">Product repair ready</strong>
+        </div>
+        <p class="panel-note" id="paid-ask-clarity-note">
+          Inspect the sample/redacted Product repair before any paid-ask rehearsal output is treated as live feedback, payment intent, payment, public proof, revenue, or downstream queue evidence.
+        </p>
+        <div class="launch-room-summary" id="paid-ask-clarity-summary"></div>
+        <div class="launch-room-next-action" id="paid-ask-clarity-route"></div>
+        <div class="launch-room-grid" id="paid-ask-clarity-grid"></div>
+      </section>
+
+      <section class="admin-panel paid-ask-objection-response-simulator" id="paid-ask-objection-response-simulator" aria-label="Paid ask objection response simulator">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Paid ask objection simulator</p>
+            <h2>Safe Response Copy, Blocking Gates, One Route</h2>
+          </div>
+          <strong id="paid-ask-objection-simulator-state">Sample objections only</strong>
+        </div>
+        <p class="panel-note" id="paid-ask-objection-simulator-note">
+          Inspect sample/redacted paid-ask objections before any operator treats a response as live customer feedback, willingness to pay, payment intent, payment, public proof, or revenue.
+        </p>
+        <div class="launch-room-summary" id="paid-ask-objection-simulator-summary"></div>
+        <div class="launch-room-next-action" id="paid-ask-objection-simulator-route"></div>
+        <div class="launch-room-grid" id="paid-ask-objection-simulator-grid"></div>
+      </section>
+
+      <section class="admin-panel first-paid-pilot-handoff-room" id="first-paid-pilot-handoff-room" aria-label="First paid pilot handoff room">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First paid pilot handoff</p>
+            <h2>Owner Go/No-Go, Gates, and Receipt</h2>
+          </div>
+          <strong id="first-paid-pilot-handoff-state">Local handoff ready</strong>
+        </div>
+        <p class="panel-note" id="first-paid-pilot-handoff-note">
+          Inspect the sample/redacted first paid pilot handoff before any checkout, payment, customer-data handling, public proof, or live-action claim is trusted.
+        </p>
+        <div class="launch-room-summary" id="first-paid-pilot-handoff-summary"></div>
+        <div class="launch-room-next-action" id="first-paid-pilot-handoff-route"></div>
+        <div class="launch-room-grid" id="first-paid-pilot-handoff-grid"></div>
+      </section>
+
+      <section class="admin-panel first-paid-pilot-gate-simulator" id="first-paid-pilot-gate-simulator" aria-label="First paid pilot gate simulator">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First Paid Pilot Gate Simulator</p>
+            <h2>Gate States, Owner Repair Ask, No Live Actions</h2>
+          </div>
+          <strong id="first-paid-pilot-gate-state">Fail-closed local</strong>
+        </div>
+        <p class="panel-note" id="first-paid-pilot-gate-note">
+          Inspect payment, customer-data, support/refund, deploy, outreach, analytics, public-proof, and first-authorized-session gates before any first paid pilot action is treated as live-ready.
+        </p>
+        <div class="launch-room-summary" id="first-paid-pilot-gate-summary"></div>
+        <div class="launch-room-next-action" id="first-paid-pilot-gate-route"></div>
+        <div class="launch-room-grid" id="first-paid-pilot-gate-grid"></div>
+      </section>
+
+      <section class="admin-panel first-dollar-readiness-room" id="first-dollar-readiness-room" aria-label="First dollar readiness room">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First Dollar Readiness Room</p>
+            <h2>Proof, Packet, First Blocking Gate, One Route</h2>
+          </div>
+          <strong id="first-dollar-readiness-state">Fail-closed local</strong>
+        </div>
+        <p class="panel-note" id="first-dollar-readiness-note">
+          Inspect first-dollar readiness before any payment link, checkout, customer-data upload, outreach, scheduling, analytics, public proof, testimonial, referral, employer contact, auto-apply, form fill, application submission, or live revenue claim is trusted.
+        </p>
+        <div class="launch-room-summary" id="first-dollar-readiness-summary"></div>
+        <div class="launch-room-next-action" id="first-dollar-readiness-route"></div>
+        <div class="launch-room-grid" id="first-dollar-readiness-grid"></div>
+      </section>
+
+      <section class="admin-panel first-dollar-owner-evidence-repair-room" id="first-dollar-owner-evidence-repair-room" aria-label="First dollar owner evidence repair room">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First Dollar Owner Evidence Repair Room</p>
+            <h2>Owner Fields, First Gate, One Route</h2>
+          </div>
+          <strong id="first-dollar-owner-evidence-state">Repair needed</strong>
+        </div>
+        <p class="panel-note" id="first-dollar-owner-evidence-note">
+          Inspect missing owner fields before any payment link, checkout, customer-data upload, outreach, scheduling,
+          analytics, public proof, testimonial, referral, employer contact, auto-apply, form fill, application
+          submission, provider mutation, downstream queue mutation, delegated done claim, or live revenue claim is trusted.
+        </p>
+        <div class="launch-room-summary" id="first-dollar-owner-evidence-summary"></div>
+        <div class="launch-room-next-action" id="first-dollar-owner-evidence-route"></div>
+        <div class="launch-room-grid" id="first-dollar-owner-evidence-grid"></div>
+      </section>
+
+      <section class="admin-panel first-paid-pilot-fulfillment-receipt-preview" id="first-paid-pilot-fulfillment-receipt-preview" aria-label="First paid pilot fulfillment receipt preview">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Fulfillment Receipt Preview</p>
+            <h2>Deliverables, Proof Delta, Data Path, One Route</h2>
+          </div>
+          <strong id="fulfillment-receipt-state">Sample receipt only</strong>
+        </div>
+        <p class="panel-note" id="fulfillment-receipt-note">
+          Inspect the sample paid-pilot receipt before any checkout, payment collection, production customer data,
+          outreach, scheduling, analytics, public proof, provider mutation, employer contact, auto-apply, form fill,
+          application submission, or live revenue claim is trusted.
+        </p>
+        <div class="launch-room-summary" id="fulfillment-receipt-summary"></div>
+        <div class="launch-room-next-action" id="fulfillment-receipt-route"></div>
+        <div class="launch-room-grid" id="fulfillment-receipt-grid"></div>
+      </section>
+
+      <section class="admin-panel first-live-proof-audit-copilot" id="first-live-proof-audit-copilot" aria-label="First live proof-audit copilot">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First live proof-audit copilot</p>
+            <h2>Script, Proof Checkpoints, Gates, Paid Pilot Cues, One Route</h2>
+          </div>
+          <strong id="live-proof-audit-copilot-state">Sample/redacted only</strong>
+        </div>
+        <p class="panel-note" id="live-proof-audit-copilot-note">
+          Inspect the sample or owner-approved redacted proof-audit copilot before any live outreach, scheduling,
+          payment, customer-data handling, public proof, provider mutation, downstream queue mutation, delegated done
+          claim, or revenue claim is trusted.
+        </p>
+        <div class="launch-room-summary" id="live-proof-audit-copilot-summary"></div>
+        <div class="launch-room-next-action" id="live-proof-audit-copilot-route"></div>
+        <div class="launch-room-grid" id="live-proof-audit-copilot-grid"></div>
+      </section>
+
+      <section class="admin-panel live-to-paid-pilot-decision-room" id="live-to-paid-pilot-decision-room" aria-label="Live session to paid pilot decision room">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Live to paid pilot decision</p>
+            <h2>Gates, Evidence States, One Safe Route</h2>
+          </div>
+          <strong id="live-to-paid-pilot-decision-state">Sample decision only</strong>
+        </div>
+        <p class="panel-note" id="live-to-paid-pilot-decision-note">
+          Inspect the sample or owner-approved redacted post-session decision before any checkout, payment link,
+          customer-data handling, provider mutation, outreach, public proof, downstream queue mutation, delegated done
+          claim, or revenue claim is trusted.
+        </p>
+        <div class="launch-room-summary" id="live-to-paid-pilot-decision-summary"></div>
+        <div class="launch-room-next-action" id="live-to-paid-pilot-decision-route"></div>
+        <div class="launch-room-grid" id="live-to-paid-pilot-decision-grid"></div>
+      </section>
+
+      <section class="admin-panel live-proof-trust-gap-repair-room" id="live-proof-trust-gap-repair-room" aria-label="Live proof audit trust gap repair room">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Live proof trust repair</p>
+            <h2>Objections, Custody, Missing Proof, One Route</h2>
+          </div>
+          <strong id="live-proof-trust-gap-repair-state">Sample repair only</strong>
+        </div>
+        <p class="panel-note" id="live-proof-trust-gap-repair-note">
+          Inspect the sample or owner-approved redacted trust repair packet before any customer-data handling, payment,
+          outreach, public proof, provider mutation, downstream queue mutation, delegated done claim, or revenue claim is trusted.
+        </p>
+        <div class="launch-room-summary" id="live-proof-trust-gap-repair-summary"></div>
+        <div class="launch-room-next-action" id="live-proof-trust-gap-repair-route"></div>
+        <div class="launch-room-grid" id="live-proof-trust-gap-repair-grid"></div>
+      </section>
+
+      <section class="admin-panel live-proof-missing-proof-cue-repair" id="live-proof-missing-proof-cue-repair" aria-label="Live proof audit missing-proof cue repair">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Missing-proof cue repair</p>
+            <h2>Prioritized Gaps, Owner Prompts, One Route</h2>
+          </div>
+          <strong id="live-proof-missing-proof-cue-state">Sample cue repair only</strong>
+        </div>
+        <p class="panel-note" id="live-proof-missing-proof-cue-note">
+          Inspect ranked missing-proof cues and owner-safe category prompts before any external send, customer-data
+          handling, payment, public proof, downstream queue mutation, delegated done claim, or revenue claim is trusted.
+        </p>
+        <div class="launch-room-summary" id="live-proof-missing-proof-cue-summary"></div>
+        <div class="launch-room-next-action" id="live-proof-missing-proof-cue-route"></div>
+        <div class="launch-room-grid" id="live-proof-missing-proof-cue-grid"></div>
+      </section>
+
+      <section class="admin-panel paid-pilot-trust-gap-repair-lab" id="paid-pilot-trust-gap-repair-lab" aria-label="Paid pilot trust objection close lab">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Paid pilot trust lab</p>
+            <h2>Proof Gaps, Safe Responses, One Route</h2>
+          </div>
+          <strong id="paid-pilot-trust-gap-lab-state">Sample close rehearsal only</strong>
+        </div>
+        <p class="panel-note" id="paid-pilot-trust-gap-lab-note">
+          Inspect no-send paid-pilot trust objection responses before checkout, payment, customer-data handling,
+          public proof, provider mutation, downstream queue mutation, delegated done claim, or revenue claim is trusted.
+        </p>
+        <div class="launch-room-summary" id="paid-pilot-trust-gap-lab-summary"></div>
+        <div class="launch-room-next-action" id="paid-pilot-trust-gap-lab-route"></div>
+        <div class="launch-room-grid" id="paid-pilot-trust-gap-lab-grid"></div>
+      </section>
+
+      <section class="admin-panel proof-delta-value-snapshot" id="proof-delta-value-snapshot" aria-label="Proof delta value snapshot">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Proof delta</p>
+            <h2>Before, After, Evidence, One Route</h2>
+          </div>
+          <strong id="proof-delta-value-state">Sample snapshot only</strong>
+        </div>
+        <p class="panel-note" id="proof-delta-value-note">
+          Inspect sample before/after proof value without live feedback, payment intent, payment, public proof, referral, testimonial, or revenue claims.
+        </p>
+        <div class="launch-room-summary" id="proof-delta-value-summary"></div>
+        <div class="launch-room-next-action" id="proof-delta-value-route"></div>
+        <div class="launch-room-grid" id="proof-delta-value-grid"></div>
+      </section>
+
+      <section class="admin-panel first-authorized-session-runner" id="first-authorized-session-runner" aria-label="First authorized session runner">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First authorized session</p>
+            <h2>Runner, Gates, and One Route</h2>
+          </div>
+          <strong id="authorized-session-state">Local sample only</strong>
+        </div>
+        <p class="panel-note" id="authorized-session-note">
+          Walk a sample or owner-approved redacted session from context to value, objections, paid-packet readiness, blocked gates, and exactly one next route.
+        </p>
+        <div class="launch-room-summary" id="authorized-session-summary"></div>
+        <div class="launch-room-next-action" id="authorized-session-route"></div>
+        <div class="launch-room-grid" id="authorized-session-grid"></div>
+      </section>
+
+      <section class="admin-panel first-customer-pilot-console" id="first-customer-pilot-console" aria-label="First customer pilot console">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First customer pilot</p>
+            <h2>Proof Loop, Gates, and One Route</h2>
+          </div>
+          <strong id="pilot-console-state">Local sample only</strong>
+        </div>
+        <p class="panel-note" id="pilot-console-note">
+          Inspect one sample or owner-approved redacted pilot across candidate context, target job, proof loop, value receipt, objections, blocked gates, and route selection.
+        </p>
+        <div class="launch-room-summary" id="pilot-console-summary"></div>
+        <div class="launch-room-next-action" id="pilot-console-route"></div>
+        <div class="launch-room-grid" id="pilot-console-grid"></div>
+      </section>
+
+      <section class="admin-panel pilot-revenue-simulator" id="pilot-revenue-simulator" aria-label="Pilot revenue simulator">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Pilot revenue simulator</p>
+            <h2>Paid Ask Gates, Scenarios, and One Route</h2>
+          </div>
+          <strong id="pilot-revenue-state">No checkout</strong>
+        </div>
+        <p class="panel-note" id="pilot-revenue-note">
+          Rehearse the first paid-packet ask from sample pilot evidence without displaying payment links, collecting money, accepting customer materials, or claiming revenue signal.
+        </p>
+        <div class="launch-room-summary" id="pilot-revenue-summary"></div>
+        <div class="launch-room-next-action" id="pilot-revenue-route"></div>
+        <div class="launch-room-grid" id="pilot-revenue-grid"></div>
+      </section>
+
+      <section class="admin-panel consented-audit-handoff" id="consented-audit-handoff" aria-label="Consented proof-audit handoff preview">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Consented proof-audit handoff</p>
+            <h2>Manual-Share Preview Gates</h2>
+          </div>
+          <strong id="consented-audit-handoff-state">Local preview only</strong>
+        </div>
+        <p class="panel-note" id="consented-audit-handoff-note">
+          Candidate consent, target-job approval, redaction, custody, and blocked external actions are visible before a proof-audit session is shared.
+        </p>
+        <div class="consented-audit-summary" id="consented-audit-summary"></div>
+        <div class="consented-audit-grid" id="consented-audit-grid"></div>
+      </section>
+
+      <section class="admin-panel business-controls" id="business-controls" aria-label="Business authority controls">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Business authority</p>
+            <h2>External Action Controls</h2>
+          </div>
+          <strong id="business-controls-total">0 enabled</strong>
+        </div>
+        <div class="queue-source" id="business-controls-source"></div>
+        <div class="business-control-summary" id="business-control-summary"></div>
+        <div class="business-control-grid" id="business-control-grid"></div>
+      </section>
+
+      <section class="admin-panel owner-authority-repair" id="owner-authority-repair" aria-label="Owner authority repair loop preview">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Owner authority repair</p>
+            <h2>Blocked Gate Evidence Map</h2>
+          </div>
+          <strong id="owner-authority-repair-state">No live action</strong>
+        </div>
+        <p class="panel-note" id="owner-authority-repair-note">
+          Preview the non-secret owner evidence needed to repair blocked deploy, feedback, outreach, payment, analytics, and customer-data gates.
+        </p>
+        <div class="owner-authority-summary" id="owner-authority-summary"></div>
+        <div class="owner-authority-grid" id="owner-authority-grid"></div>
+      </section>
+
+      <section class="admin-panel concierge-fulfillment" id="concierge-fulfillment" aria-label="Concierge fulfillment dashboard">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">First paid packet</p>
+            <h2>Concierge Fulfillment Dashboard</h2>
+          </div>
+          <strong id="concierge-fulfillment-state">Local only</strong>
+        </div>
+        <p class="panel-note" id="concierge-fulfillment-summary">
+          Manual Target Job Proof Packet fulfillment is tracked as redacted local status only. This view cannot collect payment, store production customer data, send deliverables, or create provider actions.
+        </p>
+        <div class="concierge-summary-grid" id="concierge-summary-grid"></div>
+        <div class="concierge-case-list" id="concierge-case-list"></div>
+      </section>
+
+      <section class="admin-panel redacted-evidence-inbox" id="redacted-evidence-inbox" aria-label="Redacted first-session evidence inbox">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Customer-learning evidence</p>
+            <h2>Redacted First-Session Evidence Inbox</h2>
+          </div>
+          <strong id="redacted-evidence-state">Local sample only</strong>
+        </div>
+        <p class="panel-note" id="redacted-evidence-note">
+          Display sample or owner-approved redacted evidence packets before they become queue suggestions. This inbox cannot store raw resumes, prospect identities, private replies, payment data, credentials, or customer materials.
+        </p>
+        <div class="hero-actions" style="justify-content: flex-start; margin-top: 12px;">
+          <button type="button" class="secondary-action" data-evidence-load-workspace>Load workspace rehearsal</button>
+          <button type="button" class="secondary-action" data-evidence-export>Export inbox .json</button>
+          <button type="button" class="secondary-action is-danger" data-evidence-clear>Clear local inbox</button>
+          <span class="micro-note" id="redacted-evidence-message" aria-live="polite"></span>
+        </div>
+        <div class="redacted-evidence-summary" id="redacted-evidence-summary"></div>
+        <div class="redacted-evidence-lanes" id="redacted-evidence-lanes"></div>
+      </section>
+
+      <section class="admin-panel feedback-roadmap" id="feedback-roadmap" aria-label="Feedback to roadmap synthesis">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Feedback intelligence</p>
+            <h2>Feedback-to-Roadmap Loop</h2>
+          </div>
+          <strong id="feedback-roadmap-state">Local drafts only</strong>
+        </div>
+        <p class="panel-note">
+          Convert sample or redacted session observations into queue-item drafts. This surface stores browser-local drafts only and cannot mark queue items ready, claim real customer evidence, send outreach, collect payment, deploy, or submit applications.
+        </p>
+        <div class="feedback-roadmap-workbench">
+          <form id="feedback-roadmap-form" class="feedback-roadmap-form">
+            <label>
+              Session observation
+              <textarea
+                name="observation"
+                rows="5"
+                placeholder="Paste one redacted observation, objection, willingness-to-pay note, friction point, GTM issue, or infrastructure blocker."
+              ></textarea>
+            </label>
+            <label>
+              Evidence source
+              <input name="source" placeholder="Example: app.html#first-session-handoff or ops/reports/..." />
+            </label>
+            <label>
+              Session mode
+              <select name="mode">
+                <option value="sample_rehearsal">Sample rehearsal</option>
+                <option value="owner_approved_redacted">Owner-approved redacted</option>
+                <option value="manual_operator_note">Manual operator note</option>
+              </select>
+            </label>
+            <div class="hero-actions">
+              <button type="submit" class="secondary-action">Draft suggestion</button>
+              <button type="button" class="secondary-action" data-feedback-load-workspace>Load workspace notes</button>
+              <button type="button" class="secondary-action" data-feedback-export>Export drafts .json</button>
+              <button type="button" class="secondary-action is-danger" data-feedback-clear>Clear local drafts</button>
+            </div>
+            <span class="micro-note" id="feedback-roadmap-message" aria-live="polite"></span>
+          </form>
+          <div class="feedback-roadmap-output">
+            <div class="feedback-roadmap-summary" id="feedback-roadmap-summary"></div>
+            <div class="feedback-roadmap-drafts" id="feedback-roadmap-drafts"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="admin-panel swarm-health" aria-label="Swarm health">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Score checkpoints</p>
+            <h2>Swarm Health</h2>
+          </div>
+          <strong id="swarm-average">Pending</strong>
+        </div>
+        <div class="checkpoint-grid" id="checkpoint-grid"></div>
+      </section>
+
+      <section class="admin-panel sprint-trend" aria-label="Sprint progress trend">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Sprint progress trend</p>
+            <h2>Pass Velocity & Lane Momentum</h2>
+          </div>
+          <strong id="trend-velocity">Pending</strong>
+        </div>
+        <div class="trend-summary" id="trend-summary"></div>
+        <div class="trend-chart" id="trend-chart" aria-label="Recent cumulative sprint progress"></div>
+        <div class="trend-lanes" id="trend-lanes"></div>
+      </section>
+
+      <section class="admin-grid" id="operations">
+        <div class="admin-panel wide">
+          <div class="panel-title-row">
+            <div>
+              <p class="eyebrow">Operations queue</p>
+              <h2>Explicit Next Actions</h2>
+            </div>
+          </div>
+          <div class="action-list" id="next-action-list"></div>
+        </div>
+
+        <aside class="admin-panel">
+          <p class="eyebrow">Local capture</p>
+          <h2>Dev Leads & Intake Artifacts</h2>
+          <div id="local-capture-list" class="capture-list"></div>
+        </aside>
+      </section>
+
+      <section class="admin-panel bundle-library" id="bundle-library" aria-label="Bundle library">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Local-only tooling</p>
+            <h2>Bundle Library</h2>
+          </div>
+          <strong id="bundle-library-total">0 imported</strong>
+        </div>
+        <div class="hero-actions" style="justify-content: flex-start; margin-top: 12px;">
+          <button type="button" class="secondary-action" data-pr="importExportBundle">Import bundle .json</button>
+          <input type="file" accept="application/json,.json" hidden data-pr="importExportBundleFile" />
+          <span class="micro-note" data-pr="importExportBundleStatus"></span>
+          <button type="button" class="secondary-action" data-pr="exportBundleLibrary">Export bundle library .json</button>
+          <button type="button" class="secondary-action" data-pr="importBundleLibrary">Import bundle library .json</button>
+          <input type="file" accept="application/json,.json" hidden data-pr="importBundleLibraryFile" />
+          <span class="micro-note" data-pr="bundleLibraryTransferStatus"></span>
+          <span class="hero-actions" data-pr="bundleLibraryImportActions" hidden>
+            <button type="button" class="secondary-action" data-pr="bundleLibraryImportMerge">Merge import</button>
+            <button type="button" class="secondary-action" data-pr="bundleLibraryImportReplace">Replace library</button>
+            <button type="button" class="secondary-action" data-pr="bundleLibraryImportDownloadPreview">Download import preview</button>
+            <button type="button" class="secondary-action" data-pr="bundleLibraryImportCancel">Cancel</button>
+          </span>
+          <button type="button" class="secondary-action" data-pr="exportBundleAnnotations">Export bundle annotations .json</button>
+          <button type="button" class="secondary-action" data-pr="importBundleAnnotations">Import bundle annotations .json</button>
+          <input type="file" accept="application/json,.json" hidden data-pr="importBundleAnnotationsFile" />
+          <span class="micro-note" data-pr="bundleAnnotationsTransferStatus"></span>
+        </div>
+        <div class="bundle-filters" aria-label="Bundle library filters">
+          <label class="bundle-filter-field">
+            <span>Search</span>
+            <input type="search" inputmode="search" autocomplete="off" placeholder="Search bundle id or source" data-pr="bundleLibrarySearch" />
+          </label>
+          <label class="bundle-filter-field">
+            <span>Source</span>
+            <select data-pr="bundleLibrarySourceFilter">
+              <option value="all">All sources</option>
+            </select>
+          </label>
+          <label class="bundle-filter-field">
+            <span>Recency</span>
+            <select data-pr="bundleLibraryRecencyFilter">
+              <option value="any">Any time</option>
+              <option value="24h">Last 24 hours</option>
+              <option value="7d">Last 7 days</option>
+              <option value="30d">Last 30 days</option>
+              <option value="365d">Last 12 months</option>
+            </select>
+          </label>
+          <button type="button" class="secondary-action" data-pr="bundleLibraryClearFilters">Clear</button>
+          <span class="micro-note" data-pr="bundleLibraryMatchCount" aria-live="polite"></span>
+        </div>
+        <p class="panel-note" id="bundle-library-summary">
+          Lists locally imported export bundles stored in <code>localStorage</code>. Use replay links to open the read-only review or proof packet views.
+        </p>
+        <div class="bundle-list" id="bundle-library-list"></div>
+      </section>
+
+      <section class="admin-panel backlog-queue" id="active-queue">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Active queue</p>
+            <h2>Current Assignments by Lane, Priority, and Validation</h2>
+          </div>
+          <strong id="active-queue-total">0 active</strong>
+        </div>
+        <div class="queue-source" id="queue-source"></div>
+        <div class="stale-queue-guardrail" id="stale-queue-guardrail"></div>
+        <div class="queue-refresh-decision" id="queue-refresh-decision"></div>
+        <div class="queue-age-proof" id="queue-age-proof"></div>
+        <div class="queue-groups" id="queue-groups"></div>
+      </section>
+
+      <section class="admin-panel turnover-summary" id="turnover">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Cycle turnover</p>
+            <h2>New Active Rows Versus Older Close Evidence</h2>
+          </div>
+          <strong id="turnover-total">0 new</strong>
+        </div>
+        <div class="queue-source" id="turnover-source"></div>
+        <div class="turnover-grid" id="turnover-grid"></div>
+      </section>
+
+      <section class="admin-panel deliverable-readiness" id="deliverable-readiness">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Current-cycle deliverable readiness</p>
+            <h2>Active Rows by Lane With Proof Age</h2>
+          </div>
+          <strong id="deliverable-readiness-total">0 active</strong>
+        </div>
+        <div class="queue-source" id="deliverable-readiness-source"></div>
+        <div class="deliverable-readiness-grid" id="deliverable-readiness-grid"></div>
+      </section>
+
+      <section class="admin-panel shipped-outcomes" id="recently-shipped">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Recently shipped</p>
+            <h2>Completed Outcomes</h2>
+          </div>
+          <strong id="shipped-total">0 shipped</strong>
+        </div>
+        <div class="queue-source" id="shipped-source"></div>
+        <div class="shipped-list" id="recently-shipped-list"></div>
+      </section>
+
+      <section class="admin-panel decision-ledger" id="decision-ledger">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Decision ledger</p>
+            <h2>Latest Product, Growth, and QA Choices</h2>
+          </div>
+          <strong id="decision-ledger-total">0 decisions</strong>
+        </div>
+        <div class="queue-source" id="decision-ledger-source"></div>
+        <div class="decision-ledger-groups" id="decision-ledger-groups"></div>
+      </section>
+
+      <section class="admin-panel validation-freshness" id="validation-freshness">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Validation freshness</p>
+            <h2>Latest Lane Proof</h2>
+          </div>
+          <strong id="validation-freshness-total">0 need pass</strong>
+        </div>
+        <div class="queue-source" id="validation-freshness-source"></div>
+        <div class="freshness-grid" id="freshness-grid"></div>
+      </section>
+
+      <section class="admin-panel swarm-throughput" id="swarm-throughput">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Throughput diagnostics</p>
+            <h2>Recent Passes & Stuck-Loop Risk</h2>
+          </div>
+          <strong id="swarm-throughput-total">0 recent</strong>
+        </div>
+        <div class="queue-source" id="swarm-throughput-source"></div>
+        <div class="throughput-grid" id="throughput-grid"></div>
+        <div class="risk-drilldown">
+          <div class="risk-drilldown-head">
+            <div>
+              <p class="eyebrow">Risk history audit</p>
+              <h3>Source Evidence Drill-Down</h3>
+            </div>
+            <strong id="risk-history-total">0 records</strong>
+          </div>
+          <div class="risk-filters" aria-label="Risk history filters">
+            <label>
+              Lane
+              <select id="risk-filter-lane"></select>
+            </label>
+            <label>
+              Risk
+              <select id="risk-filter-level">
+                <option value="all">All risk levels</option>
+                <option value="stuck-risk">Stuck risk</option>
+                <option value="watch">Watch</option>
+                <option value="clear">Clear</option>
+              </select>
+            </label>
+            <label>
+              Source
+              <select id="risk-filter-source">
+                <option value="all">All sources</option>
+                <option value="report">Report evidence</option>
+                <option value="pass">Pass JSON only</option>
+              </select>
+            </label>
+          </div>
+          <div class="risk-history-list" id="risk-history-list"></div>
+        </div>
+      </section>
+
+      <section class="admin-panel rapid-ticks" id="rapid-ticks">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Subagent utilization</p>
+            <h2>Rapid Tick Integration Visibility</h2>
+          </div>
+          <strong id="rapid-tick-total">0 ticks</strong>
+        </div>
+        <div class="queue-source" id="rapid-tick-source"></div>
+        <div class="rapid-tick-filters" aria-label="Rapid tick timeline filters">
+          <label>
+            Lane
+            <select id="rapid-filter-lane"></select>
+          </label>
+          <label>
+            Validation outcome
+            <select id="rapid-filter-outcome"></select>
+          </label>
+        </div>
+        <div class="rapid-tick-grid" id="rapid-tick-grid"></div>
+      </section>
+
+      <section class="admin-grid" id="passes">
+        <div class="admin-panel wide">
+          <div class="panel-title-row">
+            <div>
+              <p class="eyebrow">Prompt passes</p>
+              <h2>Incremental Agent Work</h2>
+            </div>
+          </div>
+          <div class="pass-list" id="pass-list"></div>
+        </div>
+
+        <aside class="admin-panel">
+          <p class="eyebrow">Validation</p>
+          <h2>Quality Gates</h2>
+          <div id="validation-list" class="validation-list"></div>
+        </aside>
+      </section>
+
+      <section class="admin-panel" id="lanes">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Swarm lanes</p>
+            <h2>Parallel Work Ownership</h2>
+          </div>
+        </div>
+        <div class="lane-grid" id="lane-grid"></div>
+      </section>
+
+      <section class="admin-panel" id="documents">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Source of truth</p>
+            <h2>Goals, Sprints, Backlog, Reports, Requirements</h2>
+          </div>
+        </div>
+        <div class="doc-tabs" id="doc-tabs"></div>
+        <article class="doc-reader">
+          <div class="doc-reader-head">
+            <strong id="doc-title">Select a document</strong>
+            <span id="doc-path"></span>
+          </div>
+          <pre id="doc-content"></pre>
+        </article>
+      </section>
+    </main>
+
+    <script type="module" src="admin.js"></script>
+  </body>
+</html>

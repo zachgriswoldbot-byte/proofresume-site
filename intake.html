@@ -1,0 +1,2245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProofResume Intake | Paste a resume to generate a local review</title>
+    <meta
+      name="description"
+      content="Paste raw resume text locally to generate a draft ProofResume review report. Data stays on this machine."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="ProofResume home">
+        <span class="brand-mark">P</span>
+        <span>ProofResume</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/#product">Product</a>
+        <a href="/review.html">Sample report</a>
+        <a href="/intake.html" aria-current="page">Try yours</a>
+        <a href="/target-job.html">Target job pack</a>
+        <a href="/#early-access">Early access</a>
+      </nav>
+    </header>
+
+    <main class="intake">
+      <header class="report-hero intake-hero">
+        <div>
+          <p class="eyebrow">Local intake</p>
+          <h1>Paste a messy resume. Get a draft review report.</h1>
+          <p class="hero-text">
+            This is a local-only prototype. Your paste is stored in this browser’s local storage and never sent to any external service.
+          </p>
+        </div>
+        <section class="report-summary intake-summary" aria-label="What happens next">
+          <div class="review-topline">
+            <span>Next</span>
+            <strong>Draft report</strong>
+          </div>
+          <div class="change-list">
+            <article>
+              <span>Kept</span>
+              <p>Your raw text is preserved unchanged.</p>
+            </article>
+            <article>
+              <span>Analyzed</span>
+              <p>Word count, likely resume sections, and missing evidence prompts.</p>
+            </article>
+            <article>
+              <span>Private</span>
+              <p>No external service is contacted. This runs in your browser only.</p>
+            </article>
+          </div>
+        </section>
+      </header>
+
+      <section class="section-band report-band intake-band" aria-label="Paste resume text">
+        <div class="section-head">
+          <p class="eyebrow">Input</p>
+          <h2>Paste raw resume text.</h2>
+          <p class="hero-text">
+            Tip: include a few bullets from one role. You can paste a full resume too.
+          </p>
+        </div>
+
+        <div class="demo-mode-panel" aria-label="Free-audit demo mode">
+          <div>
+            <p class="eyebrow">Free-audit demo</p>
+            <h3>Try a sample without mixing it with your resume.</h3>
+            <p class="report-note">
+              Demo mode loads clearly labeled sample material into a separate local draft. Your own pasted resume stays user-provided material and
+              is never merged with the sample.
+            </p>
+          </div>
+          <div class="demo-mode-actions">
+            <button class="secondary-action" type="button" id="load-demo">Load sample demo</button>
+            <span class="status-pill is-pending">Sample/demo material</span>
+          </div>
+        </div>
+
+        <div class="demo-mode-panel" aria-label="Session reset controls">
+          <div>
+            <p class="eyebrow">Session reset</p>
+            <h3>Clear demo/user drafts between free-audit sessions.</h3>
+            <p class="report-note">
+              These controls only touch localStorage in this browser. Use them to remove old demo drafts, user drafts, or proof-packet redactions.
+              They do not change the resume export text inside any saved files you already downloaded.
+            </p>
+          </div>
+          <div class="demo-mode-actions">
+            <button class="secondary-action" type="button" id="reset-demo-drafts">Clear demo drafts</button>
+            <button class="secondary-action" type="button" id="reset-user-drafts">Clear user drafts</button>
+            <button class="secondary-action" type="button" id="reset-redactions">Clear packet redactions</button>
+            <button class="secondary-action" type="button" id="reset-all">Clear all local drafts</button>
+          </div>
+        </div>
+
+        <section
+          class="session-prep-panel"
+          data-pr="sessionPrepChecklist"
+          data-session-prep-ready="false"
+          id="session-prep"
+          aria-label="Free-audit session prep checklist"
+        >
+          <div class="session-prep-head">
+            <div>
+              <p class="eyebrow">Session prep</p>
+              <h3>Confirm the local state before starting a free audit.</h3>
+            </div>
+            <span class="status-pill is-pending" data-pr="sessionPrepStatus">Needs review</span>
+          </div>
+          <ul class="session-prep-list">
+            <li data-pr="sessionPrepDraftState" data-session-prep-item="draft-state" data-session-prep-state="pending">
+              <span class="status-pill is-pending">Draft state</span>
+              <p>No local draft state checked yet.</p>
+            </li>
+            <li data-pr="sessionPrepResetState" data-session-prep-item="reset-state" data-session-prep-state="pending">
+              <span class="status-pill is-pending">Reset state</span>
+              <p>No reset state checked yet.</p>
+            </li>
+            <li data-pr="sessionPrepTargetRole" data-session-prep-item="target-role" data-session-prep-state="pending">
+              <span class="status-pill is-pending">Target role</span>
+              <p>Add a target role before the operator starts.</p>
+            </li>
+            <li data-pr="sessionPrepRedaction" data-session-prep-item="redaction-readiness" data-session-prep-state="pending">
+              <span class="status-pill is-pending">Redaction readiness</span>
+              <p>No packet redaction state checked yet.</p>
+            </li>
+          </ul>
+          <p class="report-note" data-pr="sessionPrepNote">
+            This checklist reads only localStorage and the target-role field. It does not change resume export text.
+          </p>
+        </section>
+
+        <section
+          class="operator-handoff-panel"
+          data-pr="operatorHandoffPanel"
+          data-first-session-handoff="true"
+          data-handoff-local-only="true"
+          data-operator-handoff-local-only="true"
+          data-export-text-unchanged="true"
+          data-selected-draft-id=""
+          data-proof-packet-share-status="No packet yet"
+          data-share-readiness="No packet yet"
+          aria-label="First-session operator handoff"
+        >
+          <div class="operator-handoff-head">
+            <div>
+              <p class="eyebrow">Operator handoff</p>
+              <h3>First-session links in one local checklist.</h3>
+            </div>
+            <span class="status-pill is-pending" data-pr="operatorHandoffStatus">Needs draft</span>
+          </div>
+          <div class="operator-handoff-grid">
+            <a class="operator-handoff-card" href="#session-prep" data-pr="operatorHandoffSessionPrepLink" data-handoff-destination="session-prep">
+              <span>Session prep</span>
+              <strong data-pr="operatorHandoffSessionPrepState">Needs review</strong>
+            </a>
+            <a class="operator-handoff-card" href="/review.html" data-pr="operatorHandoffSelectedDraftLink" data-handoff-destination="selected-draft">
+              <span>Selected draft</span>
+              <strong data-pr="operatorHandoffSelectedDraft">No local draft selected</strong>
+            </a>
+            <a class="operator-handoff-card" href="/proof-packet.html" data-pr="operatorHandoffPacketLink" data-handoff-destination="proof-packet">
+              <span>Proof Packet</span>
+              <strong data-pr="operatorHandoffPacketReadiness">No packet yet</strong>
+            </a>
+          </div>
+          <div class="operator-handoff-links" data-pr="operatorHandoffLearningLinks" data-learning-log-destinations="learning-log,raw-notes,debrief">
+            <a href="../ops/research/private-free-audit-learning-log-index.md" data-handoff-destination="learning-log">Learning log index</a>
+            <a href="../ops/research/free-audit-real-session-note-packet.md" data-handoff-destination="raw-notes">Raw notes packet</a>
+            <a href="../ops/research/private-free-audit-post-session-debrief-template.md" data-handoff-destination="debrief">Debrief template</a>
+          </div>
+          <p class="report-note" data-pr="operatorHandoffNote">
+            Local-only handoff: reads browser state and links private local docs. Resume export text stays separate.
+          </p>
+        </section>
+
+        <section
+          class="demo-mode-panel"
+          aria-label="Activation-decision packet review status marker"
+          data-activation-decision-packet-review-status
+          data-review-status-only="true"
+          data-local-only="true"
+          data-storage-key="proofresume:activationDecisionPacketReviewStatus"
+          data-default-status="not-reviewed"
+          data-mutates-business-controls="false"
+          data-enable-control-flags="false"
+          data-network-enabled="false"
+          data-secret-request-enabled="false"
+          data-url-request-enabled="false"
+          data-deploy-trigger-enabled="false"
+          data-checkout-enabled="false"
+          data-outbound-enabled="false"
+          data-analytics-enabled="false"
+          data-card-data-enabled="false"
+          data-contact-data-enabled="false"
+          data-resume-data-enabled="false"
+        >
+          <div>
+            <p class="eyebrow">Activation decision</p>
+            <h3>Packet review status marker (local-only).</h3>
+            <p class="report-note">
+              This marker is stored only in browser localStorage under <code>proofresume:activationDecisionPacketReviewStatus</code>. It does not
+              enable any business control or create enablement evidence.
+            </p>
+          </div>
+          <div class="demo-mode-actions">
+            <label>
+              <select data-activation-decision-packet-review-status-input>
+                <option value="not-reviewed">Not reviewed</option>
+                <option value="reviewed">Reviewed</option>
+                <option value="rejected">Rejected</option>
+                <option value="stale">Stale</option>
+              </select>
+            </label>
+            <button class="secondary-action" type="button" data-activation-decision-packet-review-status-save>
+              Save packet review status
+            </button>
+          </div>
+          <p class="report-note" data-activation-decision-packet-review-status-target>
+            Packet summary review status: not reviewed. Browser localStorage only; no control authority changes.
+          </p>
+        </section>
+
+	        <section
+	          class="dispatch-board"
+	          data-pr="firstRecruitDispatchBoard"
+	          data-dispatch-readiness="no-send"
+	          data-dispatch-no-send="true"
+          data-real-reply-facts="not-observed"
+          data-local-artifact-links="dispatch-readiness,outreach-tracker,scheduling-consent,selected-draft"
+          data-local-only="true"
+          data-export-text-unchanged="true"
+          data-selected-draft-id=""
+          aria-label="First-recruit dispatch board"
+        >
+          <div class="dispatch-board-head">
+            <div>
+              <p class="eyebrow">First-recruit dispatch</p>
+              <h3>No-send until real reply facts exist.</h3>
+            </div>
+            <span class="status-pill is-rejected" data-pr="dispatchNoSendStatus">No-send</span>
+          </div>
+          <div class="dispatch-board-grid">
+            <a
+              class="dispatch-board-card"
+              href="../ops/launch/private-free-audit-dispatch-readiness-packet.md"
+              data-pr="dispatchReadinessPacketLink"
+              data-dispatch-artifact="dispatch-readiness"
+            >
+              <span>Readiness packet</span>
+              <strong data-pr="dispatchReadinessState">Private checklist</strong>
+            </a>
+            <a
+              class="dispatch-board-card"
+              href="../ops/launch/private-free-audit-outreach-tracker.md"
+              data-pr="dispatchOutreachTrackerLink"
+              data-dispatch-artifact="outreach-tracker"
+            >
+              <span>Outreach tracker</span>
+              <strong data-pr="dispatchTrackerState">Replies not observed</strong>
+            </a>
+            <a
+              class="dispatch-board-card"
+              href="../ops/research/private-free-audit-scheduling-consent-checklist.md"
+              data-pr="dispatchSchedulingConsentLink"
+              data-dispatch-artifact="scheduling-consent"
+            >
+              <span>Scheduling/consent</span>
+              <strong data-pr="dispatchConsentState">Use after reply</strong>
+            </a>
+            <a
+              class="dispatch-board-card"
+              href="/review.html"
+              data-pr="dispatchSelectedDraftLink"
+              data-dispatch-artifact="selected-draft"
+            >
+              <span>Selected draft</span>
+              <strong data-pr="dispatchSelectedDraft">No local draft selected</strong>
+            </a>
+          </div>
+	          <p class="report-note" data-pr="dispatchBoardNote">
+	            Local-only board: links private artifacts and the selected draft. It does not send outreach, record replies, or change resume export text.
+	          </p>
+	        </section>
+
+	        <section
+	          class="dispatch-board triage-board"
+	          data-pr="firstReplyTriageBoard"
+	          data-triage-readiness="no-reply"
+	          data-triage-no-reply="true"
+	          data-real-reply-facts="not-observed"
+	          data-local-artifact-links="reply-triage-template,outreach-tracker,scheduling-consent,raw-note-prep,selected-draft"
+	          data-local-only="true"
+	          data-export-text-unchanged="true"
+	          data-selected-draft-id=""
+	          aria-label="First-reply triage board"
+	        >
+	          <div class="dispatch-board-head">
+	            <div>
+	              <p class="eyebrow">First-reply triage</p>
+	              <h3>No reply until real reply facts exist.</h3>
+	            </div>
+	            <span class="status-pill is-pending" data-pr="triageNoReplyStatus">No reply</span>
+	          </div>
+	          <div class="dispatch-board-grid">
+	            <a
+	              class="dispatch-board-card"
+	              href="../ops/launch/private-free-audit-first-reply-triage-template.md"
+	              data-pr="triageTemplateLink"
+	              data-triage-artifact="reply-triage-template"
+	            >
+	              <span>Triage template</span>
+	              <strong data-pr="triageTemplateState">Private operator script</strong>
+	            </a>
+	            <a
+	              class="dispatch-board-card"
+	              href="../ops/launch/private-free-audit-outreach-tracker.md"
+	              data-pr="triageOutreachTrackerLink"
+	              data-triage-artifact="outreach-tracker"
+	            >
+	              <span>Outreach tracker</span>
+	              <strong data-pr="triageTrackerState">Replies not observed</strong>
+	            </a>
+	            <a
+	              class="dispatch-board-card"
+	              href="../ops/research/private-free-audit-scheduling-consent-checklist.md"
+	              data-pr="triageSchedulingConsentLink"
+	              data-triage-artifact="scheduling-consent"
+	            >
+	              <span>Scheduling/consent</span>
+	              <strong data-pr="triageConsentState">Use after reply</strong>
+	            </a>
+	            <a
+	              class="dispatch-board-card"
+	              href="../ops/research/free-audit-real-session-note-packet.md"
+	              data-pr="triageRawNotesLink"
+	              data-triage-artifact="raw-note-prep"
+	            >
+	              <span>Raw-note prep</span>
+	              <strong data-pr="triageRawNotesState">Prep before call</strong>
+	            </a>
+	            <a class="dispatch-board-card" href="/review.html" data-pr="triageSelectedDraftLink" data-triage-artifact="selected-draft">
+	              <span>Selected draft</span>
+	              <strong data-pr="triageSelectedDraft">No local draft selected</strong>
+	            </a>
+	          </div>
+	          <p class="report-note" data-pr="triageBoardNote">
+	            Local-only board: links the reply triage template and supporting artifacts. It does not record replies, send outreach, or change resume export text.
+	          </p>
+	        </section>
+
+	        <section
+	          class="first-reply-fact-panel"
+	          data-pr="firstReplyFactCapturePanel"
+	          data-first-reply-fact-capture
+	          data-first-reply-state="unobserved"
+	          data-real-reply-facts="not-observed"
+	          data-explicit-operator-action="required"
+	          data-local-only="true"
+	          data-export-text-unchanged="true"
+	          data-selected-draft-id=""
+	          aria-label="First-reply fact capture"
+	        >
+	          <div class="first-reply-fact-head">
+	            <div>
+	              <p class="eyebrow">First-reply facts</p>
+	              <h3>Capture the reply state only after an operator observes it.</h3>
+	            </div>
+	            <span class="status-pill is-pending" data-pr="firstReplyFactStatus" data-first-reply-fact-status="unobserved">Unobserved</span>
+	          </div>
+	          <div class="first-reply-fact-actions" role="group" aria-label="Set first-reply state">
+	            <button class="secondary-action" type="button" data-pr="firstReplyFactAccepted" data-first-reply-fact-action="accepted">Accepted</button>
+	            <button class="secondary-action" type="button" data-pr="firstReplyFactDeclined" data-first-reply-fact-action="declined">Declined</button>
+	            <button class="secondary-action" type="button" data-pr="firstReplyFactReschedule" data-first-reply-fact-action="reschedule">Reschedule</button>
+	            <button class="secondary-action" type="button" data-pr="firstReplyFactQuestionOnly" data-first-reply-fact-action="question-only">Question-only</button>
+	            <button class="secondary-action" type="button" data-pr="firstReplyFactNoResponse" data-first-reply-fact-action="no-response">No-response</button>
+	            <button class="secondary-action" type="button" data-pr="firstReplyFactReset" data-first-reply-fact-action="unobserved">Reset</button>
+	          </div>
+	          <div class="first-reply-fact-list" data-pr="firstReplyFactList" data-first-reply-fact-list></div>
+	          <p class="report-note" data-pr="firstReplyFactNote">
+	            Default state is unobserved. This local-only panel updates selected-draft metadata only after an explicit operator click; resume export text is unchanged.
+	          </p>
+	        </section>
+
+	        <section
+	          class="scheduling-readiness-panel"
+	          data-pr="localSchedulingReadinessPanel"
+	          data-local-scheduling-readiness
+	          data-scheduling-readiness="blocked"
+	          data-scheduling-blocked="true"
+	          data-accepted-reply-fact="missing"
+	          data-accepted-local-reply-fact="false"
+	          data-real-reply-facts="not-observed"
+	          data-explicit-operator-action="required"
+	          data-local-artifact-links="scheduling-consent,accepted-reply-confirmation,redacted-material-prep,raw-note-prep"
+	          data-local-only="true"
+	          data-export-text-unchanged="true"
+	          data-selected-draft-id=""
+	          aria-label="Local scheduling readiness"
+	        >
+	          <div class="scheduling-readiness-head">
+	            <div>
+	              <p class="eyebrow">Scheduling readiness</p>
+	              <h3>Blocked until the selected draft has an accepted reply fact.</h3>
+	            </div>
+	            <span class="status-pill is-rejected" data-pr="schedulingReadinessStatus">Blocked</span>
+	          </div>
+	          <div class="dispatch-board-grid">
+	            <a
+	              class="dispatch-board-card"
+	              href="../ops/research/private-free-audit-scheduling-consent-checklist.md"
+	              data-pr="schedulingConsentReadinessLink"
+	              data-scheduling-artifact="scheduling-consent"
+	            >
+	              <span>Scheduling/consent</span>
+	              <strong data-pr="schedulingConsentReadinessState">Blocked</strong>
+	            </a>
+	            <a
+	              class="dispatch-board-card"
+	              href="../ops/launch/private-free-audit-accepted-reply-confirmation.md"
+	              data-pr="acceptedReplyConfirmationLink"
+	              data-scheduling-artifact="accepted-reply-confirmation"
+	            >
+	              <span>Accepted-reply confirmation</span>
+	              <strong data-pr="acceptedReplyConfirmationState">Needs accepted fact</strong>
+	            </a>
+	            <a
+	              class="dispatch-board-card"
+	              href="../ops/research/private-free-audit-scheduling-consent-checklist.md#redacted-material-prep-checklist"
+	              data-pr="redactedMaterialPrepLink"
+	              data-scheduling-artifact="redacted-material-prep"
+	            >
+	              <span>Redacted-material prep</span>
+	              <strong data-pr="redactedMaterialPrepState">Blocked</strong>
+	            </a>
+	            <a
+	              class="dispatch-board-card"
+	              href="../ops/research/free-audit-real-session-note-packet.md"
+	              data-pr="rawNotePrepReadinessLink"
+	              data-scheduling-artifact="raw-note-prep"
+	            >
+	              <span>Raw-note prep</span>
+	              <strong data-pr="rawNotePrepReadinessState">Blocked</strong>
+	            </a>
+	          </div>
+	        <p class="report-note" data-pr="schedulingReadinessNote">
+	          Local-only readiness: scheduling stays blocked until an operator explicitly records Accepted for this selected draft. Resume export text is unchanged.
+	        </p>
+	      </section>
+
+	      <section
+	        class="scheduling-readiness-panel session-start-gate-panel"
+	        data-pr="appointmentSessionStartGatePanel"
+	        data-appointment-confirmed-session-start-gate
+	        data-session-start-readiness="blocked"
+	        data-session-start-blocked="true"
+	        data-calendar-readiness="blocked"
+	        data-explicit-appointment-time="missing"
+	        data-consent-boundary="missing"
+	        data-redacted-material-reminder="missing"
+	        data-raw-note-prep-facts="missing"
+	        data-local-artifact-links="runbook,raw-note-prep,debrief-template"
+	        data-local-only="true"
+	        data-export-text-unchanged="true"
+	        data-selected-draft-id=""
+	        aria-label="Appointment-confirmed session-start gate"
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Session-start gate</p>
+	            <h3>Blocked until the appointment-confirmed facts exist.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="appointmentSessionStartGateStatus">Blocked</span>
+	        </div>
+	        <div class="session-start-input">
+	          <label>
+	            Appointment date and time
+	            <input type="datetime-local" data-pr="sessionStartAppointmentTime" data-session-start-fact="appointmentDateTime" />
+	          </label>
+	        </div>
+	        <div class="first-reply-fact-actions" role="group" aria-label="Confirm session-start facts">
+	          <button class="secondary-action" type="button" data-session-start-fact="consentBoundaryConfirmed">Consent boundary</button>
+	          <button class="secondary-action" type="button" data-session-start-fact="redactedMaterialReminderConfirmed">Redacted reminder</button>
+	          <button class="secondary-action" type="button" data-session-start-fact="rawNotePrepConfirmed">Raw-note prep</button>
+	          <button class="secondary-action" type="button" data-session-start-fact="reset">Reset gate</button>
+	        </div>
+	        <div class="dispatch-board-grid">
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/private-free-audit-first-session-operator-runbook.md"
+	            data-session-start-artifact="runbook"
+	          >
+	            <span>Runbook</span>
+	            <strong data-pr="sessionStartCalendarState">Blocked</strong>
+	          </a>
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/free-audit-real-session-note-packet.md"
+	            data-session-start-artifact="raw-note-prep"
+	          >
+	            <span>Raw-note prep</span>
+	            <strong data-pr="sessionStartRawNoteState">Missing</strong>
+	          </a>
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/private-free-audit-post-session-debrief-template.md"
+	            data-session-start-artifact="debrief-template"
+	          >
+	            <span>Debrief template</span>
+	            <strong data-pr="sessionStartAppointmentState">Missing</strong>
+	          </a>
+	          <article class="dispatch-board-card" data-session-start-artifact="consent-boundary">
+	            <span>Consent boundary</span>
+	            <strong data-pr="sessionStartConsentState">Missing</strong>
+	          </article>
+	          <article class="dispatch-board-card" data-session-start-artifact="redacted-material-reminder">
+	            <span>Redacted-material reminder</span>
+	            <strong data-pr="sessionStartRedactedState">Missing</strong>
+	          </article>
+	        </div>
+	        <p class="report-note" data-pr="appointmentSessionStartGateNote">
+	          Local-only session-start gate: blocked until calendar readiness, appointment date/time, consent boundary, redacted-material reminder, and raw-note prep facts exist. Resume export text is unchanged.
+	        </p>
+	      </section>
+
+	      <section
+	        class="raw-note-capture-panel"
+	        data-pr="firstSessionRawNoteCapturePanel"
+	        data-first-session-raw-note-capture
+	        data-raw-note-capture-readiness="blocked"
+	        data-raw-note-capture-blocked="true"
+	        data-session-start-readiness="blocked"
+	        data-local-artifact-links="debrief-template,objection-coding"
+	        data-local-only="true"
+	        data-export-text-unchanged="true"
+	        data-selected-draft-id=""
+	        aria-label="First-session raw-note capture"
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Raw-note capture</p>
+	            <h3>Opens after session-start readiness.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="rawNoteCaptureStatus">Blocked</span>
+	        </div>
+	        <label class="raw-note-field">
+	          Operator raw notes
+	          <textarea
+	            rows="7"
+	            data-pr="firstSessionRawNotes"
+	            data-raw-note-local-only="true"
+	            placeholder="Capture real first-session notes only after the session-start gate is ready."
+	          ></textarea>
+	        </label>
+	        <div class="first-reply-fact-actions" role="group" aria-label="Save first-session raw notes">
+	          <button class="secondary-action" type="button" data-pr="saveFirstSessionRawNotes">Save raw notes locally</button>
+	          <button class="secondary-action" type="button" data-pr="clearFirstSessionRawNotes">Clear raw notes</button>
+	        </div>
+	        <div
+	          class="raw-note-summary"
+	          data-pr="rawNoteCaptureSummary"
+	          data-raw-note-capture-item="summary"
+	          data-raw-note-state="blocked"
+	        >
+	          No raw notes saved.
+	        </div>
+	        <div class="dispatch-board-grid">
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/private-free-audit-post-session-debrief-template.md"
+	            data-raw-note-artifact="debrief-template"
+	            data-pr="rawNoteDebriefLink"
+	          >
+	            <span>Debrief template</span>
+	            <strong data-pr="rawNoteDebriefState">Blocked</strong>
+	          </a>
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/free-audit-objection-coding-rubric.md"
+	            data-raw-note-artifact="objection-coding"
+	            data-pr="rawNoteObjectionCodingLink"
+	          >
+	            <span>Objection coding</span>
+	            <strong data-pr="rawNoteObjectionCodingState">Blocked</strong>
+	          </a>
+	        </div>
+	        <p class="report-note" data-pr="rawNoteCaptureNote">
+	          Local-only raw-note gate: blocked until session-start readiness. Raw notes are stored only in localStorage and never added to resume export text.
+	        </p>
+	      </section>
+
+	      <section
+	        class="post-session-debrief-panel"
+	        data-pr="postSessionDebriefHandoffPanel"
+	        data-post-session-debrief-handoff
+	        data-debrief-readiness="blocked"
+	        data-debrief-blocked="true"
+	        data-raw-note-recorded="false"
+	        data-local-artifact-links="debrief-template,objection-coding,five-session-synthesis"
+	        data-local-only="true"
+	        data-export-text-unchanged="true"
+	        data-download-text-unchanged="true"
+	        data-selected-draft-id=""
+	        aria-label="Post-session debrief handoff"
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Post-session debrief</p>
+	            <h3>Opens only after raw notes are saved.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="postSessionDebriefStatus">Blocked</span>
+	        </div>
+	        <div class="post-session-debrief-fields">
+	          <label>
+	            Next operator step
+	            <input data-pr="postSessionNextStep" placeholder="Example: send redacted packet, ask follow-up, schedule synthesis" />
+	          </label>
+	          <label>
+	            Objection code
+	            <input data-pr="postSessionObjectionCode" placeholder="Example: pricing-risk, unclear-owner, timing" />
+	          </label>
+	          <label>
+	            Synthesis cue
+	            <textarea rows="4" data-pr="postSessionSynthesisCue" placeholder="Summarize the next learning to carry into five-session synthesis."></textarea>
+	          </label>
+	        </div>
+	        <div class="first-reply-fact-actions" role="group" aria-label="Save post-session debrief handoff">
+	          <button class="secondary-action" type="button" data-pr="savePostSessionDebrief">Save debrief handoff locally</button>
+	          <button class="secondary-action" type="button" data-pr="clearPostSessionDebrief">Clear debrief handoff</button>
+	        </div>
+	        <div
+	          class="post-session-debrief-summary"
+	          data-pr="postSessionDebriefSummary"
+	          data-debrief-capture-item="summary"
+	          data-debrief-state="blocked"
+	        >
+	          Blocked until raw-note capture has saved real session notes.
+	        </div>
+	        <div class="dispatch-board-grid">
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/private-free-audit-post-session-debrief-template.md"
+	            data-debrief-artifact="debrief-template"
+	            data-pr="postSessionDebriefTemplateLink"
+	          >
+	            <span>Debrief template</span>
+	            <strong data-pr="postSessionDebriefTemplateState">Blocked</strong>
+	          </a>
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/free-audit-objection-coding-rubric.md"
+	            data-debrief-artifact="objection-coding"
+	            data-pr="postSessionObjectionCodingLink"
+	          >
+	            <span>Objection coding</span>
+	            <strong data-pr="postSessionObjectionCodingState">Blocked</strong>
+	          </a>
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/free-audit-interview-synthesis-template.md"
+	            data-debrief-artifact="five-session-synthesis"
+	            data-pr="postSessionSynthesisLink"
+	          >
+	            <span>Synthesis</span>
+	            <strong data-pr="postSessionSynthesisState">Blocked</strong>
+	          </a>
+	        </div>
+	        <p class="report-note" data-pr="postSessionDebriefNote">
+	          Local-only debrief handoff: blocked until raw notes exist. Debrief notes are operator metadata and never added to resume export text.
+	        </p>
+	      </section>
+
+	      <section
+	        class="objection-coding-panel"
+	        data-pr="objectionCodingHandoffPanel"
+	        data-objection-coding-handoff
+	        data-objection-coding-readiness="blocked"
+	        data-objection-coding-blocked="true"
+	        data-debrief-draft-saved="false"
+	        data-private-objection-tags="0"
+	        data-local-artifact-links="objection-rubric,synthesis-template"
+	        data-local-only="true"
+	        data-export-text-unchanged="true"
+	        data-download-text-unchanged="true"
+	        data-selected-draft-id=""
+	        aria-label="Objection-coding handoff"
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Objection coding</p>
+	            <h3>Opens only after the post-session debrief is saved.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="objectionCodingStatus">Blocked</span>
+	        </div>
+	        <div class="post-session-debrief-fields objection-coding-fields">
+	          <label>
+	            Private objection tags
+	            <input data-pr="objectionCodingTags" placeholder="Example: pricing-risk, trust-gap, timing" />
+	          </label>
+	          <label>
+	            Synthesis handoff note
+	            <textarea rows="4" data-pr="objectionCodingSynthesisNote" placeholder="What should the five-session synthesis compare later?"></textarea>
+	          </label>
+	        </div>
+	        <div class="first-reply-fact-actions" role="group" aria-label="Save objection coding handoff">
+	          <button class="secondary-action" type="button" data-pr="saveObjectionCoding">Save objection tags locally</button>
+	          <button class="secondary-action" type="button" data-pr="clearObjectionCoding">Clear objection tags</button>
+	        </div>
+	        <div
+	          class="post-session-debrief-summary objection-coding-summary"
+	          data-pr="objectionCodingSummary"
+	          data-objection-coding-item="summary"
+	          data-objection-coding-state="blocked"
+	        >
+	          Blocked until the post-session debrief handoff has a saved draft.
+	        </div>
+	        <div class="dispatch-board-grid">
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/free-audit-objection-coding-rubric.md"
+	            data-objection-coding-artifact="objection-rubric"
+	            data-pr="objectionCodingRubricLink"
+	          >
+	            <span>Objection rubric</span>
+	            <strong data-pr="objectionCodingRubricState">Blocked</strong>
+	          </a>
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/free-audit-interview-synthesis-template.md"
+	            data-objection-coding-artifact="synthesis-template"
+	            data-pr="objectionCodingSynthesisLink"
+	          >
+	            <span>Synthesis template</span>
+	            <strong data-pr="objectionCodingSynthesisState">Blocked</strong>
+	          </a>
+	        </div>
+	        <p class="report-note" data-pr="objectionCodingNote">
+	          Local-only objection coding: private tags stay in browser metadata and never enter resume export or download text.
+	        </p>
+	      </section>
+
+	      <section
+	        class="synthesis-readiness-panel"
+	        data-pr="fiveSessionSynthesisReadinessPanel"
+	        data-five-session-synthesis-readiness
+	        data-synthesis-readiness="blocked"
+	        data-synthesis-blocked="true"
+	        data-real-session-slots-complete="0"
+	        data-required-session-slots="5"
+	        data-local-only="true"
+	        data-export-text-unchanged="true"
+	        data-download-text-unchanged="true"
+	        aria-label="Five-session synthesis readiness"
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Five-session synthesis</p>
+	            <h3>Blocked until five real session slots are complete.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="synthesisReadinessStatus">Blocked</span>
+	        </div>
+	        <div
+	          class="synthesis-slot-list"
+	          data-pr="synthesisSessionSlotList"
+	          data-synthesis-session-slots
+	          aria-label="Session slot completeness"
+	        ></div>
+	        <div class="dispatch-board-grid">
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/free-audit-real-session-note-packet.md"
+	            data-synthesis-artifact="raw-note-packets"
+	            data-pr="synthesisRawNotesState"
+	          >
+	            <span>Raw notes</span>
+	            <strong>0 / 5 complete</strong>
+	          </a>
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/private-free-audit-post-session-debrief-template.md"
+	            data-synthesis-artifact="debrief-packets"
+	            data-pr="synthesisDebriefState"
+	          >
+	            <span>Debriefs</span>
+	            <strong>0 / 5 complete</strong>
+	          </a>
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/free-audit-objection-coding-rubric.md"
+	            data-synthesis-artifact="objection-codes"
+	            data-pr="synthesisObjectionCodeState"
+	          >
+	            <span>Objection codes</span>
+	            <strong>0 / 5 complete</strong>
+	          </a>
+	          <a
+	            class="dispatch-board-card"
+	            href="../ops/research/free-audit-interview-synthesis-template.md"
+	            data-synthesis-artifact="synthesis-template"
+	            data-pr="synthesisTemplateState"
+	          >
+	            <span>Synthesis template</span>
+	            <strong>Blocked</strong>
+	          </a>
+	        </div>
+	        <p class="report-note" data-pr="synthesisReadinessNote">
+	          Local-only synthesis readiness: five real user-session slots must each have raw notes, a debrief draft, and private objection tags before synthesis opens. Resume export and download text are unchanged.
+	        </p>
+	      </section>
+
+	      <section
+	        class="synthesis-artifact-panel"
+	        data-pr="privateSynthesisArtifactPanel"
+	        data-private-synthesis-artifact
+	        data-synthesis-artifact-readiness="blocked"
+	        data-synthesis-artifact-drafted="false"
+	        data-local-only="true"
+	        data-private="true"
+	        data-export-text-unchanged="true"
+	        data-download-text-unchanged="true"
+	        aria-label="Private synthesis artifact generator"
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Private synthesis artifact</p>
+	            <h3>Generator stays disabled until five packets are complete.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="privateSynthesisArtifactStatus">Blocked</span>
+	        </div>
+	        <button class="secondary-action" type="button" data-pr="generatePrivateSynthesisArtifact" disabled>
+	          Generate private draft
+	        </button>
+	        <pre class="synthesis-artifact-preview" data-pr="privateSynthesisArtifactPreview">No private synthesis artifact drafted.</pre>
+	        <p class="report-note" data-pr="privateSynthesisArtifactNote">
+	          Local-only private generator: it reads five complete evidence packets, drafts operator synthesis metadata in localStorage, and never changes resume export or download text.
+	        </p>
+	      </section>
+
+	      <section
+	        class="decision-memo-panel"
+	        data-pr="privateSynthesisDecisionMemoPanel"
+	        data-private-synthesis-decision-memo
+	        data-decision-memo-readiness="blocked"
+	        data-synthesis-artifact-exists="false"
+	        data-decision-memo-drafted="false"
+	        data-local-only="true"
+	        data-private="true"
+	        data-export-text-unchanged="true"
+	        data-download-text-unchanged="true"
+	        data-public-product-copy-unchanged="true"
+	        aria-label="Private synthesis decision memo capture"
+	        hidden
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Private decision memo</p>
+	            <h3>Capture reviewed fields after the synthesis artifact exists.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="privateSynthesisDecisionMemoStatus">Blocked</span>
+	        </div>
+	        <div class="decision-memo-fields">
+	          <label>
+	            Reviewed decision
+	            <select data-pr="decisionMemoReviewedDecision">
+	              <option value="">Select decision</option>
+	              <option value="continue-learning">Continue learning</option>
+	              <option value="needs-more-evidence">Needs more evidence</option>
+	              <option value="ready-for-private-review">Ready for private review</option>
+	              <option value="do-not-publish">Do not publish</option>
+	            </select>
+	          </label>
+	          <label>
+	            Evidence confidence
+	            <select data-pr="decisionMemoEvidenceConfidence">
+	              <option value="">Select confidence</option>
+	              <option value="low">Low</option>
+	              <option value="medium">Medium</option>
+	              <option value="high">High</option>
+	            </select>
+	          </label>
+	          <label>
+	            Public-change guard
+	            <input data-pr="decisionMemoPublicChangeGuard" placeholder="Example: no public changes approved" />
+	          </label>
+	          <label>
+	            Operator notes
+	            <textarea rows="4" data-pr="decisionMemoOperatorNotes" placeholder="Private review notes from the synthesis artifact only."></textarea>
+	          </label>
+	        </div>
+	        <div class="export-toolbar">
+	          <button class="secondary-action" type="button" data-pr="savePrivateSynthesisDecisionMemo">
+	            Save private memo
+	          </button>
+	          <button class="secondary-action" type="button" data-pr="clearPrivateSynthesisDecisionMemo" disabled>
+	            Clear memo fields
+	          </button>
+	        </div>
+	        <p class="decision-memo-summary" data-pr="privateSynthesisDecisionMemoSummary">
+	          Blocked until a private synthesis artifact exists.
+	        </p>
+	        <p class="report-note" data-pr="privateSynthesisDecisionMemoNote">
+	          Private decision memo capture stays closed until a private synthesis artifact exists.
+	        </p>
+	      </section>
+
+	      <section
+	        class="decision-memo-panel launch-decision-panel"
+	        data-pr="privateLaunchDecisionApprovalPanel"
+	        data-private-launch-decision-approval
+	        data-launch-decision-approval-readiness="blocked"
+	        data-synthesis-decision-memo-complete="false"
+	        data-launch-decision-approval-drafted="false"
+	        data-local-only="true"
+	        data-private="true"
+	        data-export-text-unchanged="true"
+	        data-download-text-unchanged="true"
+	        data-public-product-copy-unchanged="true"
+	        aria-label="Private launch decision approval capture"
+	        hidden
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Private launch approval</p>
+	            <h3>Record publish/no-publish review after the memo is complete.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="privateLaunchDecisionApprovalStatus">Blocked</span>
+	        </div>
+	        <div class="decision-memo-fields">
+	          <label>
+	            Launch decision
+	            <select data-pr="launchDecisionApprovalDecision">
+	              <option value="">Select launch decision</option>
+	              <option value="publish-reviewed">Publish reviewed</option>
+	              <option value="no-publish-reviewed">No-publish reviewed</option>
+	            </select>
+	          </label>
+	          <label>
+	            Reviewer
+	            <input data-pr="launchDecisionApprovalReviewer" placeholder="Private reviewer initials or name" />
+	          </label>
+	          <label>
+	            Approval notes
+	            <textarea rows="4" data-pr="launchDecisionApprovalNotes" placeholder="Private launch review notes from the completed memo only."></textarea>
+	          </label>
+	        </div>
+	        <div class="export-toolbar">
+	          <button class="secondary-action" type="button" data-pr="savePrivateLaunchDecisionApproval">
+	            Save launch review
+	          </button>
+	          <button class="secondary-action" type="button" data-pr="clearPrivateLaunchDecisionApproval" disabled>
+	            Clear launch review
+	          </button>
+	        </div>
+	        <p class="decision-memo-summary" data-pr="privateLaunchDecisionApprovalSummary">
+	          Blocked until a completed private synthesis decision memo exists.
+	        </p>
+	        <p class="report-note" data-pr="privateLaunchDecisionApprovalNote">
+	          Private launch approval capture stays closed until a completed private synthesis decision memo exists.
+	        </p>
+	      </section>
+
+	      <section
+	        class="decision-memo-panel publish-plan-panel"
+	        data-pr="privateExplicitPublishPlanPanel"
+	        data-private-explicit-publish-plan
+	        data-publish-plan-readiness="blocked"
+	        data-publish-readiness-checklist-complete="false"
+	        data-publish-plan-drafted="false"
+	        data-local-only="true"
+	        data-private="true"
+	        data-export-eligible="false"
+	        data-download-eligible="false"
+	        data-export-text-unchanged="true"
+	        data-download-text-unchanged="true"
+	        data-public-product-copy-unchanged="true"
+	        data-no-publish-action="true"
+	        aria-label="Private explicit publish plan capture"
+	        hidden
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Private publish plan</p>
+	            <h3>Draft owner, rollback, claim-risk, and copy diff after readiness is complete.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="privateExplicitPublishPlanStatus">Blocked</span>
+	        </div>
+	        <div class="decision-memo-fields">
+	          <label>
+	            Owner
+	            <input data-pr="publishPlanOwner" placeholder="Private owner for the plan only" />
+	          </label>
+	          <label>
+	            Rollback
+	            <textarea rows="3" data-pr="publishPlanRollback" placeholder="Private rollback path; no publish action happens here."></textarea>
+	          </label>
+	          <label>
+	            Claim-risk
+	            <textarea rows="3" data-pr="publishPlanClaimRisk" placeholder="Private claim-risk review notes from the completed readiness checklist."></textarea>
+	          </label>
+	          <label>
+	            Public-copy diff
+	            <textarea rows="4" data-pr="publishPlanPublicCopyDiff" placeholder="Private proposed diff notes only; public/product copy is unchanged."></textarea>
+	          </label>
+	        </div>
+	        <div class="export-toolbar">
+	          <button class="secondary-action" type="button" data-pr="savePrivateExplicitPublishPlan">
+	            Save private plan
+	          </button>
+	          <button class="secondary-action" type="button" data-pr="clearPrivateExplicitPublishPlan" disabled>
+	            Clear private plan
+	          </button>
+	        </div>
+	        <p class="decision-memo-summary" data-pr="privateExplicitPublishPlanSummary">
+	          Blocked until a completed private publish-readiness checklist exists.
+	        </p>
+	        <p class="report-note" data-pr="privateExplicitPublishPlanNote">
+	          Private publish-plan capture stays closed until a completed private publish-readiness checklist exists.
+	        </p>
+	      </section>
+
+	      <section
+	        class="decision-memo-panel publish-plan-panel"
+	        data-pr="privatePublicCopyDiffRollbackPanel"
+	        data-private-public-copy-diff-rollback
+	        data-public-copy-diff-rollback-readiness="blocked"
+	        data-explicit-publish-plan-complete="false"
+	        data-public-copy-diff-rollback-drafted="false"
+	        data-local-only="true"
+	        data-private="true"
+	        data-export-eligible="false"
+	        data-download-eligible="false"
+	        data-export-text-unchanged="true"
+	        data-download-text-unchanged="true"
+	        data-public-product-copy-unchanged="true"
+	        data-no-publish-action="true"
+	        aria-label="Private public-copy diff and rollback capture"
+	        hidden
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Private copy diff</p>
+	            <h3>Capture diff and rollback checks after the explicit plan is complete.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="privatePublicCopyDiffRollbackStatus">Blocked</span>
+	        </div>
+	        <div class="decision-memo-fields">
+	          <label>
+	            Diff summary
+	            <textarea rows="3" data-pr="copyDiffRollbackDiffSummary" placeholder="Private summary of intended public-copy diff only."></textarea>
+	          </label>
+	          <label>
+	            Consent check
+	            <select data-pr="copyDiffRollbackConsentCheck">
+	              <option value="">Select consent check</option>
+	              <option value="consent-confirmed">Consent confirmed</option>
+	              <option value="consent-needs-review">Consent needs review</option>
+	              <option value="consent-blocked">Consent blocked</option>
+	            </select>
+	          </label>
+	          <label>
+	            Claim-risk check
+	            <select data-pr="copyDiffRollbackClaimRiskCheck">
+	              <option value="">Select claim-risk check</option>
+	              <option value="claim-risk-cleared">Claim-risk cleared</option>
+	              <option value="claim-risk-needs-review">Claim-risk needs review</option>
+	              <option value="claim-risk-blocked">Claim-risk blocked</option>
+	            </select>
+	          </label>
+	          <label>
+	            Validation command
+	            <input data-pr="copyDiffRollbackValidationCommand" placeholder="Example: npm run qa:intake-flow" />
+	          </label>
+	          <label>
+	            Rollback path
+	            <textarea rows="3" data-pr="copyDiffRollbackRollbackPath" placeholder="Private rollback path; no publish action happens here."></textarea>
+	          </label>
+	        </div>
+	        <div class="export-toolbar">
+	          <button class="secondary-action" type="button" data-pr="savePrivatePublicCopyDiffRollback">
+	            Save diff packet
+	          </button>
+	          <button class="secondary-action" type="button" data-pr="clearPrivatePublicCopyDiffRollback" disabled>
+	            Clear diff packet
+	          </button>
+	        </div>
+	        <p class="decision-memo-summary" data-pr="privatePublicCopyDiffRollbackSummary">
+	          Blocked until a completed explicit publish plan exists.
+	        </p>
+	        <p class="report-note" data-pr="privatePublicCopyDiffRollbackNote">
+	          Private public-copy diff and rollback capture stays closed until the explicit publish plan is complete.
+	        </p>
+	      </section>
+
+	      <section
+	        class="decision-memo-panel publish-plan-panel"
+	        data-pr="privateReleaseCandidateRehearsalPanel"
+	        data-private-release-candidate-rehearsal
+	        data-release-candidate-rehearsal-readiness="blocked"
+	        data-public-copy-diff-rollback-complete="false"
+	        data-release-candidate-rehearsal-drafted="false"
+	        data-local-only="true"
+	        data-private="true"
+	        data-export-eligible="false"
+	        data-download-eligible="false"
+	        data-export-text-unchanged="true"
+	        data-download-text-unchanged="true"
+	        data-public-product-copy-unchanged="true"
+	        data-no-publish-action="true"
+	        aria-label="Private release-candidate rehearsal capture"
+	        hidden
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Private release candidate</p>
+	            <h3>Rehearse locally after the copy diff packet is complete.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="privateReleaseCandidateRehearsalStatus">Blocked</span>
+	        </div>
+	        <div class="decision-memo-fields">
+	          <label>
+	            Local static smoke
+	            <input data-pr="releaseCandidateStaticSmoke" placeholder="Example: node website/scripts/check_site.cjs" />
+	          </label>
+	          <label>
+	            Served smoke
+	            <input data-pr="releaseCandidateServedSmoke" placeholder="Example: npm run qa:intake-flow" />
+	          </label>
+	          <label>
+	            Rollback rehearsal
+	            <textarea rows="3" data-pr="releaseCandidateRollbackRehearsal" placeholder="Private rollback rehearsal notes only; no deploy or rollback action happens here."></textarea>
+	          </label>
+	          <label>
+	            Consent check
+	            <select data-pr="releaseCandidateConsentCheck">
+	              <option value="">Select consent check</option>
+	              <option value="consent-confirmed">Consent confirmed</option>
+	              <option value="consent-needs-review">Consent needs review</option>
+	              <option value="consent-blocked">Consent blocked</option>
+	            </select>
+	          </label>
+	          <label>
+	            Claim-risk check
+	            <select data-pr="releaseCandidateClaimRiskCheck">
+	              <option value="">Select claim-risk check</option>
+	              <option value="claim-risk-cleared">Claim-risk cleared</option>
+	              <option value="claim-risk-needs-review">Claim-risk needs review</option>
+	              <option value="claim-risk-blocked">Claim-risk blocked</option>
+	            </select>
+	          </label>
+	        </div>
+	        <div class="export-toolbar">
+	          <button class="secondary-action" type="button" data-pr="savePrivateReleaseCandidateRehearsal">
+	            Save rehearsal
+	          </button>
+	          <button class="secondary-action" type="button" data-pr="clearPrivateReleaseCandidateRehearsal" disabled>
+	            Clear rehearsal
+	          </button>
+	        </div>
+	        <p class="decision-memo-summary" data-pr="privateReleaseCandidateRehearsalSummary">
+	          Blocked until a completed public-copy diff and rollback packet exists.
+	        </p>
+	        <p class="report-note" data-pr="privateReleaseCandidateRehearsalNote">
+	          Private release-candidate rehearsal stays closed until the public-copy diff and rollback packet is complete.
+	        </p>
+	      </section>
+
+	      <section
+	        class="decision-memo-panel publish-plan-panel"
+	        data-pr="privateCredentialedDeployReadinessPanel"
+	        data-private-credentialed-deploy-readiness
+	        data-credentialed-deploy-readiness="rehearsal-blocked"
+	        data-release-candidate-rehearsal-complete="false"
+	        data-credentialed-deploy-inputs-complete="false"
+	        data-local-only="true"
+		        data-private="true"
+		        data-read-only="true"
+		        data-no-secret-storage="true"
+		        data-no-production-url="true"
+		        data-no-credential="true"
+		        data-no-deploy-trigger="true"
+		        data-no-deploy-action="true"
+	        data-no-publish-action="true"
+	        data-export-eligible="false"
+	        data-download-eligible="false"
+	        data-export-text-unchanged="true"
+	        data-download-text-unchanged="true"
+	        data-public-product-copy-unchanged="true"
+	        aria-label="Private credentialed-deploy readiness review"
+	        hidden
+	      >
+	        <div class="scheduling-readiness-head">
+	          <div>
+	            <p class="eyebrow">Private deploy readiness</p>
+	            <h3>Review credentialed-deploy inputs after rehearsal is complete.</h3>
+	          </div>
+	          <span class="status-pill is-rejected" data-pr="privateCredentialedDeployReadinessStatus">Rehearsal blocked</span>
+	        </div>
+	        <div
+	          class="decision-memo-summary"
+	          data-pr="credentialedDeployStaticRehearsalEvidence"
+	          data-static-deploy-rehearsal-status="not-run"
+	          data-static-deploy-rehearsal-ready="false"
+	          data-local-only="true"
+	          data-no-secret-storage="true"
+	          data-no-deploy-action="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	        >
+	          <strong data-pr="credentialedDeployStaticRehearsalStatus">Static deploy rehearsal not visible</strong>
+	          <span data-pr="credentialedDeployStaticRehearsalSummary">
+	            Run npm run static-deploy-rehearsal to show local route evidence before platform inputs are requested.
+	          </span>
+	          <ul class="compact-evidence-list" data-pr="credentialedDeployStaticRehearsalRoutes"></ul>
+	          <div
+	            class="static-rehearsal-drilldown"
+	            data-pr="credentialedDeployStaticRehearsalDrilldown"
+	            data-drilldown-kind="blocked-route-report-detail"
+	            data-local-only="true"
+	            data-no-secret-storage="true"
+	            data-no-deploy-action="true"
+	            data-export-eligible="false"
+	            data-download-eligible="false"
+	          ></div>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff"
+	          data-pr="platformOwnerHandoffState"
+	          data-private-platform-owner-handoff
+	          data-platform-owner-handoff-state="blocked-static-rehearsal"
+	          data-source-checklist="../ops/deploy/private-platform-owner-handoff-checklist.md"
+	          data-local-only="true"
+	          data-private="true"
+	          data-no-secret-storage="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="platformOwnerHandoffStatus">Platform-owner handoff blocked</strong>
+	            <a href="../ops/deploy/private-platform-owner-handoff-checklist.md" data-pr="platformOwnerHandoffChecklistLink">
+	              Checklist
+	            </a>
+	          </div>
+	          <p data-pr="platformOwnerHandoffSummary">
+	            Waiting for passed local static rehearsal evidence before listing platform-owner input categories.
+	          </p>
+	          <ul class="compact-evidence-list" data-pr="platformOwnerHandoffMissingCategories"></ul>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff post-deploy-health-handoff"
+	          data-pr="postDeployHealthCheckHandoffState"
+	          data-private-post-deploy-health-check-handoff
+	          data-post-deploy-health-check-handoff-state="blocked-static-rehearsal"
+	          data-source-template="../ops/deploy/private-post-deploy-health-check-owner-handoff-template.md"
+	          data-local-only="true"
+	          data-private="true"
+	          data-route-only="true"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="postDeployHealthCheckHandoffStatus">Post-deploy health-check handoff blocked</strong>
+	            <a href="../ops/deploy/private-post-deploy-health-check-owner-handoff-template.md" data-pr="postDeployHealthCheckHandoffTemplateLink">
+	              Template
+	            </a>
+	          </div>
+	          <p data-pr="postDeployHealthCheckHandoffSummary">
+	            Waiting for passed local route evidence before preparing the private health-check owner handoff.
+	          </p>
+	          <ul class="compact-evidence-list" data-pr="postDeployHealthCheckHandoffRoutes"></ul>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff final-go-no-go"
+	          data-pr="finalDeployGoNoGoState"
+	          data-final-deploy-decision="no-go"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-human-approval-observed="false"
+	          hidden
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="finalDeployGoNoGoStatus">Final decision: No-Go / Do Not Deploy</strong>
+	          </div>
+	          <p data-pr="finalDeployGoNoGoSummary">
+	            Final deploy remains blocked until explicit future human approval and credentialed deploy inputs exist outside this repo.
+	          </p>
+	          <div
+	            class="read-only-signal"
+	            data-pr="credentialedDeployHumanApproval"
+	            data-human-approval-observed="false"
+	            data-local-only="true"
+	            data-read-only="true"
+	            data-export-eligible="false"
+	            data-download-eligible="false"
+	          >
+	            <span class="status-pill is-rejected">Human approval not observed</span>
+	            <span>Explicit future human approval must exist outside this repo before platform fields can open.</span>
+	            <label class="inline-checkbox">
+	              <input type="checkbox" data-pr="credentialedDeployHumanApprovalToggle" />
+	              I observed explicit human approval outside this repo (local-only)
+	            </label>
+	          </div>
+	          <ul class="compact-evidence-list" data-pr="finalDeployGoNoGoMissing"></ul>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff deploy-blocker-escalation-handoff"
+	          data-pr="deployBlockerEscalationHandoffState"
+	          data-private-deploy-blocker-escalation-handoff
+	          data-deploy-blocker-escalation-state="blocked-final-ledger"
+	          data-source-template="../ops/deploy/private-deploy-blocker-escalation-memo-template.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          hidden
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="deployBlockerEscalationHandoffStatus">Deploy-blocker escalation blocked</strong>
+	            <a href="../ops/deploy/private-deploy-blocker-escalation-memo-template.md" data-pr="deployBlockerEscalationHandoffTemplateLink">
+	              Memo template
+	            </a>
+	          </div>
+	          <p data-pr="deployBlockerEscalationHandoffSummary">
+	            Waiting for the final No-Go ledger before summarizing private deploy-blocker categories.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Private evidence available</strong>
+	              <ul class="compact-evidence-list" data-pr="deployBlockerEscalationEvidence"></ul>
+	            </div>
+	            <div>
+	              <strong>Unavailable categories</strong>
+	              <ul class="compact-evidence-list" data-pr="deployBlockerEscalationUnavailable"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="deployBlockerEscalationBoundary">
+	            This handoff is read-only, local-only, export/download ineligible, and cannot request credentials, approve launch, trigger deploy, or authorize rollback.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff first-human-operator-packet-handoff"
+	          data-pr="firstHumanOperatorPacketHandoffState"
+	          data-private-first-human-operator-packet-handoff
+	          data-first-human-operator-packet-state="read-only-packet-ready"
+	          data-source-template="../ops/deploy/private-deploy-blocker-escalation-memo-template.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-deploy-action="true"
+	          data-no-dashboard-link="true"
+	          data-no-contact-details="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="firstHumanOperatorPacketHandoffStatus">First-human-operator packet handoff: Read-only</strong>
+	          </div>
+	          <p data-pr="firstHumanOperatorPacketHandoffSummary">
+	            Ready local artifacts and unavailable external facts are summarized for the first human operator. This state is read-only and cannot collect platform values, approvals, contacts, rollback authorization, launch authorization, or deploy actions.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Ready local artifacts</strong>
+	              <ul class="compact-evidence-list" data-pr="firstHumanOperatorPacketReadyArtifacts"></ul>
+	            </div>
+	            <div>
+	              <strong>Unavailable external facts</strong>
+	              <ul class="compact-evidence-list" data-pr="firstHumanOperatorPacketUnavailableFacts"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="firstHumanOperatorPacketBoundary">
+	            Read-only packet state: no credentials, production URL, deploy trigger, dashboard link, contact details, rollback authorization, public launch authorization, approval path, or deploy action.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff operator-dry-run-review-handoff"
+	          data-pr="operatorDryRunReviewHandoffState"
+	          data-private-operator-dry-run-review-handoff
+	          data-operator-dry-run-review-state="read-only-review-ready"
+	          data-source-checklist="../ops/deploy/private-operator-dry-run-review-checklist.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-review-only="true"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-dashboard-action="true"
+	          data-no-dns-action="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-platform-field-unlock="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="operatorDryRunReviewHandoffStatus">Operator dry-run review handoff: Read-only</strong>
+	            <a href="../ops/deploy/private-operator-dry-run-review-checklist.md" data-pr="operatorDryRunReviewChecklistLink">
+	              Checklist
+	            </a>
+	          </div>
+	          <p data-pr="operatorDryRunReviewHandoffSummary">
+	            Review-only local artifact steps and hard stops are summarized after the first-human packet. This handoff cannot unlock platform fields, credentials, production URLs, deploy triggers, dashboard actions, DNS, rollback authorization, public launch authorization, publish, export/download, or deploy action.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Review-only local artifact steps</strong>
+	              <ul class="compact-evidence-list" data-pr="operatorDryRunReviewLocalSteps"></ul>
+	            </div>
+	            <div>
+	              <strong>Hard stops</strong>
+	              <ul class="compact-evidence-list" data-pr="operatorDryRunReviewHardStops"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="operatorDryRunReviewBoundary">
+	            Local-only dry run: review artifacts only; no secrets, deploy, publish, export/download eligibility, platform field unlock, dashboard action, DNS change, rollback authorization, or public launch authorization.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff cold-start-archive-handoff"
+	          data-pr="coldStartArchiveHandoffState"
+	          data-private-cold-start-archive-handoff
+	          data-cold-start-archive-state="read-only-archive-ready"
+	          data-source-archive="../ops/deploy/private-first-human-packet-handoff-archive-cold-start-brief.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Not observed"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-archive-only="true"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-dashboard-action="true"
+	          data-no-dns-action="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-platform-field-unlock="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="coldStartArchiveHandoffStatus">Cold-start archive handoff: Read-only</strong>
+	            <a href="../ops/deploy/private-first-human-packet-handoff-archive-cold-start-brief.md" data-pr="coldStartArchiveHandoffArchiveLink">
+	              Archive brief
+	            </a>
+	          </div>
+	          <p data-pr="coldStartArchiveHandoffSummary">
+	            Continuation context and hard stops are archived after the operator dry run. This archive is non-operational and keeps every external deploy, launch, rollback, demand, pricing, proof, and outcome fact Not observed.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Continuation context</strong>
+	              <ul class="compact-evidence-list" data-pr="coldStartArchiveContinuationContext"></ul>
+	            </div>
+	            <div>
+	              <strong>Hard stops</strong>
+	              <ul class="compact-evidence-list" data-pr="coldStartArchiveHardStops"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="coldStartArchiveBoundary">
+	            Local-only archive: no secrets, deploy, publish, export/download eligibility, platform field unlock, executable sequence, rollback authorization, or public launch authorization.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff deploy-continuation-handoff"
+	          data-pr="deployContinuationHandoffState"
+	          data-private-release-candidate-deploy-continuation-handoff
+	          data-release-candidate-deploy-continuation-state="read-only-continuation-blocked"
+	          data-source-map="../ops/deploy/private-release-candidate-deploy-continuation-map.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-dashboard-action="true"
+	          data-no-dns-action="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-platform-field-unlock="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="deployContinuationHandoffStatus">Deploy-continuation handoff: Blocked read-only</strong>
+	            <a href="../ops/deploy/private-release-candidate-deploy-continuation-map.md" data-pr="deployContinuationMapLink">
+	              Continuation map
+	            </a>
+	          </div>
+	          <p data-pr="deployContinuationHandoffSummary">
+	            Blocked next-state labels and hard stops are summarized after the cold-start archive. This handoff is local continuation context only and cannot request values, unlock platform fields, deploy, publish, or become an executable sequence.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Blocked next-state labels</strong>
+	              <ul class="compact-evidence-list" data-pr="deployContinuationBlockedLabels"></ul>
+	            </div>
+	            <div>
+	              <strong>Hard stops</strong>
+	              <ul class="compact-evidence-list" data-pr="deployContinuationHardStops"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="deployContinuationBoundary">
+	            Local-only deploy-continuation: no secrets, deploy, publish, export/download eligibility, platform field unlock, production URL, deploy trigger, dashboard/DNS action, rollback authorization, or public launch authorization.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff external-input-boundary-handoff"
+	          data-pr="externalInputBoundaryHandoffState"
+	          data-private-external-input-boundary-handoff
+	          data-external-input-boundary-state="read-only-external-input-boundary"
+	          data-source-ledger="../ops/deploy/private-external-input-boundary-ledger.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-can-request-external-values="false"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-dashboard-action="true"
+	          data-no-dns-action="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-platform-field-unlock="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="externalInputBoundaryHandoffStatus">External-input boundary handoff: Read-only</strong>
+	            <a href="../ops/deploy/private-external-input-boundary-ledger.md" data-pr="externalInputBoundaryLedgerLink">
+	              Boundary ledger
+	            </a>
+	          </div>
+	          <p data-pr="externalInputBoundaryHandoffSummary">
+	            External deploy and market facts stay Not observed after the deploy-continuation handoff. This state is read-only and cannot request values, unlock platform fields, deploy, publish, or authorize claims.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Local references only</strong>
+	              <ul class="compact-evidence-list" data-pr="externalInputBoundaryArtifacts"></ul>
+	            </div>
+	            <div>
+	              <strong>External facts still Not observed</strong>
+	              <ul class="compact-evidence-list" data-pr="externalInputBoundaryNotObservedFacts"></ul>
+	            </div>
+	            <div>
+	              <strong>Hard stops</strong>
+	              <ul class="compact-evidence-list" data-pr="externalInputBoundaryHardStops"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="externalInputBoundaryBoundary">
+	            Local-only external-input boundary: no secrets, deploy, publish, export/download eligibility, external value requests, platform field unlock, production origin, deploy trigger, control-plane action, naming-record action, rollback authorization, public launch authorization, or product-claim authorization.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff platform-owner-non-request-transfer-handoff"
+	          data-pr="platformOwnerNonRequestTransferHandoffState"
+	          data-private-platform-owner-non-request-transfer-handoff
+	          data-platform-owner-non-request-transfer-state="read-only-non-request-transfer"
+	          data-source-note="../ops/deploy/private-platform-owner-non-request-transfer-note.md"
+	          data-source-ledger="../ops/deploy/private-external-input-boundary-ledger.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-can-request-external-values="false"
+	          data-can-request-platform-values="false"
+	          data-implied-execution="false"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-dashboard-action="true"
+	          data-no-dns-action="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-platform-field-unlock="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="platformOwnerNonRequestTransferStatus">Platform-owner non-request transfer: Read-only</strong>
+	            <a href="../ops/deploy/private-platform-owner-non-request-transfer-note.md" data-pr="platformOwnerNonRequestTransferNoteLink">
+	              Transfer note
+	            </a>
+	          </div>
+	          <p data-pr="platformOwnerNonRequestTransferSummary">
+	            The platform-owner transfer summarizes local context without asking for platform values. It cannot unlock fields, imply execution, deploy, publish, rollback, or authorize production claims.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Transfer references</strong>
+	              <ul class="compact-evidence-list" data-pr="platformOwnerNonRequestTransferArtifacts"></ul>
+	            </div>
+	            <div>
+	              <strong>Non-request guardrails</strong>
+	              <ul class="compact-evidence-list" data-pr="platformOwnerNonRequestTransferNonRequests"></ul>
+	            </div>
+	            <div>
+	              <strong>Hard stops</strong>
+	              <ul class="compact-evidence-list" data-pr="platformOwnerNonRequestTransferHardStops"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="platformOwnerNonRequestTransferBoundary">
+	            Local-only platform-owner non-request transfer: no secrets, deploy, publish, export/download eligibility, external/platform value requests, platform field unlock, production origin, deploy trigger, dashboard/DNS action, rollback authorization, public launch authorization, or implied execution.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff operator-resume-packet-guardrail-handoff"
+	          data-pr="operatorResumePacketGuardrailHandoffState"
+	          data-private-operator-resume-packet-guardrail-handoff
+	          data-operator-resume-packet-guardrail-state="read-only-operator-resume-packet-guardrail"
+	          data-source-guardrail="../ops/deploy/private-operator-resume-packet-guardrail.md"
+	          data-source-note="../ops/deploy/private-platform-owner-non-request-transfer-note.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-can-request-external-values="false"
+	          data-can-request-platform-values="false"
+	          data-implied-execution="false"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-dashboard-action="true"
+	          data-no-dns-action="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-platform-field-unlock="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="operatorResumePacketGuardrailStatus">Operator-resume packet guardrail: Read-only</strong>
+	            <a href="../ops/deploy/private-operator-resume-packet-guardrail.md" data-pr="operatorResumePacketGuardrailLink">
+	              Resume guardrail
+	            </a>
+	          </div>
+	          <p data-pr="operatorResumePacketGuardrailSummary">
+	            The operator-resume packet guardrail follows the platform-owner transfer as a stop-sign only. It cannot request external or platform values, unlock fields, imply execution, deploy, publish, rollback, or authorize production claims.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Read-only references</strong>
+	              <ul class="compact-evidence-list" data-pr="operatorResumePacketGuardrailReferences"></ul>
+	            </div>
+	            <div>
+	              <strong>Resume rules</strong>
+	              <ul class="compact-evidence-list" data-pr="operatorResumePacketGuardrailRules"></ul>
+	            </div>
+	            <div>
+	              <strong>Hard stops</strong>
+	              <ul class="compact-evidence-list" data-pr="operatorResumePacketGuardrailHardStops"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="operatorResumePacketGuardrailBoundary">
+	            Local-only operator-resume packet guardrail: no secrets, deploy, publish, export/download eligibility, external/platform value requests, platform field unlock, production origin, deploy trigger, dashboard/DNS action, rollback authorization, public launch authorization, production health verification, public claim authorization, or implied execution.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff blocked-state-operator-continuation-index-handoff"
+	          data-pr="blockedStateOperatorContinuationIndexHandoffState"
+	          data-private-blocked-state-operator-continuation-index-handoff
+	          data-blocked-state-operator-continuation-index-state="read-only-blocked-state-operator-continuation-index"
+	          data-source-index="../ops/deploy/private-blocked-state-operator-continuation-index.md"
+	          data-source-guardrail="../ops/deploy/private-operator-resume-packet-guardrail.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-can-request-external-values="false"
+	          data-can-request-platform-values="false"
+	          data-implied-execution="false"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-dashboard-action="true"
+	          data-no-dns-action="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-platform-field-unlock="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="blockedStateOperatorContinuationIndexStatus">Blocked-state continuation index: Read-only</strong>
+	            <a href="../ops/deploy/private-blocked-state-operator-continuation-index.md" data-pr="blockedStateOperatorContinuationIndexLink">
+	              Continuation index
+	            </a>
+	          </div>
+	          <p data-pr="blockedStateOperatorContinuationIndexSummary">
+	            The blocked-state continuation index follows the operator-resume packet guardrail as read-only local context. It cannot request external or platform values, unlock fields, imply execution, deploy, publish, rollback, or authorize production claims.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Continuation labels</strong>
+	              <ul class="compact-evidence-list" data-pr="blockedStateOperatorContinuationIndexLabels"></ul>
+	            </div>
+	            <div>
+	              <strong>Not observed facts</strong>
+	              <ul class="compact-evidence-list" data-pr="blockedStateOperatorContinuationIndexNotObserved"></ul>
+	            </div>
+	            <div>
+	              <strong>Hard stops</strong>
+	              <ul class="compact-evidence-list" data-pr="blockedStateOperatorContinuationIndexHardStops"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="blockedStateOperatorContinuationIndexBoundary">
+	            Local-only blocked-state continuation index: no secrets, deploy, publish, export/download eligibility, external/platform value requests, platform field unlock, production origin, deploy trigger, dashboard/DNS action, rollback authorization, public launch authorization, production health verification, public claim authorization, or implied execution.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff autonomous-deploy-stop-ledger-handoff"
+	          data-pr="autonomousDeployStopLedgerHandoffState"
+	          data-private-autonomous-deploy-stop-ledger-handoff
+	          data-autonomous-deploy-stop-ledger-state="read-only-autonomous-deploy-stop-ledger"
+	          data-source-ledger="../ops/deploy/private-autonomous-deploy-stop-ledger.md"
+	          data-source-index="../ops/deploy/private-blocked-state-operator-continuation-index.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-autonomous-stop="true"
+	          data-non-request="true"
+	          data-non-executable="true"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-can-request-external-values="false"
+	          data-can-request-platform-values="false"
+	          data-implied-execution="false"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-dashboard-action="true"
+	          data-no-dns-action="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-platform-field-unlock="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="autonomousDeployStopLedgerStatus">Autonomous deploy stop ledger: Read-only</strong>
+	            <a href="../ops/deploy/private-autonomous-deploy-stop-ledger.md" data-pr="autonomousDeployStopLedgerLink">
+	              Stop ledger
+	            </a>
+	          </div>
+	          <p data-pr="autonomousDeployStopLedgerSummary">
+	            The autonomous deploy stop ledger follows the blocked-state continuation index as a local-only stop artifact. It cannot request external or platform values, unlock fields, imply execution, deploy, publish, rollback, or authorize production claims.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Stop surfaces</strong>
+	              <ul class="compact-evidence-list" data-pr="autonomousDeployStopLedgerSurfaces"></ul>
+	            </div>
+	            <div>
+	              <strong>Not observed facts</strong>
+	              <ul class="compact-evidence-list" data-pr="autonomousDeployStopLedgerNotObserved"></ul>
+	            </div>
+	            <div>
+	              <strong>Hard stops</strong>
+	              <ul class="compact-evidence-list" data-pr="autonomousDeployStopLedgerHardStops"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="autonomousDeployStopLedgerBoundary">
+	            Local-only autonomous deploy stop ledger: no secrets, deploy, publish, export/download eligibility, external/platform value requests, platform field unlock, production origin, deploy trigger, dashboard/DNS action, rollback authorization, public launch authorization, production health verification, public claim authorization, autonomous stop, non-request, non-executable, or implied execution.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff autonomous-deploy-stop-ledger-handoff"
+	          data-pr="postAutonomousStopRecoveryChecklistHandoffState"
+	          data-private-post-autonomous-stop-recovery-checklist-handoff
+	          data-post-autonomous-stop-recovery-checklist-state="read-only-post-autonomous-stop-recovery-checklist"
+	          data-source-checklist="../ops/deploy/private-post-autonomous-stop-recovery-checklist.md"
+	          data-source-ledger="../ops/deploy/private-autonomous-deploy-stop-ledger.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-autonomous-recovery="true"
+	          data-non-request="true"
+	          data-non-executable="true"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-can-request-external-values="false"
+	          data-can-request-platform-values="false"
+	          data-implied-execution="false"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-dashboard-action="true"
+	          data-no-dns-action="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-platform-field-unlock="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="postAutonomousStopRecoveryChecklistStatus">Post-autonomous-stop recovery checklist: Read-only</strong>
+	            <a href="../ops/deploy/private-post-autonomous-stop-recovery-checklist.md" data-pr="postAutonomousStopRecoveryChecklistLink">
+	              Recovery checklist
+	            </a>
+	          </div>
+	          <p data-pr="postAutonomousStopRecoveryChecklistSummary">
+	            The post-autonomous-stop recovery checklist follows the autonomous deploy stop ledger as private recovery context only. It cannot request external or platform values, unlock fields, imply execution, deploy, publish, rollback, bypass human/platform authority, or authorize production claims.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Recovery surfaces</strong>
+	              <ul class="compact-evidence-list" data-pr="postAutonomousStopRecoveryChecklistSurfaces"></ul>
+	            </div>
+	            <div>
+	              <strong>Not observed facts</strong>
+	              <ul class="compact-evidence-list" data-pr="postAutonomousStopRecoveryChecklistNotObserved"></ul>
+	            </div>
+	            <div>
+	              <strong>Hard stops</strong>
+	              <ul class="compact-evidence-list" data-pr="postAutonomousStopRecoveryChecklistHardStops"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="postAutonomousStopRecoveryChecklistBoundary">
+	            Local-only post-autonomous-stop recovery checklist: no secrets, deploy, publish, export/download eligibility, external/platform value requests, platform field unlock, production origin, deploy trigger, dashboard/DNS action, rollback authorization, public launch authorization, production health verification, public claim authorization, autonomous recovery only, non-request, non-executable, no human/platform authority bypass, or implied execution.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff autonomous-deploy-stop-ledger-handoff"
+	          data-pr="humanPlatformAuthorityReEntryGateHandoffState"
+	          data-private-human-platform-authority-re-entry-gate-handoff
+	          data-human-platform-authority-re-entry-gate-state="read-only-human-platform-authority-re-entry-gate"
+	          data-source-gate="../ops/deploy/private-human-platform-authority-re-entry-gate.md"
+	          data-source-checklist="../ops/deploy/private-post-autonomous-stop-recovery-checklist.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-human-platform-authority-observed="false"
+	          data-human-platform-authority-bypass="false"
+	          data-autonomous-recovery="true"
+	          data-non-request="true"
+	          data-non-executable="true"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-can-request-external-values="false"
+	          data-can-request-platform-values="false"
+	          data-implied-execution="false"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-dashboard-action="true"
+	          data-no-dns-action="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-platform-field-unlock="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="humanPlatformAuthorityReEntryGateStatus">Human-platform authority re-entry gate: Read-only</strong>
+	            <a href="../ops/deploy/private-human-platform-authority-re-entry-gate.md" data-pr="humanPlatformAuthorityReEntryGateLink">
+	              Re-entry gate
+	            </a>
+	          </div>
+	          <p data-pr="humanPlatformAuthorityReEntryGateSummary">
+	            The human-platform authority re-entry gate follows the recovery checklist as private blocked context only. It cannot request external or platform values, unlock fields, imply execution, deploy, publish, rollback, bypass human/platform authority, or authorize production claims.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Gate surfaces</strong>
+	              <ul class="compact-evidence-list" data-pr="humanPlatformAuthorityReEntryGateSurfaces"></ul>
+	            </div>
+	            <div>
+	              <strong>Not observed facts</strong>
+	              <ul class="compact-evidence-list" data-pr="humanPlatformAuthorityReEntryGateNotObserved"></ul>
+	            </div>
+	            <div>
+	              <strong>Hard stops</strong>
+	              <ul class="compact-evidence-list" data-pr="humanPlatformAuthorityReEntryGateHardStops"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="humanPlatformAuthorityReEntryGateBoundary">
+	            Local-only human-platform authority re-entry gate: no secrets, deploy, publish, export/download eligibility, external/platform value requests, platform field unlock, production origin, deploy trigger, dashboard/DNS action, rollback authorization, public launch authorization, production health verification, public claim authorization, human/platform authority Not observed, non-request, non-executable, no human/platform authority bypass, or implied execution.
+	          </p>
+	        </div>
+	        <div
+	          class="decision-memo-summary platform-owner-handoff autonomous-deploy-stop-ledger-handoff"
+	          data-pr="outsideAuthorityAwaitingStateLedgerHandoffState"
+	          data-private-outside-authority-awaiting-state-ledger-handoff
+	          data-outside-authority-awaiting-state-ledger-state="read-only-outside-authority-awaiting-state-ledger"
+	          data-source-ledger="../ops/deploy/private-outside-authority-awaiting-state-ledger.md"
+	          data-source-gate="../ops/deploy/private-human-platform-authority-re-entry-gate.md"
+	          data-final-deploy-decision="no-go"
+	          data-production-deployment-state="Do Not Deploy"
+	          data-human-platform-authority-observed="false"
+	          data-human-platform-authority-bypass="false"
+	          data-autonomous-recovery="true"
+	          data-non-request="true"
+	          data-non-executable="true"
+	          data-human-approval-observed="false"
+	          data-local-only="true"
+	          data-private="true"
+	          data-read-only="true"
+	          data-can-request-external-values="false"
+	          data-can-request-platform-values="false"
+	          data-implied-execution="false"
+	          data-no-secret-storage="true"
+	          data-no-production-url="true"
+	          data-no-credential="true"
+	          data-no-deploy-trigger="true"
+	          data-no-dashboard-action="true"
+	          data-no-dns-action="true"
+	          data-no-rollback-authorization="true"
+	          data-no-public-launch-authorization="true"
+	          data-no-deploy-action="true"
+	          data-no-publish-action="true"
+	          data-no-human-approval-path="true"
+	          data-export-eligible="false"
+	          data-download-eligible="false"
+	          data-export-text-unchanged="true"
+	          data-download-text-unchanged="true"
+	          data-platform-inputs-enabled="false"
+	          data-platform-field-unlock="false"
+	        >
+	          <div class="platform-owner-handoff-head">
+	            <strong data-pr="outsideAuthorityAwaitingStateLedgerStatus">Outside-authority awaiting-state ledger: Read-only</strong>
+	            <a
+	              href="../ops/deploy/private-outside-authority-awaiting-state-ledger.md"
+	              data-pr="outsideAuthorityAwaitingStateLedgerLink"
+	            >
+	              Awaiting ledger
+	            </a>
+	          </div>
+	          <p data-pr="outsideAuthorityAwaitingStateLedgerSummary">
+	            The outside-authority awaiting-state ledger follows the human-platform authority re-entry gate as private blocked context only. It cannot request values, unlock deploy, imply execution, bypass human/platform authority, publish, deploy, rollback, or authorize production claims.
+	          </p>
+	          <div class="deploy-blocker-escalation-grid">
+	            <div>
+	              <strong>Awaiting surfaces</strong>
+	              <ul class="compact-evidence-list" data-pr="outsideAuthorityAwaitingStateLedgerSurfaces"></ul>
+	            </div>
+	            <div>
+	              <strong>Not observed facts</strong>
+	              <ul class="compact-evidence-list" data-pr="outsideAuthorityAwaitingStateLedgerNotObserved"></ul>
+	            </div>
+	            <div>
+	              <strong>Hard stops</strong>
+	              <ul class="compact-evidence-list" data-pr="outsideAuthorityAwaitingStateLedgerHardStops"></ul>
+	            </div>
+	          </div>
+	          <p class="report-note" data-pr="outsideAuthorityAwaitingStateLedgerBoundary">
+	            Local-only outside-authority awaiting-state ledger: Do Not Publish, No-Go / Do Not Deploy, no secrets, no external/platform value requests, no platform field unlock, no production origin, no deploy trigger, no dashboard/DNS action, no rollback authorization, no public launch authorization, no production health verification, no public claim authorization, awaiting is blocked state only, non-request, non-executable, no human/platform authority bypass, or implied execution.
+	          </p>
+	        </div>
+	        <div class="decision-memo-fields">
+	          <label>
+	            Platform
+	            <input data-pr="credentialedDeployPlatform" placeholder="Example: Vercel, Netlify, Fly, static host" disabled data-export-eligible="false" data-download-eligible="false" />
+	          </label>
+	          <label>
+	            Production URL
+	            <input data-pr="credentialedDeployProductionUrl" placeholder="Production URL to verify after a future deploy" disabled data-export-eligible="false" data-download-eligible="false" />
+	          </label>
+	          <label>
+	            Credential availability
+	            <select data-pr="credentialedDeployCredentialAvailability" disabled data-export-eligible="false" data-download-eligible="false">
+	              <option value="">Select credential availability</option>
+	              <option value="available-outside-repo">Available outside repo</option>
+	              <option value="not-available">Not available</option>
+	              <option value="unknown">Unknown</option>
+	            </select>
+	          </label>
+	          <label>
+	            Deploy trigger
+	            <input data-pr="credentialedDeployTrigger" placeholder="Manual trigger or command name only; no deploy runs here" disabled data-export-eligible="false" data-download-eligible="false" />
+	          </label>
+	          <label>
+	            Rollback owner
+	            <input data-pr="credentialedDeployRollbackOwner" placeholder="Person or lane accountable for rollback" disabled data-export-eligible="false" data-download-eligible="false" />
+	          </label>
+	          <label>
+	            Rollback method
+	            <textarea rows="3" data-pr="credentialedDeployRollbackMethod" placeholder="Private rollback method only; no rollback action happens here." disabled data-export-eligible="false" data-download-eligible="false"></textarea>
+	          </label>
+	          <label>
+	            Health-check inputs
+	            <textarea rows="3" data-pr="credentialedDeployHealthCheckInputs" placeholder="Health-check URLs or commands to run after a future deploy." disabled data-export-eligible="false" data-download-eligible="false"></textarea>
+	          </label>
+	        </div>
+	        <div class="export-toolbar">
+	          <button class="secondary-action" type="button" data-pr="savePrivateCredentialedDeployReadiness">
+	            Save readiness review
+	          </button>
+	          <button class="secondary-action" type="button" data-pr="clearPrivateCredentialedDeployReadiness" disabled>
+	            Clear readiness review
+	          </button>
+	        </div>
+	        <p class="decision-memo-summary" data-pr="privateCredentialedDeployReadinessSummary">
+	          Blocked until a completed release-candidate rehearsal exists.
+	        </p>
+	        <p class="report-note" data-pr="privateCredentialedDeployReadinessMissing">
+	          Missing inputs: platform, production URL, credential availability, deploy trigger, rollback owner, rollback method, health-check inputs.
+	        </p>
+	        <p class="report-note" data-pr="privateCredentialedDeployReadinessNote">
+	          Local-only deploy readiness stays closed until rehearsal is complete. It stores no secrets and cannot deploy.
+	        </p>
+	      </section>
+
+        <form class="lead-form intake-form" id="intake-form">
+          <div
+            class="material-boundary"
+            data-pr="userDataBoundary"
+            data-material-boundary="user"
+            data-user-data-boundary="pasted-resume-text"
+          >
+            <span class="status-pill is-approved" data-pr="intakeBoundaryKind">User-provided material</span>
+            <p data-pr="intakeBoundaryCopy">This form is for your pasted resume text. Demo material is loaded only when you choose the sample demo.</p>
+          </div>
+          <label>
+            Target role (optional)
+            <input name="targetRole" placeholder="Finance manager, data analyst, operator…" />
+          </label>
+          <label>
+            Pasted resume text
+            <textarea name="resumeText" rows="12" required placeholder="Paste your raw bullets, responsibilities, and role summary…"></textarea>
+          </label>
+          <div class="intake-actions">
+            <button type="submit">Generate local review</button>
+            <button type="button" class="secondary-action" id="clear-intake">Clear</button>
+          </div>
+          <p class="form-status" id="intake-status" role="status">
+            Local-only: this page does not contact an external service.
+          </p>
+        </form>
+      </section>
+
+      <section class="report-section draft-only" id="local-analysis" aria-label="Local resume analysis" hidden>
+        <div class="section-head">
+          <p class="eyebrow">Local analysis</p>
+          <h2>Simple draft summary from pasted text.</h2>
+          <p class="hero-text">
+            Generated in this browser from your pasted text. The draft is stored in localStorage only, and no external service is contacted.
+          </p>
+        </div>
+        <div class="score-grid" aria-label="Resume text counts">
+          <div>
+            <span>Words</span>
+            <strong data-pr="wordCount">0</strong>
+          </div>
+          <div>
+            <span>Sections</span>
+            <strong data-pr="sectionCount">0</strong>
+          </div>
+          <div>
+            <span>Prompts</span>
+            <strong data-pr="promptCount">0</strong>
+          </div>
+        </div>
+        <p class="report-note" data-pr="structuredExtractionSummary">
+          0 experience items extracted. Structured extraction starts Unapproved and export-ineligible.
+        </p>
+        <div class="diff-grid">
+          <article class="diff-card">
+            <header class="diff-header">
+              <h3>Likely sections present</h3>
+              <p>Detected by simple local keyword matching.</p>
+            </header>
+            <ul class="diff-list" data-pr="sectionsList"></ul>
+          </article>
+          <article class="diff-card">
+            <header class="diff-header">
+              <h3>Missing evidence prompts</h3>
+              <p>Questions to make claims more specific and provable.</p>
+            </header>
+            <ul class="diff-list" data-pr="promptsList"></ul>
+          </article>
+        </div>
+        <p class="report-note" data-pr="storageNote"></p>
+        <div class="hero-actions">
+          <a class="primary-action" href="/review.html" data-pr="reviewLink">Open draft report</a>
+          <button class="secondary-action" type="button" data-pr="reanalyze">Re-analyze current paste</button>
+        </div>
+      </section>
+
+      <section class="section-band report-cta intake-cta" aria-label="Call to action">
+        <div class="section-head">
+          <p class="eyebrow">Early access</p>
+          <h2>Want the evidence-backed version?</h2>
+          <p class="hero-text">
+            The real product keeps provenance and approvals so generated claims stay honest. This page is just the first local intake wedge.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href="/#early-access">Join early access</a>
+            <a class="secondary-action" href="/review.html">See the sample report</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>ProofResume</span>
+      <span>Local-only prototypes. Evidence-backed next.</span>
+    </footer>
+
+    <script type="module" src="intake.js"></script>
+  </body>
+</html>

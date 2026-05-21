@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProofResume Pricing | Managed job-search pilots</title>
+    <meta
+      name="description"
+      content="Early ProofResume pricing for approval-first job-search pilots, proof-backed application packets, and managed application runs."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="ProofResume home">
+        <span class="brand-mark">P</span>
+        <span>ProofResume</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/#product">How it works</a>
+        <a href="/target-job.html">Try demo</a>
+        <a href="/pricing.html" aria-current="page">Pricing</a>
+        <a href="/#trust">Trust</a>
+        <a href="/#early-access">Early access</a>
+      </nav>
+    </header>
+
+    <main class="pricing-page">
+      <section class="pricing-hero">
+        <div>
+          <p class="eyebrow">Early access pilots</p>
+          <h1>Turn one resume into a managed application run.</h1>
+          <p class="hero-text">
+            Start with a free local demo. When you want help, the first paid offer is a concierge job-search sprint:
+            source roles, tailor proof-backed applications, and approve what gets sent.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href="/target-job.html">Try the demo</a>
+            <a class="secondary-action" href="/#early-access">Join early access</a>
+          </div>
+        </div>
+        <aside class="pricing-proof" aria-label="Early access posture">
+          <div class="review-topline">
+            <span>Pilot posture</span>
+            <strong>Approval-first</strong>
+          </div>
+          <div class="change-list">
+            <article>
+              <span>Free demo</span>
+              <p>Try matching and tailoring before paying or connecting any accounts.</p>
+            </article>
+            <article>
+              <span>No surprise sends</span>
+              <p>Applications are prepared for review before any external action.</p>
+            </article>
+            <article>
+              <span>Proof layer</span>
+              <p>Tailored claims stay connected to source material so edits stay honest.</p>
+            </article>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section-band pricing-section" aria-label="Early access pricing">
+        <div class="section-head">
+          <p class="eyebrow">Plans</p>
+          <h2>Simple offers for the first customer conversations.</h2>
+        </div>
+        <div class="pricing-grid">
+          <article class="price-card">
+            <p class="plan-kicker">Demo</p>
+            <h3>Target job demo</h3>
+            <p class="price">$0</p>
+            <p class="plan-note">For candidates testing whether the matching and tailoring flow feels useful.</p>
+            <ul>
+              <li>Resume and job-post import</li>
+              <li>Fit and proof-gap scoring</li>
+              <li>Draft application assets</li>
+              <li>No account or payment credential</li>
+            </ul>
+            <a class="secondary-action" href="/target-job.html">Open demo</a>
+          </article>
+          <article class="price-card featured-price">
+            <p class="plan-kicker">Early access</p>
+            <h3>Concierge application sprint</h3>
+            <p class="price">$49 target</p>
+            <p class="plan-note">For job seekers who want a human-reviewed first run before full automation.</p>
+            <ul>
+              <li>Resume review and target-role setup</li>
+              <li>Matched jobs ranked by fit and effort</li>
+              <li>Tailored resume bullets and cover notes</li>
+              <li>Approval checklist before any submission</li>
+            </ul>
+            <a class="primary-action" href="/#early-access">Join early access</a>
+            <button
+              class="secondary-action"
+              type="button"
+              data-business-control-action="payment_collection"
+              data-paid-review-interest
+              data-paid-review-status-target="paid-review-interest-status"
+              data-disabled-message="Local interest capture opens only while payment_collection is setup_needed in ops/BUSINESS_CONTROLS.json."
+            >
+              Save pilot interest
+            </button>
+            <p class="form-status" id="paid-review-interest-status" role="status">
+              Payment link opens after the pilot flow is approved.
+            </p>
+          </article>
+          <article class="price-card">
+            <p class="plan-kicker">Team</p>
+            <h3>Placement team pilot</h3>
+            <p class="price">Scoped</p>
+            <p class="plan-note">For coaches, bootcamps, and placement teams testing repeatable application support.</p>
+            <ul>
+              <li>Shared application packet format</li>
+              <li>Evidence approval workflow</li>
+              <li>Job-fit and outreach rubric</li>
+              <li>Team review and reporting path</li>
+            </ul>
+            <a class="secondary-action" href="/#early-access">Request pilot access</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="pricing-section pricing-operating-model" aria-label="What is included">
+        <div class="section-head">
+          <p class="eyebrow">Why people pay</p>
+          <h2>The value is less manual tailoring, not another resume template.</h2>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <h3>Local-first trial</h3>
+            <p>Early evaluators can inspect the flow before sending data anywhere or committing to a paid plan.</p>
+          </article>
+          <article>
+            <h3>Clear upgrade moment</h3>
+            <p>Payment only makes sense after the review report proves that evidence-backed rewriting is useful.</p>
+          </article>
+          <article>
+            <h3>Business wedge</h3>
+            <p>Teams can test whether proof capture, approvals, and consistent review packets improve placement outcomes.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-band pricing-section" aria-label="Revenue readiness controls">
+        <div class="section-head">
+          <p class="eyebrow">Buyer next steps</p>
+          <h2>Revenue surfaces are ready to explain the offer, not to collect money yet.</h2>
+          <p class="hero-text">
+            The public product path is controlled by <code>ops/BUSINESS_CONTROLS.json</code>. Default state is
+            revenue-oriented but disabled: buyers can inspect the resume improvement flow, save local interest, and
+            understand the paid review offer without checkout, outbound sends, production analytics, or production
+            resume storage turning on early.
+          </p>
+        </div>
+        <div class="pricing-grid">
+          <article class="price-card" data-control-card="lead_capture">
+            <p class="plan-kicker">Demand</p>
+            <h3>Lead capture</h3>
+            <p class="plan-note">
+              Local early-access interest is useful now. Production lead storage waits for approved fields, privacy copy,
+              retention, and a storage destination.
+            </p>
+            <p><strong data-business-control-status="lead_capture">Checking control...</strong></p>
+            <p class="form-status" data-business-control-unlocks="lead_capture">Missing unlocks are loading.</p>
+          </article>
+          <article class="price-card featured-price" data-control-card="payment_collection">
+            <p class="plan-kicker">Revenue</p>
+            <h3>Payment intent</h3>
+            <p class="plan-note">
+              The paid review offer is visible, but payment links, checkout, card handling, refunds, and price tests wait
+              for the payment collection control.
+            </p>
+            <p><strong data-business-control-status="payment_collection">Checking control...</strong></p>
+            <p class="form-status" data-business-control-unlocks="payment_collection">Missing unlocks are loading.</p>
+          </article>
+          <article class="price-card" data-control-card="customer_data">
+            <p class="plan-kicker">Trust</p>
+            <h3>Resume data</h3>
+            <p class="plan-note">
+              Sensitive resume text remains local. Production uploads wait for secure intake, consent, retention,
+              deletion, and support paths.
+            </p>
+            <p><strong data-business-control-status="customer_data">Checking control...</strong></p>
+            <p class="form-status" data-business-control-unlocks="customer_data">Missing unlocks are loading.</p>
+          </article>
+        </div>
+        <div class="feature-grid">
+          <article data-control-card="public_deploy">
+            <h3>Public deploy</h3>
+            <p>Static pages can be rehearsed locally; production publish waits for host, credential, URL, rollback, and health-check evidence.</p>
+            <p><strong data-business-control-status="public_deploy">Checking control...</strong></p>
+            <p class="form-status" data-business-control-unlocks="public_deploy">Missing unlocks are loading.</p>
+          </article>
+          <article data-control-card="analytics">
+            <h3>Analytics</h3>
+            <p>Page, lead, pricing, and payment-intent events are defined; production tracking waits for provider and privacy approval.</p>
+            <p><strong data-business-control-status="analytics">Checking control...</strong></p>
+            <p class="form-status" data-business-control-unlocks="analytics">Missing unlocks are loading.</p>
+          </article>
+          <article data-control-card="outbound_outreach">
+            <h3>Outreach</h3>
+            <p>Private outreach packets can be drafted; real sends stay blocked until account, source policy, unsubscribe handling, and limits exist.</p>
+            <p><strong data-business-control-status="outbound_outreach">Checking control...</strong></p>
+            <p class="form-status" data-business-control-unlocks="outbound_outreach">Missing unlocks are loading.</p>
+          </article>
+        </div>
+      </section>
+
+      <section
+        class="pricing-section business-control-activation-packet"
+        aria-label="Local business-control activation packet"
+        data-business-control-activation-packet
+        data-local-only="true"
+        data-read-only="true"
+        data-planning-only="true"
+        data-no-secret-request="true"
+        data-deploy-enabled="false"
+        data-checkout-enabled="false"
+        data-outbound-enabled="false"
+        data-analytics-enabled="false"
+        data-lead-capture-enabled="false"
+        data-resume-intake-enabled="false"
+      >
+        <div class="section-head">
+          <p class="eyebrow">Activation packet</p>
+          <h2>First revenue path operator inputs, without turning on any control.</h2>
+          <p class="hero-text">
+            Local-only, read-only, planning-only packet for the first revenue path. It names missing non-secret operator
+            decisions from <code>ops/BUSINESS_CONTROLS.json</code> for public deploy, production lead capture, payment
+            collection, and analytics. It does not request secrets, credentials, production URLs, deploy triggers, card
+            data, contact details, resume intake, checkout, outbound sends, analytics sends, or any enabled control.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <h3>Packet flags</h3>
+            <p>
+              <span class="status-pill is-info" data-activation-flag="local-only">local-only</span>
+              <span class="status-pill is-info" data-activation-flag="read-only">read-only</span>
+              <span class="status-pill is-info" data-activation-flag="planning-only">planning-only</span>
+              <span class="status-pill is-info" data-activation-flag="no-secret-request">no-secret-request</span>
+            </p>
+          </article>
+          <article>
+            <h3>Enabled controls</h3>
+            <p>
+              <span class="status-pill is-rejected" data-activation-flag="deploy-enabled false">deploy-enabled false</span>
+              <span class="status-pill is-rejected" data-activation-flag="checkout-enabled false">checkout-enabled false</span>
+              <span class="status-pill is-rejected" data-activation-flag="outbound-enabled false">outbound-enabled false</span>
+              <span class="status-pill is-rejected" data-activation-flag="analytics-enabled false">analytics-enabled false</span>
+              <span class="status-pill is-rejected" data-activation-flag="lead-capture-enabled false">lead-capture-enabled false</span>
+              <span class="status-pill is-rejected" data-activation-flag="resume-intake-enabled false">resume-intake-enabled false</span>
+            </p>
+          </article>
+          <article>
+            <h3>Allowed output</h3>
+            <p>
+              Operator-planning text only: control status, safe missing inputs, blocked input categories, and false
+              enablement flags. No customer data, no card data, no production endpoint, and no external action is collected.
+            </p>
+          </article>
+        </div>
+        <div class="lead-form paid-review-queue-panel">
+          <div class="review-topline">
+            <span>Packet status</span>
+            <strong data-business-activation-summary>Local read-only planning</strong>
+          </div>
+          <div class="change-list" data-business-activation-controls aria-live="polite">
+            <article>
+              <span>Loading controls</span>
+              <p>Reading local business controls before rendering non-secret operator inputs.</p>
+            </article>
+          </div>
+          <p class="form-status" data-business-activation-status>
+            Planning only. No deploy, checkout, outbound, analytics, lead capture, or resume intake control is enabled.
+          </p>
+          <div class="hero-actions">
+            <button
+              class="secondary-action"
+              type="button"
+              data-business-activation-export-download
+              data-business-activation-export-format="proofresume-business-control-activation-packet-v1"
+              data-download-filename="proofresume-business-control-activation-packet.json"
+              data-local-only="true"
+              data-read-only="true"
+              data-planning-only="true"
+              data-no-persistence="true"
+              data-network-enabled="false"
+              data-secret-request-enabled="false"
+              data-url-request-enabled="false"
+              data-deploy-trigger-enabled="false"
+              data-checkout-enabled="false"
+              data-outbound-enabled="false"
+              data-analytics-enabled="false"
+              data-card-data-enabled="false"
+              data-contact-data-enabled="false"
+              data-resume-data-enabled="false"
+            >
+              Download local activation packet JSON
+            </button>
+          </div>
+          <pre
+            class="report-preview"
+            data-business-activation-packet-json
+            aria-label="Local business-control activation packet JSON"
+          ></pre>
+        </div>
+      </section>
+
+      <section
+        class="pricing-section business-control-activation-packet"
+        id="activation-decision-ledger"
+        aria-label="Local operator activation-decision ledger"
+        data-activation-decision-ledger
+        data-local-only="true"
+        data-browser-local-state-only="true"
+        data-mutates-business-controls="false"
+        data-public-deploy-enabled="false"
+        data-lead-capture-enabled="false"
+        data-payment-collection-enabled="false"
+        data-analytics-enabled="false"
+        data-checkout-enabled="false"
+        data-outbound-enabled="false"
+        data-customer-data-enabled="false"
+        data-resume-intake-enabled="false"
+        data-secret-collection-enabled="false"
+        data-production-url-collection-enabled="false"
+        data-deploy-trigger-enabled="false"
+      >
+        <div class="section-head">
+          <p class="eyebrow">Activation decision ledger</p>
+          <h2>Record local operator readiness decisions without enabling the product path.</h2>
+          <p class="hero-text">
+            This browser-local ledger stores non-secret readiness status notes for public deploy, production lead capture,
+            payment collection, and analytics. It never edits <code>ops/BUSINESS_CONTROLS.json</code>, asks for secrets,
+            production URLs, deploy triggers, card or contact details, resume data, checkout, outbound sends, analytics
+            sends, customer data, or resume intake.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <h3>Storage</h3>
+            <p>Browser <code>localStorage</code> only, scoped to planning notes on this device.</p>
+            <p>
+              <span class="status-pill is-info" data-activation-decision-flag="browser-local-state-only">browser-local-state-only</span>
+            </p>
+          </article>
+          <article>
+            <h3>Control mutation</h3>
+            <p>The ledger can preserve a readiness decision, but it cannot update the control source or unlock actions.</p>
+            <p>
+              <span class="status-pill is-rejected" data-activation-decision-flag="mutates-business-controls false">mutates-business-controls false</span>
+            </p>
+          </article>
+          <article>
+            <h3>Restricted inputs</h3>
+            <p>Notes that look like URLs, secrets, contact details, payment data, deploy commands, or resume data are rejected.</p>
+            <p>
+              <span class="status-pill is-rejected" data-activation-decision-flag="restricted-inputs-rejected">restricted-inputs-rejected</span>
+            </p>
+          </article>
+        </div>
+        <div class="lead-form paid-review-queue-panel">
+          <div class="review-topline">
+            <span>Local ledger</span>
+            <strong data-activation-decision-ledger-count>0 decisions</strong>
+          </div>
+          <div class="change-list" data-activation-decision-ledger-list aria-live="polite">
+            <article
+              data-activation-decision-control="public_deploy"
+              data-public-deploy-enabled="false"
+              data-deploy-trigger-enabled="false"
+            >
+              <span>Public deploy</span>
+              <label>
+                <select data-activation-decision-status>
+                  <option value="not_ready">Not ready</option>
+                  <option value="ready_for_private_control_update">Ready for private control update review</option>
+                  <option value="blocked_missing_non_secret_decision">Blocked by missing non-secret decision</option>
+                </select>
+              </label>
+              <label>
+                <textarea
+                  data-activation-decision-note
+                  maxlength="220"
+                  rows="2"
+                  placeholder="Non-secret status note only. No URL, credential, token, deploy command, or dashboard value."
+                ></textarea>
+              </label>
+              <button class="secondary-action" type="button" data-activation-decision-save>Save local decision</button>
+            </article>
+            <article
+              data-activation-decision-control="lead_capture"
+              data-lead-capture-enabled="false"
+              data-contact-data-enabled="false"
+            >
+              <span>Lead capture</span>
+              <label>
+                <select data-activation-decision-status>
+                  <option value="not_ready">Not ready</option>
+                  <option value="ready_for_private_control_update">Ready for private control update review</option>
+                  <option value="blocked_missing_non_secret_decision">Blocked by missing non-secret decision</option>
+                </select>
+              </label>
+              <label>
+                <textarea
+                  data-activation-decision-note
+                  maxlength="220"
+                  rows="2"
+                  placeholder="Non-secret status note only. No names, emails, phone numbers, storage secret, or customer details."
+                ></textarea>
+              </label>
+              <button class="secondary-action" type="button" data-activation-decision-save>Save local decision</button>
+            </article>
+            <article
+              data-activation-decision-control="payment_collection"
+              data-payment-collection-enabled="false"
+              data-checkout-enabled="false"
+              data-card-data-enabled="false"
+            >
+              <span>Payment collection</span>
+              <label>
+                <select data-activation-decision-status>
+                  <option value="not_ready">Not ready</option>
+                  <option value="ready_for_private_control_update">Ready for private control update review</option>
+                  <option value="blocked_missing_non_secret_decision">Blocked by missing non-secret decision</option>
+                </select>
+              </label>
+              <label>
+                <textarea
+                  data-activation-decision-note
+                  maxlength="220"
+                  rows="2"
+                  placeholder="Non-secret status note only. No checkout link, payment account, card data, or customer info."
+                ></textarea>
+              </label>
+              <button class="secondary-action" type="button" data-activation-decision-save>Save local decision</button>
+            </article>
+            <article
+              data-activation-decision-control="analytics"
+              data-analytics-enabled="false"
+              data-analytics-send-enabled="false"
+            >
+              <span>Analytics</span>
+              <label>
+                <select data-activation-decision-status>
+                  <option value="not_ready">Not ready</option>
+                  <option value="ready_for_private_control_update">Ready for private control update review</option>
+                  <option value="blocked_missing_non_secret_decision">Blocked by missing non-secret decision</option>
+                </select>
+              </label>
+              <label>
+                <textarea
+                  data-activation-decision-note
+                  maxlength="220"
+                  rows="2"
+                  placeholder="Non-secret status note only. No tracking ID, endpoint, cookie value, user data, or event send."
+                ></textarea>
+              </label>
+              <button class="secondary-action" type="button" data-activation-decision-save>Save local decision</button>
+            </article>
+          </div>
+          <div class="hero-actions">
+            <button class="secondary-action" type="button" data-activation-decision-refresh>Refresh local decisions</button>
+            <button class="secondary-action" type="button" data-activation-decision-clear>Clear local decisions</button>
+            <button
+              class="secondary-action"
+              type="button"
+              data-activation-decision-packet-export
+              data-activation-decision-packet-format="proofresume-activation-decision-packet-export-v1"
+              data-download-filename="proofresume-activation-decision-packet.json"
+              data-local-only="true"
+              data-browser-local-ledger-only="true"
+              data-planning-only="true"
+              data-no-persistence="true"
+              data-network-enabled="false"
+              data-secret-request-enabled="false"
+              data-url-request-enabled="false"
+              data-deploy-trigger-enabled="false"
+              data-checkout-enabled="false"
+              data-outbound-enabled="false"
+              data-analytics-enabled="false"
+              data-card-data-enabled="false"
+              data-contact-data-enabled="false"
+              data-resume-data-enabled="false"
+              data-enable-control-flags="false"
+              data-includes-review-status-marker="true"
+              data-review-status-storage-key="proofresume:activationDecisionPacketReviewStatus"
+            >
+              Download activation-decision packet JSON
+            </button>
+          </div>
+          <p class="form-status" role="status" data-activation-decision-status-message>
+            Local ledger ready. No deploy, checkout, lead capture, payment collection, analytics, outbound, customer data,
+            or resume intake action is enabled.
+          </p>
+          <p class="form-status" role="status" data-activation-decision-packet-status>
+            Packet export ready. It reads the browser-local ledger and includes the packet review status marker; it does not create enablement evidence.
+          </p>
+          <div
+            class="change-list"
+            data-activation-decision-packet-review-status
+            data-local-only="true"
+            data-storage-key="proofresume:activationDecisionPacketReviewStatus"
+            data-default-status="not-reviewed"
+            data-mutates-business-controls="false"
+            data-enable-control-flags="false"
+            data-network-enabled="false"
+            data-secret-request-enabled="false"
+            data-url-request-enabled="false"
+            data-deploy-trigger-enabled="false"
+            data-checkout-enabled="false"
+            data-outbound-enabled="false"
+            data-analytics-enabled="false"
+            data-card-data-enabled="false"
+            data-contact-data-enabled="false"
+            data-resume-data-enabled="false"
+          >
+            <article>
+              <span>Packet review status</span>
+              <label>
+                <select data-activation-decision-packet-review-status-input>
+                  <option value="not-reviewed">Not reviewed</option>
+                  <option value="reviewed">Reviewed</option>
+                  <option value="rejected">Rejected</option>
+                  <option value="stale">Stale</option>
+                </select>
+              </label>
+              <div class="hero-actions">
+                <button class="secondary-action" type="button" data-activation-decision-packet-review-status-save>
+                  Save packet review status
+                </button>
+              </div>
+              <p
+                class="form-status"
+                role="status"
+                data-activation-decision-packet-review-status-target
+              >
+                Packet summary review status: not reviewed. Browser localStorage only; no control authority changes.
+              </p>
+            </article>
+          </div>
+          <pre
+            class="report-preview"
+            data-activation-decision-packet-json
+            aria-label="Browser-local activation decision packet export JSON"
+          ></pre>
+          <pre
+            class="report-preview"
+            data-activation-decision-json
+            aria-label="Browser-local activation decision ledger JSON"
+          ></pre>
+        </div>
+      </section>
+
+      <section
+        class="pricing-section paid-review-queue"
+        aria-label="Local paid-review intent operator queue"
+        data-paid-review-queue
+        data-local-only="true"
+        data-revenue-evidence="false"
+        data-demand-evidence="false"
+        data-payment-evidence="false"
+        data-willingness-to-pay-evidence="false"
+      >
+        <div class="section-head">
+          <p class="eyebrow">Operator review queue</p>
+          <h2>Review local paid-review intent metadata without upgrading it into business evidence.</h2>
+          <p class="hero-text">
+            This queue reads local JSONL-shaped metadata from this browser only. It has no contact fields, no resume text,
+            no payment action, no outreach action, no analytics event, and no external enrichment path.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <h3>Boundary</h3>
+            <p>Local intent records are triage prompts only. Revenue, demand, payment, checkout, conversion, and willingness-to-pay facts remain Not observed.</p>
+            <p>
+              <span class="status-pill is-rejected" data-paid-review-queue-boundary>No revenue evidence</span>
+            </p>
+          </article>
+          <article>
+            <h3>Allowed source</h3>
+            <p>Reads <code>localStorage</code> keys created by local pricing capture: one latest metadata object and one JSONL-shaped local queue mirror.</p>
+            <p>
+              <span class="status-pill is-pending" data-paid-review-queue-source>Local metadata only</span>
+            </p>
+          </article>
+          <article>
+            <h3>Blocked actions</h3>
+            <p>Cannot send messages, charge cards, create leads, enrich contacts, run analytics, request resume text, or change production controls.</p>
+            <p>
+              <span class="status-pill is-rejected" data-paid-review-queue-actions>No external action</span>
+            </p>
+          </article>
+        </div>
+        <div class="lead-form paid-review-queue-panel">
+          <div class="review-topline">
+            <span>Local queue</span>
+            <strong data-paid-review-queue-count>0 records</strong>
+          </div>
+          <div class="hero-actions">
+            <button class="secondary-action" type="button" data-paid-review-queue-refresh>Refresh local queue</button>
+            <button
+              class="secondary-action"
+              type="button"
+              data-paid-review-export-build
+              data-paid-review-queue-export
+              data-local-only="true"
+              data-planning-only="true"
+              data-follow-up-draft-eligible="false"
+              data-outreach-eligible="false"
+              data-checkout-eligible="false"
+              data-analytics-eligible="false"
+              data-production-lead-capture-eligible="false"
+              data-production-resume-intake-eligible="false"
+              data-revenue-evidence="false"
+              data-demand-evidence="false"
+              data-payment-evidence="false"
+              data-conversion-evidence="false"
+              data-willingness-to-pay-evidence="false"
+            >
+              Build planning-only Not evidence export
+            </button>
+            <button class="secondary-action" type="button" data-paid-review-queue-clear>Clear triage decisions</button>
+          </div>
+          <p class="form-status" role="status" data-paid-review-queue-status>
+            Queue ready. No local paid-review intent metadata has been reviewed in this session.
+          </p>
+          <div class="change-list" data-paid-review-queue-list aria-live="polite">
+            <article>
+              <span>No local records loaded</span>
+              <p>Save paid-review interest above, then refresh this local-only queue.</p>
+            </article>
+          </div>
+          <p class="form-status" role="status" data-paid-review-export-status>
+            Planning only. Not evidence. No follow-up draft, No outreach, No checkout, No analytics,
+            No production lead capture, and No production resume intake. Planning export waits for reviewed local metadata
+            and stores only local metadata, triage labels, stop routes, and false / Not observed flags for revenue, demand,
+            payment, willingness-to-pay, follow-up draft, outreach, analytics, production lead capture, and resume intake.
+          </p>
+          <pre
+            class="report-preview"
+            data-paid-review-export-output
+            aria-label="Local paid-review intent triage planning export"
+          ></pre>
+        </div>
+      </section>
+
+      <section class="early-access pricing-cta" aria-label="Early access next step">
+        <div>
+          <p class="eyebrow">Next step</p>
+          <h2>Bring one messy resume and evaluate the improvement loop.</h2>
+          <p>
+            This page does not process payments or collect credentials. Use the local intake, then save an early-access
+            lead from the home page when you want a follow-up path.
+          </p>
+        </div>
+        <div class="lead-form">
+          <h3>Credential-free means</h3>
+          <ul class="plain-list">
+            <li>No signup required to view the sample flow.</li>
+            <li>No card required for prototype access.</li>
+            <li>No external resume transfer from the local intake page.</li>
+          </ul>
+          <a class="primary-action" href="/intake.html">Try the local prototype</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>ProofResume</span>
+      <span>Better resume edits. Visible proof. Clearer next steps.</span>
+    </footer>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
