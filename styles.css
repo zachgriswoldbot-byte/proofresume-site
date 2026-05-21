@@ -395,12 +395,29 @@ button:disabled {
 .apply-input-card input,
 .apply-input-card textarea,
 .apply-pilot-form input,
-.apply-pilot-form select {
+.apply-pilot-form select,
+.apply-pilot-form textarea {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 12px;
+  color: var(--ink);
   font: inherit;
+  background: #fff;
+}
+
+.apply-pilot-form textarea {
+  min-height: 92px;
+}
+
+.apply-pilot-form .inline-checkbox {
+  align-items: start;
+}
+
+.apply-pilot-form .inline-checkbox input {
+  width: auto;
+  min-height: 0;
+  margin-top: 3px;
 }
 
 .apply-actions,

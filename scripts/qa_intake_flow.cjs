@@ -15242,6 +15242,7 @@ async function runBundleLibraryImportCapPreviewScenario(page, baseUrl) {
 
   await page.reload({ waitUntil: "networkidle" });
   await page.setInputFiles("input[data-pr='importBundleLibraryFile']", archivePath);
+  await page.waitForFunction(() => document.querySelector("[data-pr='bundleLibraryTransferStatus']")?.textContent?.includes("cap 50"));
 
   const previewText = (await page.textContent("[data-pr='bundleLibraryTransferStatus']")) || "";
   scenario.check(previewText.includes("cap 50"), `Import preview explicitly names the 50-bundle cap. Preview: ${previewText}`);
@@ -15334,6 +15335,7 @@ async function runBundleLibraryImportPreviewDownloadScenario(page, baseUrl) {
 
   await page.reload({ waitUntil: "networkidle" });
   await page.setInputFiles("input[data-pr='importBundleLibraryFile']", archivePath);
+  await page.waitForFunction(() => document.querySelector("[data-pr='bundleLibraryTransferStatus']")?.textContent?.includes("cap 50"));
 
   const downloadPromise = page.waitForEvent("download");
   await page.click("button[data-pr='bundleLibraryImportDownloadPreview']");

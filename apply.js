@@ -35,6 +35,7 @@ const demoJobs = [
 ];
 
 const resumeInput = document.querySelector("[data-apply-resume]");
+const resumeFileInput = document.querySelector("[data-apply-resume-file]");
 const targetInput = document.querySelector("[data-apply-target]");
 const locationInput = document.querySelector("[data-apply-location]");
 const form = document.querySelector("[data-apply-form]");
@@ -49,9 +50,56 @@ const appliedCount = document.querySelector("[data-apply-applied-count]");
 const pilotForm = document.querySelector("[data-apply-pilot-form]");
 const pilotStatus = document.querySelector("[data-apply-pilot-status]");
 const copyRequestButton = document.querySelector("[data-apply-copy-request]");
+const downloadRequestButton = document.querySelector("[data-apply-download-request]");
 
 let applications = [];
-let latestPilotRequest = "";
+let latestPilotPacket = null;
+let latestPilotRequestText = "";
+
+function linesFrom(value) {
+  return String(value || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+function compactValue(value) {
+  return String(value || "").trim();
+}
+
+function formatPilotPacket(packet) {
+  return [
+    "ProofResume pilot request",
+    `Name: ${packet.customer.name}`,
+    `Email: ${packet.customer.email}`,
+    `Target role: ${packet.search.targetRole}`,
+    `Location rules: ${packet.search.locationRules}`,
+    `Weekly target: ${packet.search.weeklyTarget}`,
+    `Work authorization: ${packet.search.workAuthorization}`,
+    `Generated queue size: ${packet.generatedQueue.length}`,
+    `Resume words: ${packet.resume.wordCount}`,
+    "",
+    "Must-haves:",
+    packet.search.mustHaves || "Not provided",
+    "",
+    "Dealbreakers:",
+    packet.search.dealbreakers || "Not provided",
+    "",
+    "Job links:",
+    packet.search.jobLinks.length ? packet.search.jobLinks.join("\n") : "Not provided",
+  ].join("\n");
+}
+
+function downloadJson(filename, payload) {
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(link.href);
+}
 
 function summarizeResume(text) {
   const words = text.trim().split(/\s+/).filter(Boolean);
@@ -151,6 +199,18 @@ document.querySelectorAll("[data-apply-demo-load]").forEach((button) => {
   });
 });
 
+resumeFileInput?.addEventListener("change", async () => {
+  const file = resumeFileInput.files?.[0];
+  if (!file) return;
+  const textLike = /text|json|csv|markdown/i.test(file.type) || /\.(txt|md|text|json|csv)$/i.test(file.name);
+  if (!textLike) {
+    pilotStatus.textContent = "File selected. Paste resume text too so the demo can read it.";
+    return;
+  }
+  resumeInput.value = await file.text();
+  pilotStatus.textContent = `Loaded ${file.name}. Build the queue when ready.`;
+});
+
 form?.addEventListener("submit", (event) => {
   event.preventDefault();
   if (!resumeInput.value.trim()) resumeInput.value = demoResume;
@@ -172,23 +232,83 @@ approveAllButton?.addEventListener("click", () => {
 pilotForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   const data = new FormData(pilotForm);
-  latestPilotRequest = [
-    "ProofResume pilot request",
-    `Name: ${data.get("name")}`,
-    `Target role: ${data.get("targetRole")}`,
-    `Weekly target: ${data.get("weeklyTarget")}`,
-    `Generated queue size: ${applications.length || 0}`,
-  ].join("\n");
-  localStorage.setItem("proofresume:pilotRequest", latestPilotRequest);
+  const resumeText = resumeInput.value.trim();
+  const resumeSummary = summarizeResume(resumeText);
+  latestPilotPacket = {
+    format: "proofresume-pilot-intake-packet-v1",
+    createdAt: new Date().toISOString(),
+    source: "browser-local-demo",
+    customer: {
+      name: compactValue(data.get("name")),
+      email: compactValue(data.get("email")),
+    },
+    resume: {
+      pastedText: resumeText,
+      wordCount: resumeSummary.wordCount,
+      hasMetrics: resumeSummary.hasMetrics,
+      hasOperationsKeywords: resumeSummary.hasOps,
+      uploadedFileName: resumeFileInput?.files?.[0]?.name || null,
+    },
+    search: {
+      targetRole: compactValue(data.get("targetRole")),
+      targetFromWorkbench: targetInput.value.trim(),
+      targetCompanies: linesFrom(data.get("targetCompanies")),
+      jobLinks: linesFrom(data.get("jobLinks")),
+      locationRules: compactValue(data.get("locationRules")),
+      locationFromWorkbench: locationInput.value.trim(),
+      salaryTarget: compactValue(data.get("salaryTarget")),
+      weeklyTarget: compactValue(data.get("weeklyTarget")),
+      workAuthorization: compactValue(data.get("workAuthorization")),
+      startDate: compactValue(data.get("startDate")),
+      mustHaves: compactValue(data.get("mustHaves")),
+      dealbreakers: compactValue(data.get("dealbreakers")),
+      applicationNotes: compactValue(data.get("applicationNotes")),
+    },
+    consent: {
+      managedPilotRequested: data.get("consent") === "on",
+      resumeUseApproved: data.get("resumeConsent") === "on",
+      liveSendsRequireExplicitApproval: data.get("approvalConsent") === "on",
+    },
+    generatedQueue: applications.map((app) => ({
+      company: app.company,
+      title: app.title,
+      match: app.match,
+      status: app.status,
+      draft: app.draft,
+      reason: app.reason,
+    })),
+    operatorChecklist: [
+      "Confirm contact path and consent before follow-up.",
+      "Review resume text for missing metrics, gaps, and unsupported claims.",
+      "Confirm target roles, location rules, salary target, work authorization, and dealbreakers.",
+      "Confirm account access and job-board terms outside this static demo before any live apply action.",
+      "Get explicit approval for each application before live submission.",
+    ],
+  };
+
+  latestPilotRequestText = formatPilotPacket(latestPilotPacket);
+  localStorage.setItem("proofresume:pilotRequest", latestPilotRequestText);
+  localStorage.setItem("proofresume:pilotIntakePacket", JSON.stringify(latestPilotPacket));
   copyRequestButton.disabled = false;
-  pilotStatus.textContent = "Pilot request created locally. Copy it when you are ready.";
+  downloadRequestButton.disabled = false;
+  pilotStatus.textContent = "Pilot packet created locally. Copy or download it when you are ready.";
 });
 
 copyRequestButton?.addEventListener("click", async () => {
-  if (!latestPilotRequest) latestPilotRequest = localStorage.getItem("proofresume:pilotRequest") || "";
-  if (!latestPilotRequest) return;
-  await navigator.clipboard.writeText(latestPilotRequest);
+  if (!latestPilotRequestText) latestPilotRequestText = localStorage.getItem("proofresume:pilotRequest") || "";
+  if (!latestPilotRequestText) return;
+  await navigator.clipboard.writeText(latestPilotRequestText);
   pilotStatus.textContent = "Pilot request copied.";
+});
+
+downloadRequestButton?.addEventListener("click", () => {
+  if (!latestPilotPacket) {
+    const storedPacket = localStorage.getItem("proofresume:pilotIntakePacket");
+    latestPilotPacket = storedPacket ? JSON.parse(storedPacket) : null;
+  }
+  if (!latestPilotPacket) return;
+  downloadJson("proofresume-pilot-intake-packet.json", latestPilotPacket);
+  pilotStatus.textContent = "Pilot packet downloaded.";
 });
 
 updateSummary();

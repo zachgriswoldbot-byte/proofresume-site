@@ -81,6 +81,10 @@
               ></textarea>
             </label>
             <label>
+              Upload resume file
+              <input type="file" data-apply-resume-file accept=".txt,.md,.text,.json,.csv" />
+            </label>
+            <label>
               Target
               <input data-apply-target value="Customer operations, onboarding, support ops" />
             </label>
@@ -129,8 +133,8 @@
           <p class="eyebrow">Pilot</p>
           <h2>Want this run for your search?</h2>
           <p>
-            We are testing managed auto-apply runs with a small group. Create a pilot request and use it to start the
-            conversation.
+            We are testing managed auto-apply runs with a small group. Create a complete pilot packet so an operator can
+            start without a long back-and-forth.
           </p>
         </div>
         <form class="lead-form apply-pilot-form" data-apply-pilot-form>
@@ -139,8 +143,28 @@
             <input name="name" autocomplete="name" required />
           </label>
           <label>
+            Email
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+          <label>
             Target role
             <input name="targetRole" placeholder="Customer ops lead, data analyst, product manager..." required />
+          </label>
+          <label>
+            Target companies
+            <textarea name="targetCompanies" rows="3" placeholder="Companies, industries, or job boards to prioritize."></textarea>
+          </label>
+          <label>
+            Job links
+            <textarea name="jobLinks" rows="4" placeholder="Paste any roles you already like. One per line."></textarea>
+          </label>
+          <label>
+            Location rules
+            <input name="locationRules" placeholder="Remote only, NYC hybrid, open to relocate..." required />
+          </label>
+          <label>
+            Salary target
+            <input name="salaryTarget" placeholder="$90k+, flexible, contract ok..." />
           </label>
           <label>
             Weekly target
@@ -150,14 +174,47 @@
               <option>50 quality applications</option>
             </select>
           </label>
+          <label>
+            Work authorization
+            <select name="workAuthorization">
+              <option>Authorized to work without sponsorship</option>
+              <option>Need sponsorship</option>
+              <option>Prefer not to say yet</option>
+            </select>
+          </label>
+          <label>
+            Start date
+            <input name="startDate" placeholder="Immediately, 2 weeks, after current contract..." />
+          </label>
+          <label>
+            Must-haves
+            <textarea name="mustHaves" rows="3" placeholder="Role scope, benefits, remote rules, technologies, team size..."></textarea>
+          </label>
+          <label>
+            Dealbreakers
+            <textarea name="dealbreakers" rows="3" placeholder="Commute limits, industries, seniority mismatch, low salary..."></textarea>
+          </label>
+          <label>
+            Application notes
+            <textarea name="applicationNotes" rows="4" placeholder="Tone, career story, gaps to explain, questions to avoid, accounts already used..."></textarea>
+          </label>
           <label class="inline-checkbox">
             <input name="consent" type="checkbox" required />
             I want a managed auto-apply pilot.
           </label>
+          <label class="inline-checkbox">
+            <input name="resumeConsent" type="checkbox" required />
+            Use my resume text and notes to prepare applications.
+          </label>
+          <label class="inline-checkbox">
+            <input name="approvalConsent" type="checkbox" required />
+            I understand this demo prepares a packet; live sends still require explicit approval.
+          </label>
           <button type="submit">Create pilot request</button>
           <button type="button" data-apply-copy-request disabled>Copy request</button>
+          <button type="button" data-apply-download-request disabled>Download packet</button>
           <p class="form-status" data-apply-pilot-status role="status">
-            Pilot request stays local until you choose where to send it.
+            Packet stays local until you choose where to send it.
           </p>
         </form>
       </section>
