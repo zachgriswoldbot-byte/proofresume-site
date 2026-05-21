@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProofResume Demo | Auto-apply queue</title>
+    <meta
+      name="description"
+      content="Try a click-through ProofResume auto-apply queue from one resume to approved applications."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="ProofResume home">
+        <span class="brand-mark">P</span>
+        <span>ProofResume</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html#product">How it works</a>
+        <a href="apply.html">Try demo</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="index.html#early-access">Pilot</a>
+      </nav>
+    </header>
+
+    <main class="apply-page">
+      <section class="apply-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Auto-apply demo</p>
+          <h1>One resume turns into an application queue.</h1>
+          <p class="hero-text">
+            Use the sample resume or paste your own. ProofResume finds roles, drafts applications, and lets you approve
+            the batch.
+          </p>
+          <div class="hero-actions">
+            <button class="primary-action" type="button" data-apply-demo-load>Use demo resume</button>
+            <a class="secondary-action" href="#pilot">Join pilot</a>
+          </div>
+        </div>
+        <div class="review-shell apply-status-panel" aria-label="ProofResume auto-apply progress">
+          <div class="review-topline">
+            <span>Queue status</span>
+            <strong data-apply-status-label>Waiting</strong>
+          </div>
+          <div class="apply-meter" aria-hidden="true">
+            <span data-apply-meter-fill></span>
+          </div>
+          <div class="score-grid">
+            <div>
+              <span>Roles</span>
+              <strong data-apply-role-count>0</strong>
+            </div>
+            <div>
+              <span>Ready</span>
+              <strong data-apply-ready-count>0</strong>
+            </div>
+            <div>
+              <span>Applied</span>
+              <strong data-apply-applied-count>0</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-band apply-workbench" aria-label="Auto-apply workbench">
+        <div class="section-head">
+          <p class="eyebrow">Start here</p>
+          <h2>Upload once. Approve the best applications.</h2>
+        </div>
+
+        <div class="apply-grid">
+          <form class="apply-card apply-input-card" data-apply-form>
+            <label>
+              Resume
+              <textarea
+                data-apply-resume
+                rows="12"
+                placeholder="Paste a resume or use the demo resume."
+              ></textarea>
+            </label>
+            <label>
+              Target
+              <input data-apply-target value="Customer operations, onboarding, support ops" />
+            </label>
+            <label>
+              Location
+              <input data-apply-location value="Remote or San Francisco" />
+            </label>
+            <div class="apply-actions">
+              <button class="primary-action" type="submit">Build queue</button>
+              <button class="secondary-action" type="button" data-apply-demo-load>Use demo resume</button>
+            </div>
+            <p class="form-status">Demo runs in this browser. No external service is contacted.</p>
+          </form>
+
+          <section class="apply-card apply-preview-card" aria-label="Generated plan">
+            <div class="review-topline">
+              <span>Managed run</span>
+              <strong data-apply-plan-title>Not started</strong>
+            </div>
+            <ol class="apply-plan" data-apply-plan>
+              <li>Read the resume</li>
+              <li>Rank target jobs</li>
+              <li>Draft tailored applications</li>
+              <li>Approve and track sends</li>
+            </ol>
+            <button class="primary-action" type="button" data-apply-approve-all disabled>Approve ready apps</button>
+          </section>
+        </div>
+      </section>
+
+      <section class="apply-queue-section">
+        <div class="section-head">
+          <p class="eyebrow">Application queue</p>
+          <h2>Ready-to-review applications.</h2>
+        </div>
+        <div class="apply-queue" data-apply-queue>
+          <article class="apply-empty">
+            <h3>Your queue will appear here.</h3>
+            <p>Click “Use demo resume” to see the full product loop.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="early-access" id="pilot">
+        <div>
+          <p class="eyebrow">Pilot</p>
+          <h2>Want this run for your search?</h2>
+          <p>
+            We are testing managed auto-apply runs with a small group. Create a pilot request and use it to start the
+            conversation.
+          </p>
+        </div>
+        <form class="lead-form apply-pilot-form" data-apply-pilot-form>
+          <label>
+            Name
+            <input name="name" autocomplete="name" required />
+          </label>
+          <label>
+            Target role
+            <input name="targetRole" placeholder="Customer ops lead, data analyst, product manager..." required />
+          </label>
+          <label>
+            Weekly target
+            <select name="weeklyTarget">
+              <option>10 quality applications</option>
+              <option>25 quality applications</option>
+              <option>50 quality applications</option>
+            </select>
+          </label>
+          <label class="inline-checkbox">
+            <input name="consent" type="checkbox" required />
+            I want a managed auto-apply pilot.
+          </label>
+          <button type="submit">Create pilot request</button>
+          <button type="button" data-apply-copy-request disabled>Copy request</button>
+          <p class="form-status" data-apply-pilot-status role="status">
+            Pilot request stays local until you choose where to send it.
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>ProofResume</span>
+      <span>Auto-apply from one resume. Local-only demo.</span>
+    </footer>
+
+    <script type="module" src="apply.js"></script>
+  </body>
+</html>

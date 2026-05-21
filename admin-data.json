@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T00:37:28.383Z",
+  "generatedAt": "2026-05-21T01:58:04.013Z",
   "company": {
     "name": "ProofResume",
     "workspace": "/Users/zackgrizz/Documents/AgentFoundry/companies/resume-helper",
@@ -88327,7 +88327,7 @@
           "turnoverSummary",
           "closeMatcherDiagnostic.currentEvidenceCandidates"
         ],
-        "referenceAt": "2026-05-21T00:37:28.383Z",
+        "referenceAt": "2026-05-21T01:58:04.013Z",
         "activeTotal": 4,
         "keepActiveCount": 4,
         "closeCount": 0,
@@ -107394,7 +107394,7 @@
         "ops/progress/passes/*.json",
         "ops/reports/*.md"
       ],
-      "referenceAt": "2026-05-21T00:37:28.383Z",
+      "referenceAt": "2026-05-21T01:58:04.013Z",
       "total": 4,
       "proofNewerCount": 0,
       "awaitingProofCount": 3,
@@ -107424,7 +107424,7 @@
             ]
           },
           "proofAt": "2026-05-18T03:48:00Z",
-          "proofAgeMinutes": 4129,
+          "proofAgeMinutes": 4210,
           "proofAgeLabel": "3d",
           "proofMinusQueueMinutes": -4397,
           "proofIsNewer": false,
@@ -107465,7 +107465,7 @@
             ]
           },
           "proofAt": "2026-05-17T02:36:00Z",
-          "proofAgeMinutes": 5641,
+          "proofAgeMinutes": 5722,
           "proofAgeLabel": "4d",
           "proofMinusQueueMinutes": -5909,
           "proofIsNewer": false,
@@ -107540,7 +107540,7 @@
             ]
           },
           "proofAt": "2026-05-17T02:37:00.000Z",
-          "proofAgeMinutes": 5640,
+          "proofAgeMinutes": 5721,
           "proofAgeLabel": "4d",
           "proofMinusQueueMinutes": -5908,
           "proofIsNewer": false,
@@ -107567,7 +107567,7 @@
         "queueAgeProofComparison",
         "queueRefreshDecisionInput"
       ],
-      "referenceAt": "2026-05-21T00:37:28.383Z",
+      "referenceAt": "2026-05-21T01:58:04.013Z",
       "activeTotal": 2,
       "readyToCloseCount": 0,
       "needsProofCount": 2,
@@ -107734,7 +107734,7 @@
         "queueAgeProofComparison",
         "queueRefreshDecisionInput"
       ],
-      "referenceAt": "2026-05-21T00:37:28.383Z",
+      "referenceAt": "2026-05-21T01:58:04.013Z",
       "latestCycle": {
         "id": "2026-05-15-0834-orchestrator-re-entry-gate-integration",
         "title": "Four-lane cycle",
@@ -108096,7 +108096,7 @@
         "turnoverSummary",
         "closeMatcherDiagnostic.currentEvidenceCandidates"
       ],
-      "referenceAt": "2026-05-21T00:37:28.383Z",
+      "referenceAt": "2026-05-21T01:58:04.013Z",
       "activeTotal": 4,
       "keepActiveCount": 4,
       "closeCount": 0,
@@ -114553,7 +114553,7 @@
     },
     "ownerAuthorityRepairLoopPreview": {
       "format": "proofresume-owner-authority-repair-loop-preview-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-OWNER-AUTHORITY-REPAIR-LOOP-PREVIEW",
       "bundlePath": "ops/launch/owner-authority-bundle.template.json",
       "indexPath": "ops/launch/owner-authority-bundle-index.md",
@@ -115079,7 +115079,7 @@
     },
     "firstCustomerLaunchRoom": {
       "format": "proofresume-first-customer-launch-room-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-LAUNCH-ROOM-INTEGRATION",
       "sourcePattern": "commons/templates/first-customer-launch-room",
       "sourceMode": "sample_rehearsal",
@@ -115334,7 +115334,7 @@
     },
     "firstCustomerSignalSurface": {
       "format": "proofresume-first-customer-signal-surface-integration-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-SIGNAL-SURFACE-INTEGRATION",
       "surfacePath": "website/admin.html#first-customer-signal-surface",
       "mode": "sample_redacted_admin_surface_no_external_actions",
@@ -115470,7 +115470,7 @@
     },
     "firstCustomerEvidenceInboxRoom": {
       "format": "proofresume-first-customer-evidence-inbox-room-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-EVIDENCE-INBOX-ROOM",
       "surfacePath": "website/admin.html#first-customer-evidence-inbox-room",
       "mode": "sample_or_owner_approved_redacted_evidence_inbox_no_external_actions",
@@ -115785,7 +115785,7 @@
     },
     "firstCustomerEvidenceRouteScoreboard": {
       "format": "proofresume-first-customer-evidence-route-scoreboard-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-EVIDENCE-ROUTE-SCOREBOARD",
       "surfacePath": "website/admin.html#first-customer-evidence-route-scoreboard",
       "mode": "local_sample_redacted_route_scoreboard_no_external_actions",
@@ -116238,7 +116238,7 @@
     },
     "firstCustomerEvidenceProofRepairPacket": {
       "format": "proofresume-first-customer-evidence-proof-repair-packet-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-EVIDENCE-PROOF-REPAIR-PACKET",
       "surfacePath": "website/admin.html#first-customer-evidence-proof-repair-packet",
       "mode": "local_sample_redacted_proof_repair_packet_no_external_actions",
@@ -116475,7 +116475,7 @@
     },
     "repairedProofToPaidAskRoom": {
       "format": "proofresume-repaired-proof-to-paid-ask-room-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-REPAIRED-PROOF-TO-PAID-ASK-ROOM",
       "surfacePath": "website/admin.html#repaired-proof-to-paid-ask-room",
       "mode": "local_sample_redacted_paid_ask_rehearsal_no_checkout_no_external_actions",
@@ -116788,7 +116788,7 @@
     },
     "paidAskOutcomeRouter": {
       "format": "proofresume-paid-ask-outcome-router-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-PAID-ASK-OUTCOME-ROUTER",
       "surfacePath": "website/admin.html#paid-ask-outcome-router",
       "mode": "local_sample_redacted_paid_ask_outcome_router_no_external_actions",
@@ -116838,7 +116838,7 @@
         },
         {
           "id": "commons_evidence_route_handoff_pattern",
-          "path": "/Users/zackgrizz/Documents/AgentFoundry/commons/templates/first-customer-evidence-route-handoff/README.md",
+          "path": "commons/templates/first-customer-evidence-route-handoff/README.md",
           "state": "pattern_reference_available"
         },
         {
@@ -117141,7 +117141,7 @@
     },
     "paidAskProofPacketClarityRepair": {
       "format": "proofresume-paid-ask-proof-packet-clarity-repair-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-PAID-ASK-PROOF-PACKET-CLARITY-REPAIR",
       "surfacePath": "website/admin.html#paid-ask-proof-packet-clarity-repair",
       "mode": "local_sample_redacted_paid_ask_proof_packet_clarity_repair_no_checkout_no_external_actions",
@@ -117452,7 +117452,7 @@
     },
     "paidAskObjectionResponseSimulator": {
       "format": "proofresume-paid-ask-objection-response-simulator-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-PAID-ASK-OBJECTION-RESPONSE-SIMULATOR",
       "surfacePath": "website/admin.html#paid-ask-objection-response-simulator",
       "mode": "local_sample_redacted_paid_ask_objection_response_simulator_no_external_actions",
@@ -117914,7 +117914,7 @@
     },
     "firstPaidPilotHandoffRoom": {
       "format": "proofresume-first-paid-pilot-handoff-room-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-PAID-PILOT-HANDOFF-ROOM",
       "surfacePath": "website/admin.html#first-paid-pilot-handoff-room",
       "mode": "local_sample_redacted_first_paid_pilot_handoff_no_checkout_no_external_actions",
@@ -118115,7 +118115,7 @@
     },
     "firstPaidPilotGateSimulator": {
       "format": "proofresume-first-paid-pilot-gate-simulator-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-PAID-PILOT-GATE-SIMULATOR",
       "surfacePath": "website/admin.html#first-paid-pilot-gate-simulator",
       "mode": "local_admin_first_paid_pilot_gate_simulator_no_external_actions",
@@ -118372,7 +118372,7 @@
     },
     "firstDollarReadinessRoom": {
       "format": "proofresume-first-dollar-readiness-room-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-DOLLAR-READINESS-ROOM",
       "surfacePath": "website/admin.html#first-dollar-readiness-room",
       "mode": "local_sample_first_dollar_readiness_no_payment_no_customer_data_no_external_actions",
@@ -118719,7 +118719,7 @@
     },
     "firstDollarOwnerEvidenceRepairRoom": {
       "format": "proofresume-first-dollar-owner-evidence-repair-room-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-DOLLAR-OWNER-EVIDENCE-REPAIR-ROOM",
       "surfacePath": "website/admin.html#first-dollar-owner-evidence-repair-room",
       "mode": "local_sample_first_dollar_owner_evidence_repair_no_external_actions",
@@ -119165,7 +119165,7 @@
     },
     "firstPaidPilotFulfillmentReceiptPreview": {
       "format": "proofresume-first-paid-pilot-fulfillment-receipt-preview-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-PAID-PILOT-FULFILLMENT-RECEIPT-PREVIEW",
       "surfacePath": "website/admin.html#first-paid-pilot-fulfillment-receipt-preview",
       "mode": "local_sample_redacted_first_paid_pilot_fulfillment_receipt_no_payment_no_customer_data_no_external_actions",
@@ -119355,7 +119355,7 @@
     },
     "firstLiveProofAuditCopilot": {
       "format": "proofresume-first-live-proof-audit-copilot-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-LIVE-PROOF-AUDIT-COPILOT",
       "surfacePath": "website/admin.html#first-live-proof-audit-copilot",
       "mode": "local_sample_redacted_live_proof_audit_copilot_no_external_actions",
@@ -119728,7 +119728,7 @@
     },
     "liveToPaidPilotDecisionRoom": {
       "format": "proofresume-live-to-paid-pilot-decision-room-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-LIVE-TO-PAID-PILOT-DECISION-ROOM",
       "surfacePath": "website/admin.html#live-to-paid-pilot-decision-room",
       "mode": "local_sample_or_owner_approved_redacted_decision_room_no_external_actions",
@@ -120143,7 +120143,7 @@
     },
     "liveProofTrustGapRepairRoom": {
       "format": "proofresume-live-proof-trust-gap-repair-room-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-LIVE-PROOF-TRUST-GAP-REPAIR-ROOM",
       "surfacePath": "website/admin.html#live-proof-trust-gap-repair-room",
       "mode": "local_sample_or_owner_approved_redacted_trust_gap_repair_no_external_actions",
@@ -120453,7 +120453,7 @@
     },
     "liveProofMissingProofCueRepair": {
       "format": "proofresume-live-proof-missing-proof-cue-repair-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-LIVE-PROOF-MISSING-PROOF-CUE-REPAIR",
       "surfacePath": "website/admin.html#live-proof-missing-proof-cue-repair",
       "mode": "local_sample_or_owner_approved_redacted_missing_proof_cue_repair_no_external_actions",
@@ -120718,7 +120718,7 @@
     },
     "paidPilotTrustGapRepairLab": {
       "format": "proofresume-paid-pilot-trust-gap-repair-lab-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-PAID-PILOT-TRUST-GAP-REPAIR-LAB",
       "surfacePath": "website/admin.html#paid-pilot-trust-gap-repair-lab",
       "mode": "local_sample_redacted_paid_pilot_trust_gap_repair_lab_no_external_actions",
@@ -121012,7 +121012,7 @@
     },
     "proofDeltaValueSnapshot": {
       "format": "proofresume-proof-delta-value-snapshot-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-PROOF-DELTA-VALUE-SNAPSHOT",
       "surfacePath": "website/admin.html#proof-delta-value-snapshot",
       "mode": "local_sample_redacted_proof_delta_value_snapshot_no_external_actions",
@@ -121245,7 +121245,7 @@
     },
     "firstAuthorizedSessionRunner": {
       "format": "proofresume-first-authorized-session-runner-admin-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-AUTHORIZED-SESSION-RUNNER",
       "surfacePath": "website/admin.html#first-authorized-session-runner",
       "mode": "sample_redacted_first_authorized_session_runner_no_external_actions",
@@ -121519,7 +121519,7 @@
     },
     "firstCustomerPilotConsole": {
       "format": "proofresume-first-customer-pilot-console-admin-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-PILOT-CONSOLE",
       "surfacePath": "website/admin.html#first-customer-pilot-console",
       "mode": "sample_redacted_first_customer_pilot_console_no_external_actions",
@@ -121917,7 +121917,7 @@
     },
     "firstCustomerPilotRevenueSimulator": {
       "format": "proofresume-first-customer-pilot-revenue-simulator-admin-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-PILOT-REVENUE-SIMULATOR",
       "surfacePath": "website/admin.html#pilot-revenue-simulator",
       "mode": "sample_redacted_pilot_revenue_simulator_no_checkout_no_external_actions",
@@ -122276,7 +122276,7 @@
     },
     "consentedAuditHandoffPreview": {
       "format": "proofresume-consented-audit-handoff-preview-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-CONSENTED-AUDIT-HANDOFF-PREVIEW",
       "sourcePattern": "website/app.html#consented-audit-handoff",
       "localOnly": true,
@@ -122351,7 +122351,7 @@
     },
     "conciergeFulfillmentDashboard": {
       "format": "proofresume-concierge-fulfillment-dashboard-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "sourcePattern": "commons/templates/concierge-fulfillment",
       "dashboardPattern": "commons/templates/first-customer-ops-dashboard",
       "productQueueItemId": "NORTHSTAR-CONCIERGE-FULFILLMENT-DASHBOARD",
@@ -122473,7 +122473,7 @@
     },
     "redactedSessionEvidenceInbox": {
       "format": "proofresume-redacted-session-evidence-inbox-v1",
-      "generatedAt": "2026-05-21T00:37:28.383Z",
+      "generatedAt": "2026-05-21T01:58:04.013Z",
       "productQueueItemId": "NORTHSTAR-REDACTED-SESSION-EVIDENCE-INBOX",
       "sourcePattern": "commons/templates/customer-evidence-redaction",
       "sourceTemplate": "commons/templates/customer-evidence-redaction/customer-evidence-redaction.template.json",
@@ -122531,7 +122531,7 @@
           "evidenceId": "sample-rehearsal-proof-loop-001",
           "evidenceKind": "rehearsal_evidence",
           "sourceMode": "sample_rehearsal",
-          "recordedAt": "2026-05-21T00:37:28.383Z",
+          "recordedAt": "2026-05-21T01:58:04.013Z",
           "proofLevel": "L0_sample_rehearsal",
           "sourceCustodyMode": "sample_only",
           "redactionReviewState": "sample_only",
@@ -122576,7 +122576,7 @@
           "evidenceId": "owner-approved-feedback-placeholder-001",
           "evidenceKind": "authorized_feedback",
           "sourceMode": "owner_approved_redacted",
-          "recordedAt": "2026-05-21T00:37:28.383Z",
+          "recordedAt": "2026-05-21T01:58:04.013Z",
           "proofLevel": "L1_authorized_feedback",
           "sourceCustodyMode": "redacted_repo_summary",
           "redactionReviewState": "needs_review",
@@ -122615,7 +122615,7 @@
           "evidenceId": "paid-interest-question-boundary-001",
           "evidenceKind": "paid_interest_note",
           "sourceMode": "sample_rehearsal",
-          "recordedAt": "2026-05-21T00:37:28.383Z",
+          "recordedAt": "2026-05-21T01:58:04.013Z",
           "proofLevel": "L0_sample_rehearsal",
           "sourceCustodyMode": "sample_only",
           "redactionReviewState": "sample_only",
@@ -122655,7 +122655,7 @@
           "evidenceId": "privacy-objection-boundary-001",
           "evidenceKind": "privacy_objection",
           "sourceMode": "sample_rehearsal",
-          "recordedAt": "2026-05-21T00:37:28.383Z",
+          "recordedAt": "2026-05-21T01:58:04.013Z",
           "proofLevel": "L0_sample_rehearsal",
           "sourceCustodyMode": "sample_only",
           "redactionReviewState": "sample_only",
@@ -122694,7 +122694,7 @@
           "evidenceId": "no-offer-outcome-sample-001",
           "evidenceKind": "no_action_no_offer_outcome",
           "sourceMode": "sample_rehearsal",
-          "recordedAt": "2026-05-21T00:37:28.383Z",
+          "recordedAt": "2026-05-21T01:58:04.013Z",
           "proofLevel": "L0_sample_rehearsal",
           "sourceCustodyMode": "sample_only",
           "redactionReviewState": "sample_only",
@@ -132074,7 +132074,7 @@
           "latestPassAt": "2026-05-15T17:03:00-07:00",
           "latestSummary": "Admin dashboard now surfaces follow-up evidence gate counts derived from repo-visible local export snapshots under data/intake, with deterministic fixture coverage to keep the metrics stable without requiring browser localStorage access.",
           "validationAt": "2026-05-15T17:03:00-07:00",
-          "validationAgeMinutes": 7234,
+          "validationAgeMinutes": 7315,
           "validationAgeLabel": "5d",
           "validationCommand": "npm test: passed",
           "riskLevel": "stuck-risk",
@@ -132115,7 +132115,7 @@
           "latestPassAt": "2026-05-15T20:38:00Z",
           "latestSummary": "Added a private operator-resume packet guardrail based on the platform-owner non-request transfer note, preserving No-Go / Do Not Deploy and non-request boundaries for future operator continuation.",
           "validationAt": "2026-05-15T20:38:00Z",
-          "validationAgeMinutes": 7439,
+          "validationAgeMinutes": 7520,
           "validationAgeLabel": "5d",
           "validationCommand": "rg \"Do Not Publish|Do Not Deploy|No-Go|Not observed|outside repo authority|credential|production URL|deploy trigger|rollback|public launch|non-request\" ops/deploy/private-operator-resume-packet-guardrail.md ops/deploy/README.md ops/lanes/growth.md ops/reports/2026-05-15-1338-growth-operator-resume-packet-guardrail.md: passed",
           "riskLevel": "stuck-risk",
@@ -132165,7 +132165,7 @@
           "latestPassAt": "2026-05-15T10:28:00-07:00",
           "latestSummary": "Added a first-class business control contract and admin visibility so money-generating external actions can be enabled deliberately instead of remaining scattered across blocked deploy/outreach docs.",
           "validationAt": "2026-05-15T10:28:00-07:00",
-          "validationAgeMinutes": 7629,
+          "validationAgeMinutes": 7710,
           "validationAgeLabel": "5d",
           "validationCommand": "passed: npm run build-admin",
           "riskLevel": "stuck-risk",
@@ -132215,7 +132215,7 @@
           "latestPassAt": "2026-05-18T03:48:00Z",
           "latestSummary": "Added a local consented proof-audit handoff preview with consent, approval, redaction, custody, blocked-action, and candidate-next-step state.",
           "validationAt": "2026-05-18T03:48:00Z",
-          "validationAgeMinutes": 4129,
+          "validationAgeMinutes": 4210,
           "validationAgeLabel": "3d",
           "validationCommand": "node --check website/app.js",
           "riskLevel": "stuck-risk",
@@ -132267,8 +132267,8 @@
           "latestPassAt": "2026-05-20T16:06:00.000Z",
           "latestSummary": "Static QA still passes across the current dirty ProofResume workspace, but Product queue evidence is inconsistent because quote-preview closeout metadata exists without the matching report/pass/manifest/ledger artifacts.",
           "validationAt": "2026-05-20T16:06:00.000Z",
-          "validationAgeMinutes": 511,
-          "validationAgeLabel": "9h",
+          "validationAgeMinutes": 592,
+          "validationAgeLabel": "10h",
           "validationCommand": "validate-ledger passed for ops/progress/runs.jsonl before this QA append.",
           "riskLevel": "stuck-risk",
           "riskLabel": "Stuck risk",

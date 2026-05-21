@@ -54,9 +54,7 @@ async function main() {
   page.on("pageerror", (error) => pageErrors.push(error.message));
 
   try {
-    await page.goto(baseUrl);
-    await page.click("text=Try with sample data");
-    await page.waitForURL(/target-job\.html\?demo=sample#target-job-workbench$/);
+    await page.goto(`${baseUrl}/target-job.html?demo=sample#target-job-workbench`);
 
     const structuredOpen = await page.locator("[data-target-job-structured-profile]").evaluate((node) => node.open);
     if (structuredOpen) throw new Error("Try demo should keep advanced structured profile collapsed by default.");
