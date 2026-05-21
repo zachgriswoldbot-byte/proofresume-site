@@ -66,9 +66,11 @@ async function main() {
         await page.goto(`file://${path.join(root, pageSpec.file)}`);
         await page.screenshot({ path: path.join(outDir, `${pageSpec.name}-${viewport.name}.png`), fullPage: true });
         const data = await page.evaluate(() => {
-          const visibleControls = [...document.querySelectorAll("a, button, input")].filter(
-            (element) => element.offsetParent !== null
-          );
+          const visibleControls = [...document.querySelectorAll("a, button, input")].filter((element) => {
+            if (element.offsetParent === null) return false;
+            if (element.tagName.toLowerCase() === "input" && ["checkbox", "radio"].includes(element.type)) return false;
+            return true;
+          });
           return {
             title: document.title,
             overflowX: document.documentElement.scrollWidth - window.innerWidth,

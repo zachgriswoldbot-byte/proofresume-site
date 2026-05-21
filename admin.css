@@ -2,6 +2,13 @@
   padding: clamp(24px, 4vw, 56px);
 }
 
+.site-header .nav {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px 14px;
+  max-width: min(100%, 980px);
+}
+
 .admin-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
