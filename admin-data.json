@@ -1,11 +1,80 @@
 {
-  "generatedAt": "2026-05-21T03:48:30.291Z",
+  "generatedAt": "2026-05-21T23:51:26.554Z",
   "company": {
     "name": "ProofResume",
     "workspace": "/Users/zackgrizz/Documents/AgentFoundry/companies/resume-helper",
     "gstack": "/Users/zackgrizz/Documents/AgentFoundryTools/gstack"
   },
   "passes": [
+    {
+      "format": "agentfoundry-pass-v1",
+      "pass_id": "2026-05-21-0403-first-authorized-session-route-board",
+      "run_id": "proofresume-controller-dry-run-20260521T040340Z-first-authorized-session-route-board",
+      "automation_id": "proofresume-controller-dry-run",
+      "role": "product-worker",
+      "project_id": "proofresume",
+      "queue_item_id": "NORTHSTAR-FIRST-AUTHORIZED-SESSION-ROUTE-BOARD",
+      "started_at": "2026-05-21T04:03:40Z",
+      "finished_at": "2026-05-21T04:03:40Z",
+      "status": "completed",
+      "deliverables": [
+        "ops/product/first-authorized-session-route-board.md",
+        "ops/product/first-authorized-session-route-board.sample.json",
+        "ops/product/check_first_authorized_session_route_board.cjs",
+        "ops/reports/2026-05-21-0403-first-authorized-session-route-board.md"
+      ],
+      "decision": "Represent the first authorized session route board as a local/admin sample fixture and checker instead of dispatching a specialist automation or opening any live gates.",
+      "product_change": "The route board now maps every decision-tree case to source strength, dominant signal, blocked gates, forbidden claims, and one internal route action, with one selected sample route.",
+      "queue_changes": [
+        "Marked NORTHSTAR-FIRST-AUTHORIZED-SESSION-ROUTE-BOARD done.",
+        "Added no downstream queue item because the contract explicitly forbids queue mutation and delegated done claims."
+      ],
+      "external_actions": [],
+      "spend_usd": 0,
+      "validation": [
+        {
+          "command": "jq empty ops/queues/product.json ops/product/first-authorized-session-route-board.sample.json ops/research/first-authorized-session-decision-tree.sample.json ops/progress/passes/2026-05-21-0403-first-authorized-session-route-board.json ops/progress/manifests/2026-05-21-0403-first-authorized-session-route-board.json",
+          "result": "passed"
+        },
+        {
+          "command": "node --check ops/product/check_first_authorized_session_route_board.cjs",
+          "result": "passed"
+        },
+        {
+          "command": "node ops/product/check_first_authorized_session_route_board.cjs",
+          "result": "passed"
+        },
+        {
+          "command": "node /Users/zackgrizz/Documents/AgentFoundry/ops/scripts/automation_ops.cjs validate-queue ops/queues/product.json",
+          "result": "passed"
+        },
+        {
+          "command": "node /Users/zackgrizz/Documents/AgentFoundry/ops/scripts/automation_ops.cjs validate-manifest ops/progress/manifests/2026-05-21-0403-first-authorized-session-route-board.json ops/project-config.json",
+          "result": "passed"
+        },
+        {
+          "command": "node /Users/zackgrizz/Documents/AgentFoundry/ops/scripts/automation_ops.cjs validate-ledger ops/progress/runs.jsonl",
+          "result": "passed"
+        },
+        {
+          "command": "git diff --check -- ops/product/first-authorized-session-route-board.md ops/product/first-authorized-session-route-board.sample.json ops/product/check_first_authorized_session_route_board.cjs ops/reports/2026-05-21-0403-first-authorized-session-route-board.md ops/progress/passes/2026-05-21-0403-first-authorized-session-route-board.json ops/progress/manifests/2026-05-21-0403-first-authorized-session-route-board.json ops/queues/product.json ops/progress/runs.jsonl",
+          "result": "passed"
+        }
+      ],
+      "commit": {
+        "attempted": true,
+        "safe_to_commit": true
+      },
+      "blockers": [
+        "Live customer/session, payment, deploy, outreach, customer-data, public-proof, testimonial, referral, and revenue evidence remain absent.",
+        "Integration branch push may still be blocked by GitHub DNS/network reachability from prior steward evidence."
+      ],
+      "next_recommended_action": "Run commit/push recovery and one QA freshness pass before new write-heavy product work unless owner/provider evidence or ready queue state changes.",
+      "id": "2026-05-21-0403-first-authorized-session-route-board",
+      "sourcePath": "ops/progress/passes/2026-05-21-0403-first-authorized-session-route-board.json",
+      "startedAt": "2026-05-21T11:03:00.000Z",
+      "report": "ops/reports/2026-05-21-0403-first-authorized-session-route-board.md"
+    },
     {
       "format": "agentfoundry-pass-v1",
       "pass_id": "2026-05-21-0248-strategy-first-authorized-session-decision-tree",
@@ -88405,7 +88474,7 @@
           "turnoverSummary",
           "closeMatcherDiagnostic.currentEvidenceCandidates"
         ],
-        "referenceAt": "2026-05-21T03:48:30.291Z",
+        "referenceAt": "2026-05-21T23:51:26.554Z",
         "activeTotal": 4,
         "keepActiveCount": 4,
         "closeCount": 0,
@@ -93810,15 +93879,15 @@
       ]
     },
     "sprintTrend": {
-      "totalPasses": 1167,
-      "completedPasses": 754,
+      "totalPasses": 1168,
+      "completedPasses": 755,
       "findingPasses": 5,
-      "reportsPublished": 1126,
+      "reportsPublished": 1127,
       "validationMentions": null,
-      "elapsedHours": 157.5,
+      "elapsedHours": 158.7,
       "passesPerHour": 7.4,
-      "latestStartedAt": "2026-05-21T09:48:00.000Z",
-      "latestFinishedAt": "2026-05-21T09:48:00.000Z",
+      "latestStartedAt": "2026-05-21T11:03:00.000Z",
+      "latestFinishedAt": "2026-05-21T11:03:00.000Z",
       "points": [
         {
           "id": "pass-2026-05-14-setup",
@@ -106830,20 +106899,20 @@
           "cumulativeTotal": 1167,
           "cumulativeComplete": 754,
           "averageScore": 8.1
+        },
+        {
+          "id": "2026-05-21-0403-first-authorized-session-route-board",
+          "label": "11:03",
+          "startedAt": "2026-05-21T11:03:00.000Z",
+          "lane": "general",
+          "status": "completed",
+          "summary": "",
+          "cumulativeTotal": 1168,
+          "cumulativeComplete": 755,
+          "averageScore": 8.1
         }
       ],
       "recentPoints": [
-        {
-          "id": "2026-05-20-2249-controller-dry-run",
-          "label": "05:49",
-          "startedAt": "2026-05-21T05:49:00.000Z",
-          "lane": "general",
-          "status": "unknown",
-          "summary": "",
-          "cumulativeTotal": 1160,
-          "cumulativeComplete": 752,
-          "averageScore": 8.1
-        },
         {
           "id": "2026-05-20-2259-commit-steward",
           "label": "05:59",
@@ -106920,15 +106989,26 @@
           "cumulativeTotal": 1167,
           "cumulativeComplete": 754,
           "averageScore": 8.1
+        },
+        {
+          "id": "2026-05-21-0403-first-authorized-session-route-board",
+          "label": "11:03",
+          "startedAt": "2026-05-21T11:03:00.000Z",
+          "lane": "general",
+          "status": "completed",
+          "summary": "",
+          "cumulativeTotal": 1168,
+          "cumulativeComplete": 755,
+          "averageScore": 8.1
         }
       ],
       "lanes": [
         {
           "lane": "general",
-          "total": 809,
-          "complete": 485,
+          "total": 810,
+          "complete": 486,
           "withFindings": 0,
-          "latestAt": "2026-05-21T09:48:00.000Z",
+          "latestAt": "2026-05-21T11:03:00.000Z",
           "latestSummary": "Converted the first-dollar readiness payment-owner stop into a standalone repo-safe owner-evidence repair request while active Business and Commons leases prevented queue mutation."
         },
         {
@@ -107483,12 +107563,12 @@
         "ops/progress/passes/*.json",
         "ops/reports/*.md"
       ],
-      "referenceAt": "2026-05-21T03:48:30.291Z",
+      "referenceAt": "2026-05-21T23:51:26.554Z",
       "total": 4,
       "proofNewerCount": 0,
       "awaitingProofCount": 3,
       "noProofCount": 1,
-      "oldestQueueAgeMinutes": 0,
+      "oldestQueueAgeMinutes": 1126,
       "items": [
         {
           "id": "product-blocked-1",
@@ -107497,8 +107577,8 @@
           "task": "No canonical product queue item is currently `ready`. The first non-done item is `TJ-LLM-EVALUATOR-STUB` with status `later`; promote/add a concrete `ready` item before resuming the rapid product worker.",
           "validation": "`node -e \"JSON.parse(require('fs').readFileSync('ops/queues/product.json','utf8'))\"`",
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeMinutes": 0,
-          "queueAgeLabel": "0m",
+          "queueAgeMinutes": 1126,
+          "queueAgeLabel": "19h",
           "queueSource": {
             "type": "pass-report-match",
             "pass": "ops/progress/passes/2026-05-20-2205-controller-dry-run.json",
@@ -107513,8 +107593,8 @@
             ]
           },
           "proofAt": "2026-05-18T03:48:00Z",
-          "proofAgeMinutes": 4321,
-          "proofAgeLabel": "3d",
+          "proofAgeMinutes": 5523,
+          "proofAgeLabel": "4d",
           "proofMinusQueueMinutes": -4397,
           "proofIsNewer": false,
           "queueIsNewer": true,
@@ -107536,8 +107616,8 @@
           "task": "`BIZ-PUBLIC-DEPLOY` and `BIZ-OUTREACH-FIRST-25` are blocked on external authority/evidence: production deploy URL/run/rollback/health for deploy, and an authorized sender/platform plus source-specific rules for outreach.",
           "validation": "`node -e \"JSON.parse(require('fs').readFileSync('ops/queues/business.json','utf8'))\"`",
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeMinutes": 0,
-          "queueAgeLabel": "0m",
+          "queueAgeMinutes": 1126,
+          "queueAgeLabel": "19h",
           "queueSource": {
             "type": "pass-report-match",
             "pass": "ops/progress/passes/2026-05-20-2205-controller-dry-run.json",
@@ -107554,8 +107634,8 @@
             ]
           },
           "proofAt": "2026-05-17T02:36:00Z",
-          "proofAgeMinutes": 5833,
-          "proofAgeLabel": "4d",
+          "proofAgeMinutes": 7035,
+          "proofAgeLabel": "5d",
           "proofMinusQueueMinutes": -5909,
           "proofIsNewer": false,
           "queueIsNewer": true,
@@ -107577,8 +107657,8 @@
           "task": "Strategy queue is complete for now. `STRAT-REVENUE-EXPERIMENTS` selected the `$49` concierge Target Job Proof Packet path, but did not reopen product work or activate checkout.",
           "validation": "`node -e \"JSON.parse(require('fs').readFileSync('ops/queues/strategy.json','utf8'))\"`",
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeMinutes": 0,
-          "queueAgeLabel": "0m",
+          "queueAgeMinutes": 1126,
+          "queueAgeLabel": "19h",
           "queueSource": {
             "type": "pass-report-match",
             "pass": "ops/progress/passes/2026-05-20-2205-controller-dry-run.json",
@@ -107611,8 +107691,8 @@
           "task": "`proofresume-qa-hourly` ran and should stay active until browser-capable runtime QA and deploy health evidence exist; the latest pass passed static fallback only.",
           "validation": "`npm run qa:target-job-pack`",
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeMinutes": 0,
-          "queueAgeLabel": "0m",
+          "queueAgeMinutes": 1126,
+          "queueAgeLabel": "19h",
           "queueSource": {
             "type": "pass-report-match",
             "pass": "ops/progress/passes/2026-05-20-2205-controller-dry-run.json",
@@ -107629,8 +107709,8 @@
             ]
           },
           "proofAt": "2026-05-17T02:37:00.000Z",
-          "proofAgeMinutes": 5832,
-          "proofAgeLabel": "4d",
+          "proofAgeMinutes": 7034,
+          "proofAgeLabel": "5d",
           "proofMinusQueueMinutes": -5908,
           "proofIsNewer": false,
           "queueIsNewer": true,
@@ -107656,7 +107736,7 @@
         "queueAgeProofComparison",
         "queueRefreshDecisionInput"
       ],
-      "referenceAt": "2026-05-21T03:48:30.291Z",
+      "referenceAt": "2026-05-21T23:51:26.554Z",
       "activeTotal": 2,
       "readyToCloseCount": 0,
       "needsProofCount": 2,
@@ -107667,7 +107747,7 @@
           "status": "needs-proof",
           "statusLabel": "Needs proof",
           "latestProofAt": "2026-05-18T03:48:00Z",
-          "latestProofAgeLabel": "3d",
+          "latestProofAgeLabel": "4d",
           "latestProofTitle": "2026-05-17-2048-consented-audit-handoff-preview",
           "latestProofCommand": "node --check website/app.js",
           "latestProofSource": {
@@ -107689,8 +107769,8 @@
               ],
               "status": "awaiting-current-proof",
               "statusLabel": "Awaiting current proof",
-              "queueAgeLabel": "0m",
-              "proofAgeLabel": "3d",
+              "queueAgeLabel": "19h",
+              "proofAgeLabel": "4d",
               "proofSource": {
                 "title": "2026-05-17-2048-consented-audit-handoff-preview",
                 "command": "node --check website/app.js",
@@ -107723,7 +107803,7 @@
           "status": "needs-proof",
           "statusLabel": "Needs proof",
           "latestProofAt": "2026-05-17T02:37:00.000Z",
-          "latestProofAgeLabel": "4d",
+          "latestProofAgeLabel": "5d",
           "latestProofTitle": "2026-05-16-1937-qa-hourly",
           "latestProofCommand": "node --check website/target-job.js: passed",
           "latestProofSource": {
@@ -107745,8 +107825,8 @@
               ],
               "status": "awaiting-current-proof",
               "statusLabel": "Awaiting current proof",
-              "queueAgeLabel": "0m",
-              "proofAgeLabel": "4d",
+              "queueAgeLabel": "19h",
+              "proofAgeLabel": "5d",
               "proofSource": {
                 "title": "2026-05-16-1937-qa-hourly",
                 "command": "node --check website/target-job.js: passed",
@@ -107781,7 +107861,7 @@
           "status": "no-active-row",
           "statusLabel": "No active row",
           "latestProofAt": "2026-05-15T17:03:00-07:00",
-          "latestProofAgeLabel": "5d",
+          "latestProofAgeLabel": "6d",
           "latestProofTitle": "Admin: surface follow-up evidence approval vs candidate Accept counts in the progress dashboard (local-only) so operators can see what blocks export.",
           "latestProofCommand": "npm test: passed",
           "latestProofSource": {
@@ -107800,7 +107880,7 @@
           "status": "no-active-row",
           "statusLabel": "No active row",
           "latestProofAt": "2026-05-15T20:38:00Z",
-          "latestProofAgeLabel": "5d",
+          "latestProofAgeLabel": "6d",
           "latestProofTitle": "2026-05-15-1338-growth-operator-resume-packet-guardrail",
           "latestProofCommand": "rg \"Do Not Publish|Do Not Deploy|No-Go|Not observed|outside repo authority|credential|production URL|deploy trigger|rollback|public launch|non-request\" ops/deploy/private-operator-resume-packet-guardrail.md ops/deploy/README.md ops/lanes/growth.md ops/reports/2026-05-15-1338-growth-operator-resume-packet-guardrail.md: passed",
           "latestProofSource": {
@@ -107823,7 +107903,7 @@
         "queueAgeProofComparison",
         "queueRefreshDecisionInput"
       ],
-      "referenceAt": "2026-05-21T03:48:30.291Z",
+      "referenceAt": "2026-05-21T23:51:26.554Z",
       "latestCycle": {
         "id": "2026-05-15-0834-orchestrator-re-entry-gate-integration",
         "title": "Four-lane cycle",
@@ -107889,9 +107969,9 @@
           "statusLabel": "Newly ready",
           "queuedAfterCycle": true,
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeLabel": "0m",
+          "queueAgeLabel": "19h",
           "proofAt": "2026-05-18T03:48:00Z",
-          "proofAgeLabel": "3d",
+          "proofAgeLabel": "4d",
           "proofMinusQueueMinutes": -4397,
           "proofSource": {
             "title": "2026-05-17-2048-consented-audit-handoff-preview",
@@ -107926,9 +108006,9 @@
           "statusLabel": "Newly ready",
           "queuedAfterCycle": true,
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeLabel": "0m",
+          "queueAgeLabel": "19h",
           "proofAt": "2026-05-17T02:36:00Z",
-          "proofAgeLabel": "4d",
+          "proofAgeLabel": "5d",
           "proofMinusQueueMinutes": -5909,
           "proofSource": {
             "title": "Work the first ready business item top-to-bottom inside ProofResume business controls.",
@@ -107965,7 +108045,7 @@
           "statusLabel": "Newly ready",
           "queuedAfterCycle": true,
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeLabel": "0m",
+          "queueAgeLabel": "19h",
           "proofAt": null,
           "proofAgeLabel": "No validation proof",
           "proofMinusQueueMinutes": null,
@@ -107997,9 +108077,9 @@
           "statusLabel": "Newly ready",
           "queuedAfterCycle": true,
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeLabel": "0m",
+          "queueAgeLabel": "19h",
           "proofAt": "2026-05-17T02:37:00.000Z",
-          "proofAgeLabel": "4d",
+          "proofAgeLabel": "5d",
           "proofMinusQueueMinutes": -5908,
           "proofSource": {
             "title": "2026-05-16-1937-qa-hourly",
@@ -108038,9 +108118,9 @@
           "statusLabel": "Newly ready",
           "queuedAfterCycle": true,
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeLabel": "0m",
+          "queueAgeLabel": "19h",
           "proofAt": "2026-05-18T03:48:00Z",
-          "proofAgeLabel": "3d",
+          "proofAgeLabel": "4d",
           "proofMinusQueueMinutes": -4397,
           "proofSource": {
             "title": "2026-05-17-2048-consented-audit-handoff-preview",
@@ -108075,9 +108155,9 @@
           "statusLabel": "Newly ready",
           "queuedAfterCycle": true,
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeLabel": "0m",
+          "queueAgeLabel": "19h",
           "proofAt": "2026-05-17T02:36:00Z",
-          "proofAgeLabel": "4d",
+          "proofAgeLabel": "5d",
           "proofMinusQueueMinutes": -5909,
           "proofSource": {
             "title": "Work the first ready business item top-to-bottom inside ProofResume business controls.",
@@ -108114,7 +108194,7 @@
           "statusLabel": "Newly ready",
           "queuedAfterCycle": true,
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeLabel": "0m",
+          "queueAgeLabel": "19h",
           "proofAt": null,
           "proofAgeLabel": "No validation proof",
           "proofMinusQueueMinutes": null,
@@ -108146,9 +108226,9 @@
           "statusLabel": "Newly ready",
           "queuedAfterCycle": true,
           "queueAt": "2026-05-21T05:05:00.000Z",
-          "queueAgeLabel": "0m",
+          "queueAgeLabel": "19h",
           "proofAt": "2026-05-17T02:37:00.000Z",
-          "proofAgeLabel": "4d",
+          "proofAgeLabel": "5d",
           "proofMinusQueueMinutes": -5908,
           "proofSource": {
             "title": "2026-05-16-1937-qa-hourly",
@@ -108185,7 +108265,7 @@
         "turnoverSummary",
         "closeMatcherDiagnostic.currentEvidenceCandidates"
       ],
-      "referenceAt": "2026-05-21T03:48:30.291Z",
+      "referenceAt": "2026-05-21T23:51:26.554Z",
       "activeTotal": 4,
       "keepActiveCount": 4,
       "closeCount": 0,
@@ -114642,7 +114722,7 @@
     },
     "ownerAuthorityRepairLoopPreview": {
       "format": "proofresume-owner-authority-repair-loop-preview-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-OWNER-AUTHORITY-REPAIR-LOOP-PREVIEW",
       "bundlePath": "ops/launch/owner-authority-bundle.template.json",
       "indexPath": "ops/launch/owner-authority-bundle-index.md",
@@ -115168,7 +115248,7 @@
     },
     "firstCustomerLaunchRoom": {
       "format": "proofresume-first-customer-launch-room-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-LAUNCH-ROOM-INTEGRATION",
       "sourcePattern": "commons/templates/first-customer-launch-room",
       "sourceMode": "sample_rehearsal",
@@ -115317,13 +115397,12 @@
           "label": "Product",
           "path": "ops/queues/product.json",
           "counts": {
-            "done": 98,
-            "ready": 1
+            "done": 99
           },
-          "readyCount": 1,
+          "readyCount": 0,
           "claimedCount": 0,
           "blockedCount": 0,
-          "firstReadyId": "NORTHSTAR-FIRST-AUTHORIZED-SESSION-ROUTE-BOARD",
+          "firstReadyId": null,
           "activeClaimId": null,
           "queueMutationAllowedFromLaunchRoom": false
         },
@@ -115424,7 +115503,7 @@
     },
     "firstCustomerSignalSurface": {
       "format": "proofresume-first-customer-signal-surface-integration-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-SIGNAL-SURFACE-INTEGRATION",
       "surfacePath": "website/admin.html#first-customer-signal-surface",
       "mode": "sample_redacted_admin_surface_no_external_actions",
@@ -115560,7 +115639,7 @@
     },
     "firstCustomerEvidenceInboxRoom": {
       "format": "proofresume-first-customer-evidence-inbox-room-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-EVIDENCE-INBOX-ROOM",
       "surfacePath": "website/admin.html#first-customer-evidence-inbox-room",
       "mode": "sample_or_owner_approved_redacted_evidence_inbox_no_external_actions",
@@ -115875,7 +115954,7 @@
     },
     "firstCustomerEvidenceRouteScoreboard": {
       "format": "proofresume-first-customer-evidence-route-scoreboard-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-EVIDENCE-ROUTE-SCOREBOARD",
       "surfacePath": "website/admin.html#first-customer-evidence-route-scoreboard",
       "mode": "local_sample_redacted_route_scoreboard_no_external_actions",
@@ -116328,7 +116407,7 @@
     },
     "firstCustomerEvidenceProofRepairPacket": {
       "format": "proofresume-first-customer-evidence-proof-repair-packet-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-EVIDENCE-PROOF-REPAIR-PACKET",
       "surfacePath": "website/admin.html#first-customer-evidence-proof-repair-packet",
       "mode": "local_sample_redacted_proof_repair_packet_no_external_actions",
@@ -116565,7 +116644,7 @@
     },
     "repairedProofToPaidAskRoom": {
       "format": "proofresume-repaired-proof-to-paid-ask-room-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-REPAIRED-PROOF-TO-PAID-ASK-ROOM",
       "surfacePath": "website/admin.html#repaired-proof-to-paid-ask-room",
       "mode": "local_sample_redacted_paid_ask_rehearsal_no_checkout_no_external_actions",
@@ -116878,7 +116957,7 @@
     },
     "paidAskOutcomeRouter": {
       "format": "proofresume-paid-ask-outcome-router-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-PAID-ASK-OUTCOME-ROUTER",
       "surfacePath": "website/admin.html#paid-ask-outcome-router",
       "mode": "local_sample_redacted_paid_ask_outcome_router_no_external_actions",
@@ -117231,7 +117310,7 @@
     },
     "paidAskProofPacketClarityRepair": {
       "format": "proofresume-paid-ask-proof-packet-clarity-repair-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-PAID-ASK-PROOF-PACKET-CLARITY-REPAIR",
       "surfacePath": "website/admin.html#paid-ask-proof-packet-clarity-repair",
       "mode": "local_sample_redacted_paid_ask_proof_packet_clarity_repair_no_checkout_no_external_actions",
@@ -117542,7 +117621,7 @@
     },
     "paidAskObjectionResponseSimulator": {
       "format": "proofresume-paid-ask-objection-response-simulator-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-PAID-ASK-OBJECTION-RESPONSE-SIMULATOR",
       "surfacePath": "website/admin.html#paid-ask-objection-response-simulator",
       "mode": "local_sample_redacted_paid_ask_objection_response_simulator_no_external_actions",
@@ -118004,7 +118083,7 @@
     },
     "firstPaidPilotHandoffRoom": {
       "format": "proofresume-first-paid-pilot-handoff-room-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-PAID-PILOT-HANDOFF-ROOM",
       "surfacePath": "website/admin.html#first-paid-pilot-handoff-room",
       "mode": "local_sample_redacted_first_paid_pilot_handoff_no_checkout_no_external_actions",
@@ -118205,7 +118284,7 @@
     },
     "firstPaidPilotGateSimulator": {
       "format": "proofresume-first-paid-pilot-gate-simulator-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-PAID-PILOT-GATE-SIMULATOR",
       "surfacePath": "website/admin.html#first-paid-pilot-gate-simulator",
       "mode": "local_admin_first_paid_pilot_gate_simulator_no_external_actions",
@@ -118462,7 +118541,7 @@
     },
     "firstDollarReadinessRoom": {
       "format": "proofresume-first-dollar-readiness-room-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-DOLLAR-READINESS-ROOM",
       "surfacePath": "website/admin.html#first-dollar-readiness-room",
       "mode": "local_sample_first_dollar_readiness_no_payment_no_customer_data_no_external_actions",
@@ -118809,7 +118888,7 @@
     },
     "firstDollarOwnerEvidenceRepairRoom": {
       "format": "proofresume-first-dollar-owner-evidence-repair-room-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-DOLLAR-OWNER-EVIDENCE-REPAIR-ROOM",
       "surfacePath": "website/admin.html#first-dollar-owner-evidence-repair-room",
       "mode": "local_sample_first_dollar_owner_evidence_repair_no_external_actions",
@@ -119255,7 +119334,7 @@
     },
     "firstPaidPilotFulfillmentReceiptPreview": {
       "format": "proofresume-first-paid-pilot-fulfillment-receipt-preview-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-PAID-PILOT-FULFILLMENT-RECEIPT-PREVIEW",
       "surfacePath": "website/admin.html#first-paid-pilot-fulfillment-receipt-preview",
       "mode": "local_sample_redacted_first_paid_pilot_fulfillment_receipt_no_payment_no_customer_data_no_external_actions",
@@ -119445,7 +119524,7 @@
     },
     "firstLiveProofAuditCopilot": {
       "format": "proofresume-first-live-proof-audit-copilot-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-LIVE-PROOF-AUDIT-COPILOT",
       "surfacePath": "website/admin.html#first-live-proof-audit-copilot",
       "mode": "local_sample_redacted_live_proof_audit_copilot_no_external_actions",
@@ -119818,7 +119897,7 @@
     },
     "liveToPaidPilotDecisionRoom": {
       "format": "proofresume-live-to-paid-pilot-decision-room-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-LIVE-TO-PAID-PILOT-DECISION-ROOM",
       "surfacePath": "website/admin.html#live-to-paid-pilot-decision-room",
       "mode": "local_sample_or_owner_approved_redacted_decision_room_no_external_actions",
@@ -120233,7 +120312,7 @@
     },
     "liveProofTrustGapRepairRoom": {
       "format": "proofresume-live-proof-trust-gap-repair-room-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-LIVE-PROOF-TRUST-GAP-REPAIR-ROOM",
       "surfacePath": "website/admin.html#live-proof-trust-gap-repair-room",
       "mode": "local_sample_or_owner_approved_redacted_trust_gap_repair_no_external_actions",
@@ -120543,7 +120622,7 @@
     },
     "liveProofMissingProofCueRepair": {
       "format": "proofresume-live-proof-missing-proof-cue-repair-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-LIVE-PROOF-MISSING-PROOF-CUE-REPAIR",
       "surfacePath": "website/admin.html#live-proof-missing-proof-cue-repair",
       "mode": "local_sample_or_owner_approved_redacted_missing_proof_cue_repair_no_external_actions",
@@ -120808,7 +120887,7 @@
     },
     "paidPilotTrustGapRepairLab": {
       "format": "proofresume-paid-pilot-trust-gap-repair-lab-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-PAID-PILOT-TRUST-GAP-REPAIR-LAB",
       "surfacePath": "website/admin.html#paid-pilot-trust-gap-repair-lab",
       "mode": "local_sample_redacted_paid_pilot_trust_gap_repair_lab_no_external_actions",
@@ -121102,7 +121181,7 @@
     },
     "proofDeltaValueSnapshot": {
       "format": "proofresume-proof-delta-value-snapshot-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-PROOF-DELTA-VALUE-SNAPSHOT",
       "surfacePath": "website/admin.html#proof-delta-value-snapshot",
       "mode": "local_sample_redacted_proof_delta_value_snapshot_no_external_actions",
@@ -121335,7 +121414,7 @@
     },
     "firstAuthorizedSessionRunner": {
       "format": "proofresume-first-authorized-session-runner-admin-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-AUTHORIZED-SESSION-RUNNER",
       "surfacePath": "website/admin.html#first-authorized-session-runner",
       "mode": "sample_redacted_first_authorized_session_runner_no_external_actions",
@@ -121609,7 +121688,7 @@
     },
     "firstCustomerPilotConsole": {
       "format": "proofresume-first-customer-pilot-console-admin-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-PILOT-CONSOLE",
       "surfacePath": "website/admin.html#first-customer-pilot-console",
       "mode": "sample_redacted_first_customer_pilot_console_no_external_actions",
@@ -122007,7 +122086,7 @@
     },
     "firstCustomerPilotRevenueSimulator": {
       "format": "proofresume-first-customer-pilot-revenue-simulator-admin-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-FIRST-CUSTOMER-PILOT-REVENUE-SIMULATOR",
       "surfacePath": "website/admin.html#pilot-revenue-simulator",
       "mode": "sample_redacted_pilot_revenue_simulator_no_checkout_no_external_actions",
@@ -122366,7 +122445,7 @@
     },
     "consentedAuditHandoffPreview": {
       "format": "proofresume-consented-audit-handoff-preview-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-CONSENTED-AUDIT-HANDOFF-PREVIEW",
       "sourcePattern": "website/app.html#consented-audit-handoff",
       "localOnly": true,
@@ -122441,7 +122520,7 @@
     },
     "conciergeFulfillmentDashboard": {
       "format": "proofresume-concierge-fulfillment-dashboard-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "sourcePattern": "commons/templates/concierge-fulfillment",
       "dashboardPattern": "commons/templates/first-customer-ops-dashboard",
       "productQueueItemId": "NORTHSTAR-CONCIERGE-FULFILLMENT-DASHBOARD",
@@ -122563,7 +122642,7 @@
     },
     "redactedSessionEvidenceInbox": {
       "format": "proofresume-redacted-session-evidence-inbox-v1",
-      "generatedAt": "2026-05-21T03:48:30.291Z",
+      "generatedAt": "2026-05-21T23:51:26.554Z",
       "productQueueItemId": "NORTHSTAR-REDACTED-SESSION-EVIDENCE-INBOX",
       "sourcePattern": "commons/templates/customer-evidence-redaction",
       "sourceTemplate": "commons/templates/customer-evidence-redaction/customer-evidence-redaction.template.json",
@@ -122621,7 +122700,7 @@
           "evidenceId": "sample-rehearsal-proof-loop-001",
           "evidenceKind": "rehearsal_evidence",
           "sourceMode": "sample_rehearsal",
-          "recordedAt": "2026-05-21T03:48:30.291Z",
+          "recordedAt": "2026-05-21T23:51:26.554Z",
           "proofLevel": "L0_sample_rehearsal",
           "sourceCustodyMode": "sample_only",
           "redactionReviewState": "sample_only",
@@ -122666,7 +122745,7 @@
           "evidenceId": "owner-approved-feedback-placeholder-001",
           "evidenceKind": "authorized_feedback",
           "sourceMode": "owner_approved_redacted",
-          "recordedAt": "2026-05-21T03:48:30.291Z",
+          "recordedAt": "2026-05-21T23:51:26.554Z",
           "proofLevel": "L1_authorized_feedback",
           "sourceCustodyMode": "redacted_repo_summary",
           "redactionReviewState": "needs_review",
@@ -122705,7 +122784,7 @@
           "evidenceId": "paid-interest-question-boundary-001",
           "evidenceKind": "paid_interest_note",
           "sourceMode": "sample_rehearsal",
-          "recordedAt": "2026-05-21T03:48:30.291Z",
+          "recordedAt": "2026-05-21T23:51:26.554Z",
           "proofLevel": "L0_sample_rehearsal",
           "sourceCustodyMode": "sample_only",
           "redactionReviewState": "sample_only",
@@ -122745,7 +122824,7 @@
           "evidenceId": "privacy-objection-boundary-001",
           "evidenceKind": "privacy_objection",
           "sourceMode": "sample_rehearsal",
-          "recordedAt": "2026-05-21T03:48:30.291Z",
+          "recordedAt": "2026-05-21T23:51:26.554Z",
           "proofLevel": "L0_sample_rehearsal",
           "sourceCustodyMode": "sample_only",
           "redactionReviewState": "sample_only",
@@ -122784,7 +122863,7 @@
           "evidenceId": "no-offer-outcome-sample-001",
           "evidenceKind": "no_action_no_offer_outcome",
           "sourceMode": "sample_rehearsal",
-          "recordedAt": "2026-05-21T03:48:30.291Z",
+          "recordedAt": "2026-05-21T23:51:26.554Z",
           "proofLevel": "L0_sample_rehearsal",
           "sourceCustodyMode": "sample_only",
           "redactionReviewState": "sample_only",
@@ -122825,7 +122904,7 @@
         "ops/progress/passes/*.json",
         "ops/reports/*.md"
       ],
-      "referenceAt": "2026-05-21T09:48:00.000Z",
+      "referenceAt": "2026-05-21T11:03:00.000Z",
       "recentWindowHours": 2,
       "recentTotal": 0,
       "stuckRiskCount": 5,
@@ -132164,8 +132243,8 @@
           "latestPassAt": "2026-05-15T17:03:00-07:00",
           "latestSummary": "Admin dashboard now surfaces follow-up evidence gate counts derived from repo-visible local export snapshots under data/intake, with deterministic fixture coverage to keep the metrics stable without requiring browser localStorage access.",
           "validationAt": "2026-05-15T17:03:00-07:00",
-          "validationAgeMinutes": 7426,
-          "validationAgeLabel": "5d",
+          "validationAgeMinutes": 8628,
+          "validationAgeLabel": "6d",
           "validationCommand": "npm test: passed",
           "riskLevel": "stuck-risk",
           "riskLabel": "Stuck risk",
@@ -132205,8 +132284,8 @@
           "latestPassAt": "2026-05-15T20:38:00Z",
           "latestSummary": "Added a private operator-resume packet guardrail based on the platform-owner non-request transfer note, preserving No-Go / Do Not Deploy and non-request boundaries for future operator continuation.",
           "validationAt": "2026-05-15T20:38:00Z",
-          "validationAgeMinutes": 7631,
-          "validationAgeLabel": "5d",
+          "validationAgeMinutes": 8833,
+          "validationAgeLabel": "6d",
           "validationCommand": "rg \"Do Not Publish|Do Not Deploy|No-Go|Not observed|outside repo authority|credential|production URL|deploy trigger|rollback|public launch|non-request\" ops/deploy/private-operator-resume-packet-guardrail.md ops/deploy/README.md ops/lanes/growth.md ops/reports/2026-05-15-1338-growth-operator-resume-packet-guardrail.md: passed",
           "riskLevel": "stuck-risk",
           "riskLabel": "Stuck risk",
@@ -132255,8 +132334,8 @@
           "latestPassAt": "2026-05-15T10:28:00-07:00",
           "latestSummary": "Added a first-class business control contract and admin visibility so money-generating external actions can be enabled deliberately instead of remaining scattered across blocked deploy/outreach docs.",
           "validationAt": "2026-05-15T10:28:00-07:00",
-          "validationAgeMinutes": 7821,
-          "validationAgeLabel": "5d",
+          "validationAgeMinutes": 9023,
+          "validationAgeLabel": "6d",
           "validationCommand": "passed: npm run build-admin",
           "riskLevel": "stuck-risk",
           "riskLabel": "Stuck risk",
@@ -132305,8 +132384,8 @@
           "latestPassAt": "2026-05-18T03:48:00Z",
           "latestSummary": "Added a local consented proof-audit handoff preview with consent, approval, redaction, custody, blocked-action, and candidate-next-step state.",
           "validationAt": "2026-05-18T03:48:00Z",
-          "validationAgeMinutes": 4321,
-          "validationAgeLabel": "3d",
+          "validationAgeMinutes": 5523,
+          "validationAgeLabel": "4d",
           "validationCommand": "node --check website/app.js",
           "riskLevel": "stuck-risk",
           "riskLabel": "Stuck risk",
@@ -132357,8 +132436,8 @@
           "latestPassAt": "2026-05-20T16:06:00.000Z",
           "latestSummary": "Static QA still passes across the current dirty ProofResume workspace, but Product queue evidence is inconsistent because quote-preview closeout metadata exists without the matching report/pass/manifest/ledger artifacts.",
           "validationAt": "2026-05-20T16:06:00.000Z",
-          "validationAgeMinutes": 703,
-          "validationAgeLabel": "12h",
+          "validationAgeMinutes": 1905,
+          "validationAgeLabel": "32h",
           "validationCommand": "validate-ledger passed for ops/progress/runs.jsonl before this QA append.",
           "riskLevel": "stuck-risk",
           "riskLabel": "Stuck risk",
@@ -133094,6 +133173,11 @@
       "path": "ops/reports/automation-health.md",
       "title": "automation-health",
       "content": "# ProofResume Automation Health Dashboard\n\n- As of: `YYYY-MM-DD HH:MM TZ`\n- Window: `last 24 hours`\n- Sources: run ledger `TBD`, manifests `TBD`, queues `ops/queues/*.json`, reports `ops/reports/*.md`\n- Overall status: `green|yellow|red|unknown`\n- Health score: `0-100`\n\n## Verdict\n\n`One-sentence operator verdict: healthier than yesterday, stable, degraded, or unknown.`\n\nDecision: `keep running|pause noisy loop|reactivate worker|ask user|hand to commit steward`\n\n## SLO Snapshot\n\n| SLO | Status | Evidence | Next Action |\n| --- | --- | --- | --- |\n| Productive run ratio | `pass|burn|unknown` | `completed / total non-sentinel runs` | `owner/action` |\n| No-op churn | `pass|burn|unknown` | `repeated idle reports by automation` | `owner/action` |\n| Ready-item pickup | `pass|burn|unknown` | `oldest ready age and claimant` | `owner/action` |\n| Blocker freshness | `pass|burn|unknown` | `oldest blocked age and latest delta` | `owner/action` |\n| Lease hygiene | `pass|burn|unknown` | `expired leases and live run match` | `owner/action` |\n| Manifest coverage | `pass|burn|unknown` | `file-editing runs with manifests` | `owner/action` |\n| Commit isolation | `pass|burn|unknown` | `manifest-listed commits / all commits` | `owner/action` |\n| QA freshness | `pass|burn|unknown` | `latest QA vs latest user-facing change` | `owner/action` |\n| Reviewer freshness | `pass|burn|unknown` | `latest reviewer vs completed slices` | `owner/action` |\n| Dirty worktree age | `pass|burn|unknown` | `classified dirty paths and age` | `owner/action` |\n\n## Queue Snapshot\n\n| Queue | Ready | Blocked | Later | Done | Oldest Ready | Oldest Blocker | First Actionable Item |\n| --- | ---: | ---: | ---: | ---: | --- | --- | --- |\n| Product | `0` | `0` | `0` | `0` | `none` | `none` | `id/status` |\n| Business | `0` | `0` | `0` | `0` | `none` | `none` | `id/status` |\n| Strategy | `0` | `0` | `0` | `0` | `none` | `none` | `id/status` |\n| Commons | `0` | `0` | `0` | `0` | `none` | `none` | `id/status` |\n\n## Run Snapshot\n\n| Automation | Runs | Completed | Failed | No-op | Useful Blocker Delta | Validation Limited | Latest Report |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |\n| `automation-name` | `0` | `0` | `0` | `0` | `0` | `0` | `ops/reports/...` |\n\n## Manifest And Commit Snapshot\n\n| State | Count | Notes |\n| --- | ---: | --- |\n| Manifests emitted | `0` | `run_id / manifest_id examples` |\n| Manifests pending commit | `0` | `owner and queue item` |\n| Missing manifests | `0` | `run_id and touched paths` |\n| Unsafe or unrelated dirty paths | `0` | `classification and age` |\n| Commits with manifest evidence | `0` | `commit sha examples` |\n\n## Validation Snapshot\n\n- Latest QA: `report path / timestamp / browser-capable|fallback-only|missing`\n- Latest reviewer: `report path / timestamp / pass|findings|missing`\n- Latest CI: `provider / timestamp / pass|fail|unavailable`\n- Latest deploy health: `environment / timestamp / pass|fail|not configured`\n- Environment limitations: `network, browser, credential, sandbox, or none`\n\n## Burning SLOs\n\n1. `SLO name`: `age`, `owner`, `evidence`, `next action`.\n\n## Boundaries Observed\n\n- This dashboard is read-only.\n- It does not promote queue items.\n- It does not pause or reactivate automations by itself.\n- It does not authorize deploy, external spend, outreach, or customer-data actions.\n\n## Data Contract For Generator\n\nEmit one filled dashboard per evaluation window. If an input is missing, mark the related field `unknown` and include the missing path or unavailable command in `Validation Snapshot`; do not infer health from absent data.\n"
+    },
+    {
+      "path": "ops/reports/2026-05-21-0403-first-authorized-session-route-board.md",
+      "title": "2026-05-21-0403-first-authorized-session-route-board",
+      "content": "# First Authorized Session Route Board\n\nRun: `proofresume-controller-dry-run-20260521T040340Z-first-authorized-session-route-board`\nQueue item: `NORTHSTAR-FIRST-AUTHORIZED-SESSION-ROUTE-BOARD`\nStatus: completed\n\n## Deliverable\n\nBuilt a local/admin route-board contract for the first authorized session. The fixture consumes the decision tree, first authorized session runner, session evidence translator, first customer pilot console, and business controls, then displays source strength, dominant signal, blocked gates, forbidden claims, and exactly one route action for every decision-tree case.\n\nThe selected sample route is `value_interest` -> `business_no_send_paid_packet_component_prep`. This is a no-send internal prep route only; it does not mutate the Business queue or claim payment intent, payment, revenue, public proof, testimonial permission, referral permission, live customer feedback, or production readiness.\n\n## Files\n\n- `ops/product/first-authorized-session-route-board.md`\n- `ops/product/first-authorized-session-route-board.sample.json`\n- `ops/product/check_first_authorized_session_route_board.cjs`\n- `ops/queues/product.json`\n- `ops/progress/passes/2026-05-21-0403-first-authorized-session-route-board.json`\n- `ops/progress/manifests/2026-05-21-0403-first-authorized-session-route-board.json`\n- `ops/progress/runs.jsonl`\n\n## Boundary\n\nNo deploy, outreach, scheduling, lead capture, analytics send, provider mutation, payment link display, checkout, payment collection, production customer data, public proof, testimonial/referral request, employer contact, auto-apply, form fill, application submission, downstream queue mutation, delegated done claim, merge, push, or `.openclaw` edit occurred in the product slice.\n\n## Validation\n\n- `jq empty ops/queues/product.json ops/product/first-authorized-session-route-board.sample.json ops/research/first-authorized-session-decision-tree.sample.json ops/progress/passes/2026-05-21-0403-first-authorized-session-route-board.json ops/progress/manifests/2026-05-21-0403-first-authorized-session-route-board.json`\n- `node --check ops/product/check_first_authorized_session_route_board.cjs`\n- `node ops/product/check_first_authorized_session_route_board.cjs`\n- `node /Users/zackgrizz/Documents/AgentFoundry/ops/scripts/automation_ops.cjs validate-queue ops/queues/product.json`\n- `node /Users/zackgrizz/Documents/AgentFoundry/ops/scripts/automation_ops.cjs validate-manifest ops/progress/manifests/2026-05-21-0403-first-authorized-session-route-board.json ops/project-config.json`\n- `node /Users/zackgrizz/Documents/AgentFoundry/ops/scripts/automation_ops.cjs validate-ledger ops/progress/runs.jsonl`\n- `git diff --check -- ops/product/first-authorized-session-route-board.md ops/product/first-authorized-session-route-board.sample.json ops/product/check_first_authorized_session_route_board.cjs ops/reports/2026-05-21-0403-first-authorized-session-route-board.md ops/progress/passes/2026-05-21-0403-first-authorized-session-route-board.json ops/progress/manifests/2026-05-21-0403-first-authorized-session-route-board.json ops/queues/product.json ops/progress/runs.jsonl`\n\n## Next\n\nProduct queue is exhausted again. Next routing should favor commit/push recovery and QA freshness before any new write-heavy product work unless the controller sees changed owner/provider evidence or new ready queue state.\n"
     },
     {
       "path": "ops/reports/2026-05-21-0248-strategy-first-authorized-session-decision-tree.md",
@@ -138816,7 +138900,7 @@
     ],
     "visualQa": {
       "ok": true,
-      "checkedAt": "2026-05-21T02:40:24.027Z",
+      "checkedAt": "2026-05-21T03:52:15.496Z",
       "engine": "chrome-channel",
       "mode": "playwright",
       "launchError": null,

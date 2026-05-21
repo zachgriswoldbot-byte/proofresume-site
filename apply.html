@@ -223,10 +223,11 @@
             I understand this demo prepares a packet; live sends still require explicit approval.
           </label>
           <button type="submit">Create pilot request</button>
+          <button type="button" data-apply-email-request disabled>Email operator</button>
           <button type="button" data-apply-copy-request disabled>Copy request</button>
           <button type="button" data-apply-download-request disabled>Download packet</button>
           <p class="form-status" data-apply-pilot-status role="status">
-            Packet stays local until you choose where to send it.
+            Packet stays local until you create it. Then email the operator or download the full JSON.
           </p>
         </form>
       </section>

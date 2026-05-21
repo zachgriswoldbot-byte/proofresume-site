@@ -49,6 +49,7 @@ const readyCount = document.querySelector("[data-apply-ready-count]");
 const appliedCount = document.querySelector("[data-apply-applied-count]");
 const pilotForm = document.querySelector("[data-apply-pilot-form]");
 const pilotStatus = document.querySelector("[data-apply-pilot-status]");
+const emailRequestButton = document.querySelector("[data-apply-email-request]");
 const copyRequestButton = document.querySelector("[data-apply-copy-request]");
 const downloadRequestButton = document.querySelector("[data-apply-download-request]");
 const readinessScore = document.querySelector("[data-apply-readiness-score]");
@@ -59,6 +60,9 @@ const handoffNote = document.querySelector("[data-apply-handoff-note]");
 let applications = [];
 let latestPilotPacket = null;
 let latestPilotRequestText = "";
+let latestOperatorEmailUrl = "";
+
+const operatorInboxEmail = "zackgriswold@gmail.com";
 
 function linesFrom(value) {
   return String(value || "")
@@ -76,12 +80,17 @@ function formatPilotPacket(packet) {
     "ProofResume pilot request",
     `Name: ${packet.customer.name}`,
     `Email: ${packet.customer.email}`,
+    `Phone: ${packet.customer.phone || "Not provided"}`,
     `Target role: ${packet.search.targetRole}`,
     `Location rules: ${packet.search.locationRules}`,
     `Weekly target: ${packet.search.weeklyTarget}`,
     `Work authorization: ${packet.search.workAuthorization}`,
     `Generated queue size: ${packet.generatedQueue.length}`,
+    `Readiness: ${packet.readiness.readyCount}/${packet.readiness.totalCount} ${packet.readiness.state}`,
     `Resume words: ${packet.resume.wordCount}`,
+    "",
+    "Profile links:",
+    packet.customer.profileLinks.length ? packet.customer.profileLinks.join("\n") : "Not provided",
     "",
     "Must-haves:",
     packet.search.mustHaves || "Not provided",
@@ -91,7 +100,29 @@ function formatPilotPacket(packet) {
     "",
     "Job links:",
     packet.search.jobLinks.length ? packet.search.jobLinks.join("\n") : "Not provided",
+    "",
+    "Existing job accounts:",
+    packet.search.existingAccounts.length ? packet.search.existingAccounts.join("\n") : "Not provided",
   ].join("\n");
+}
+
+function formatOperatorEmail(packet) {
+  return [
+    "A customer created a ProofResume pilot packet.",
+    "",
+    formatPilotPacket(packet),
+    "",
+    "Operator checklist:",
+    ...packet.operatorChecklist.map((item) => `- ${item}`),
+    "",
+    "Note: the downloadable JSON packet in the browser includes the pasted resume text and full generated queue.",
+  ].join("\n");
+}
+
+function buildOperatorEmailUrl(packet) {
+  const subject = `ProofResume pilot packet: ${packet.customer.name || "new customer"} - ${packet.search.targetRole || "target role"}`;
+  const body = formatOperatorEmail(packet);
+  return `mailto:${operatorInboxEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 function currentPilotFormData() {
@@ -363,17 +394,27 @@ pilotForm?.addEventListener("submit", (event) => {
   };
 
   latestPilotRequestText = formatPilotPacket(latestPilotPacket);
+  latestOperatorEmailUrl = buildOperatorEmailUrl(latestPilotPacket);
   localStorage.setItem("proofresume:pilotRequest", latestPilotRequestText);
   localStorage.setItem("proofresume:pilotIntakePacket", JSON.stringify(latestPilotPacket));
+  localStorage.setItem("proofresume:operatorEmailUrl", latestOperatorEmailUrl);
+  emailRequestButton.disabled = false;
   copyRequestButton.disabled = false;
   downloadRequestButton.disabled = false;
-  pilotStatus.textContent = "Pilot packet created locally. Copy or download it when you are ready.";
+  pilotStatus.textContent = "Pilot packet created. Email the operator or download the full JSON.";
   renderReadiness(readiness);
 });
 
 pilotForm?.addEventListener("input", () => renderReadiness());
 pilotForm?.addEventListener("change", () => renderReadiness());
 resumeInput?.addEventListener("input", () => renderReadiness());
+
+emailRequestButton?.addEventListener("click", () => {
+  if (!latestOperatorEmailUrl) latestOperatorEmailUrl = localStorage.getItem("proofresume:operatorEmailUrl") || "";
+  if (!latestOperatorEmailUrl) return;
+  window.location.href = latestOperatorEmailUrl;
+  pilotStatus.textContent = `Opening email draft to ${operatorInboxEmail}. Attach the downloaded JSON for full resume detail.`;
+});
 
 copyRequestButton?.addEventListener("click", async () => {
   if (!latestPilotRequestText) latestPilotRequestText = localStorage.getItem("proofresume:pilotRequest") || "";

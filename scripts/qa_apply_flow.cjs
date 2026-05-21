@@ -103,6 +103,8 @@ async function main() {
     const pilot = await page.evaluate(() => ({
       stored: localStorage.getItem("proofresume:pilotRequest"),
       packet: JSON.parse(localStorage.getItem("proofresume:pilotIntakePacket") || "null"),
+      operatorEmailUrl: localStorage.getItem("proofresume:operatorEmailUrl"),
+      emailDisabled: document.querySelector("[data-apply-email-request]")?.disabled,
       copyDisabled: document.querySelector("[data-apply-copy-request]")?.disabled,
       downloadDisabled: document.querySelector("[data-apply-download-request]")?.disabled,
       readinessScore: document.querySelector("[data-apply-readiness-score]")?.textContent?.trim(),
@@ -122,9 +124,12 @@ async function main() {
     if (pilot.packet?.readiness?.state !== "ready_for_operator_review") throw new Error("Pilot packet was not operator-ready.");
     if (pilot.readinessScore !== "6/6") throw new Error(`Unexpected readiness score: ${pilot.readinessScore}`);
     if (pilot.nextStep !== "Review packet") throw new Error(`Unexpected next step: ${pilot.nextStep}`);
+    if (!pilot.operatorEmailUrl?.startsWith("mailto:zackgriswold@gmail.com?")) throw new Error("Operator email handoff URL was not saved.");
+    if (!pilot.operatorEmailUrl?.includes("ProofResume%20pilot%20packet")) throw new Error("Operator email subject was not encoded.");
+    if (pilot.emailDisabled) throw new Error("Email operator button stayed disabled.");
     if (pilot.copyDisabled) throw new Error("Copy request button stayed disabled.");
     if (pilot.downloadDisabled) throw new Error("Download packet button stayed disabled.");
-    if (!pilot.status?.includes("Pilot packet created")) throw new Error(`Unexpected pilot status: ${pilot.status}`);
+    if (!pilot.status?.includes("Email the operator")) throw new Error(`Unexpected pilot status: ${pilot.status}`);
 
     if (consoleErrors.length || pageErrors.length) {
       throw new Error(`Browser errors during apply flow: ${consoleErrors.concat(pageErrors).join(" | ")}`);
